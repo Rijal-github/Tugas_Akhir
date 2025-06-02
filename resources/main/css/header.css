@@ -1,0 +1,27 @@
+.profile-header-transition-enter {
+    transition: all ease-out 300ms;
+    -webkit-transition: all ease-out 300ms;
+    -moz-transition: all ease-out 300ms;
+    -ms-transition: all ease-out 300ms;
+    -o-transition: all ease-out 300ms;
+}
+
+.profile-header-transition-leave {
+    transition: all ease-in 300ms;
+    -webkit-transition: all ease-in 300ms;
+    -moz-transition: all ease-in 300ms;
+    -ms-transition: all ease-in 300ms;
+    -o-transition: all ease-in 300ms;
+}
+
+.profile-header-transition-enter-start, .profile-header-transition-leave-end{
+    visibility: hidden;
+    opacity: 0;
+    right: -100%;
+}
+
+.profile-header-transition-enter-end ,.profile-header-transition-leave-start {
+    visibility: visible;
+    opacity: 100;
+    right: 1rem;
+}
