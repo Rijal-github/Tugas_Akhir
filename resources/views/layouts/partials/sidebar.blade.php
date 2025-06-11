@@ -162,12 +162,20 @@
                 </button>
         
                 <div id="subSidebar" class="flex flex-col ml-8 mt-2 space-y-2 overflow-hidden transition-all duration-300
-                {{ request()->routeIs('manage-role*') ? 'max-h-40' : 'max-h-0' }}">
+                {{ request()->routeIs('manage-role*', 'roles*') ? 'max-h-40' : 'max-h-0' }}">
                     <a href="/manage-role" class="flex items-center px-4 py-2 text-sm text-indigo-700 bg-indigo-50 rounded-lg hover:bg-indigo-100 transition">
                         <i class="fas fa-users-cog text-[1rem]"></i>
-                        <span class="ml-3">Setting Role</span>
+                        <span class="ml-3">Setting User</span>
                     </a>
+                    <div>
+                        <a href="/roles" class="flex items-center px-4 py-2 text-sm text-indigo-700 bg-indigo-50 rounded-lg hover:bg-indigo-100 transition">
+                            <i class="fas fa-users-gear text-[1rem]"></i>
+                            <span class="ml-3">Setting Role</span>
+                        </a>
+                    </div>
                 </div>
+
+                
             </div>
         </div>
         @endif

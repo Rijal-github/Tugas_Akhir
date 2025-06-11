@@ -9,21 +9,21 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
-    {
-        Schema::table('tps', function (Blueprint $table) {
+    // public function up(): void
+    // {
+    //     Schema::table('tps', function (Blueprint $table) {
 
-            $table->dropColumn('id_uptd');
-        });
-    }
+    //         $table->dropColumn('id_uptd');
+    //     });
+    // }
 
     /**
      * Reverse the migrations.
      */
-    public function down(): void
-    {
-        Schema::table('tps', function (Blueprint $table) {
-            $table->unsignedBigInteger('id_uptd');
-        });
-    }
+    // public function down(): void
+    // {
+    //     Schema::table('tps', function (Blueprint $table) {
+    //         $table->unsignedBigInteger('id_uptd');
+    //     });
+    // }
 };

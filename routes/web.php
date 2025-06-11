@@ -19,6 +19,8 @@ use App\Livewire\Report\LaporanBulanan;
 use App\Livewire\Report\LaporanMingguan;
 use App\Livewire\Report\LaporanTahunan;
 use App\Livewire\Setting\ManageRole;
+use App\Livewire\Setting\Role\SettingRole;
+use App\Livewire\Setting\Roles;
 
 // Route::get('/', function () {
     //     return view('welcome');
@@ -69,6 +71,11 @@ use App\Livewire\Setting\ManageRole;
     // Manage Role (hanya admin)
     Route::middleware(['auth', CheckRole::class . ':admin'])->group(function () {
         Route::get('/manage-role', ManageRole::class)->name('manage-role');
+    });
+
+     // Manage Role (hanya admin)
+     Route::middleware(['auth', CheckRole::class . ':admin'])->group(function () {
+        Route::get('/roles', Roles::class)->name('roles');
     });
 
     // ===================== ADMIN =====================

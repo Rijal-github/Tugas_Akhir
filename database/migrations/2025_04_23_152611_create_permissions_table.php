@@ -13,8 +13,11 @@ return new class extends Migration
     {
         Schema::create('permissions', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('id_role');
             $table->string('name'); // contoh: data_tps, jadwal_pengangkutan, dsb
             $table->timestamps();
+
+            $table->foreign('id_role')->references('id')->on('roles')->onDelete('cascade');
         });
     }
 

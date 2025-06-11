@@ -9,20 +9,20 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
-    {
-        Schema::table('permission_role', function (Blueprint $table) {
-            $table->foreign('id_role')->references('id_role')->on('roles')->onDelete('cascade');
-        });
-    }
+    // public function up(): void
+    // {
+    //     Schema::table('permission_role', function (Blueprint $table) {
+    //         $table->foreign('id_role')->references('id_role')->on('roles')->onDelete('cascade');
+    //     });
+    // }
 
     /**
      * Reverse the migrations.
      */
-    public function down(): void
-    {
-        Schema::table('permission_role', function (Blueprint $table) {
-            //
-        });
-    }
+    // public function down(): void
+    // {
+    //     Schema::table('permission_role', function (Blueprint $table) {
+    //         //
+    //     });
+    // }
 };

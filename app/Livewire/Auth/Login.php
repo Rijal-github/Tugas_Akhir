@@ -9,19 +9,19 @@ use App\Models\User;
 class Login extends Component
 {
 
-    public $email;
+    public $name;
     public $password;
 
     public function login()
     {
 
         $this->validate([
-            'email' => 'required|email',
+            'name' => 'required|string',
             'password' => 'required|min:8',
         ]);
 
         $credentials = [
-            'email' => $this->email,
+            'name' => $this->name,
             'password' => $this->password,
         ];
 
@@ -36,12 +36,13 @@ class Login extends Component
            return redirect()->route($this->redirectTo($user));
         }
 
-        session()->flash('error', 'Email atau password salah.');
+        session()->flash('error', 'Username atau password salah.');
     }
 
     private function redirectTo($user)
     {
-        $role = Auth::user()->role->name;
+        // $role = Auth::user()->role->name;
+        $role = $user->role->name;
 
         switch ($role) {
             case 'admin':

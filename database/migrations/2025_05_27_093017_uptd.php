@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('uptd', function (Blueprint $table) {
             $table->bigIncrements('id_kendaraan');
-            $table->unsignedBigInteger('id_supir');
+            // $table->unsignedBigInteger('id_supir');
             $table->string('no_polisi');
             $table->string('jenis_kendaraan');
             $table->string('wilayah');
@@ -21,7 +21,7 @@ return new class extends Migration
             $table->decimal('kapasitas_angkutan', 8, 2);
             $table->timestamps();
         
-            $table->foreign('id_supir')->references('id_supir')->on('supirs')->onDelete('cascade');
+            // $table->foreign('id_supir')->references('id_supir')->on('supirs')->onDelete('cascade');
         });        
     }
 

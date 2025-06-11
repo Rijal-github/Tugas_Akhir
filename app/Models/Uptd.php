@@ -10,19 +10,20 @@ class Uptd extends Model
     use HasFactory;
 
     protected $table = 'uptd';
-    protected $primaryKey = 'id_kendaraan';
+    protected $primaryKey = 'id_uptd';
 
     protected $fillable = [
-        'id_supir',
-        'no_polisi',
-        'jenis_kendaraan',
-        'kapasitas_angkutan',
-        'wilayah',
-        'keterangan',
+        'id_uptd',
+        'nama_uptd',
     ];
     
-    public function supir()
+   public function kendaraans()
     {
-        return $this->belongsTo(Supir::class, 'id_supir');
+        return $this->hasMany(Kendaraan::class, 'id_uptd');
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'user_uptd', 'id_uptd', 'user_id');
     }
 }

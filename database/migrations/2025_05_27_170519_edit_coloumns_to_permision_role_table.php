@@ -9,20 +9,20 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
-    {
-        Schema::table('permission_role', function (Blueprint $table) {
-            $table->renameColumn('role_id', 'id_role');
-        });
-    }
+    // public function up(): void
+    // {
+    //     Schema::table('permission_role', function (Blueprint $table) {
+    //         $table->renameColumn('role_id', 'id_role');
+    //     });
+    // }
 
     /**
      * Reverse the migrations.
      */
-    public function down(): void
-    {
-        Schema::table('permission_role', function (Blueprint $table) {
-            $table->renameColumn('id_role', 'role_id');
-        });
-    }
+    // public function down(): void
+    // {
+    //     Schema::table('permission_role', function (Blueprint $table) {
+    //         $table->renameColumn('id_role', 'role_id');
+    //     });
+    // }
 };

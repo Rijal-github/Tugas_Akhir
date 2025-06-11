@@ -16,16 +16,16 @@
                                   </div>
                               </div>
                               <div class="tx text-sm text-slate-500 text-center mt-2">
-                                  <p>Please enter your email</p>
+                                  <p>Please enter username</p>
                               </div>
                               <div class="ctr-formLoginInpt">
                                   <div class="cFormLoginInpt my-6 space-y-8 w-72">
                                       <div class="form-input items-center gap-2 relative">
                                           {{-- <input type="text" id="email" name="email" wire:model.lazy="email" class="peer inptEmail text-sm w-full rounded-md bg-slate-100 border-1 border-gray-300 @error('email') is-invalid @enderror" placeholder=" "> --}}
-                                          <input required wire:model="email" type="text" id="email" name="email" class="peer inptEmail text-sm w-full rounded-md bg-slate-100 border-1 border-gray-300">
-                                          <label for="email" class="block text-sm cursor-text px-1.5 py-0.5 rounded-lg absolute transition-all -translate-y-1/2 top-1/2 peer-focus:-top-1/4 peer-focus:text-white">
+                                          <input required wire:model="name" type="text" id="name" name="name" class="peer inptEmail text-sm w-full rounded-md bg-slate-100 border-1 border-gray-300">
+                                          <label for="name" class="block text-sm cursor-text px-1.5 py-0.5 rounded-lg absolute transition-all -translate-y-1/2 top-1/2 peer-focus:-top-1/4 peer-focus:text-white">
                                               <div class="tx text-slate-400">
-                                                  <p>Email</p>
+                                                  <p>Username</p>
                                               </div>   
                                           </label>
                                           {{-- @error('email')

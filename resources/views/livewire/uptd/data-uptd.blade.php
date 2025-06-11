@@ -56,14 +56,10 @@
                     <h2 class="text-lg font-semibold mb-4">Tambah Data Kendaraan</h2>
                     <form wire:submit.prevent="store">
                         @csrf
-                        <div class="mb-4">
+                        {{-- <div class="mb-4">
                             <label class="block text-sm font-medium">Nama Supir</label>
                             <input type="text" name="nama_supir" class="w-full border rounded px-3 py-2 mt-1" required>
-                        </div>
-                        <div class="mb-4">
-                            <label class="block text-sm font-medium">No. Polisi</label>
-                            <input type="text" name="no_polisi" class="w-full border rounded px-3 py-2 mt-1" required>
-                        </div>
+                        </div> --}}
                         <div class="mb-4">
                             <label class="block text-sm font-medium">Jenis Kendaraan</label>
                             <select name="jenis_kendaraan" class="w-full border rounded px-3 py-2 mt-1" required>
@@ -74,6 +70,10 @@
                                 <option value="Truck">Truck</option>
                                 <option value="Pick Up">Pick Up</option>
                             </select>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium">No. Polisi</label>
+                            <input type="text" name="no_polisi" class="w-full border rounded px-3 py-2 mt-1" required>
                         </div>
                         <div class="mb-4">
                             <label class="block text-sm font-medium">Kapasitas Angkutan</label>
@@ -105,9 +105,9 @@
             <table class="min-w-full divide-y divide-gray-200 text-sm">
                 <thead class="bg-gray-100 text-gray-700">
                     <tr>
-                        <th class="px-3 py-3 text-left">Nama Supir</th>
-                        <th class="px-3 py-3 text-left">No. Polisi</th>
+                        {{-- <th class="px-3 py-3 text-left">Nama Supir</th> --}}
                         <th class="px-3 py-3 text-left">Jenis Kendaraan</th>
+                        <th class="px-3 py-3 text-left">No. Polisi</th>
                         <th class="px-3 py-3 text-center">Kapasitas Angkutan</th>
                         <th class="px-3 py-3 text-left">Wilayah</th>
                         <th class="px-3 py-3 text-left">Keterangan</th>
@@ -117,7 +117,7 @@
                 <tbody class="divide-y divide-gray-200 text-gray-800 space-y-2">
                     {{-- @foreach($kendaraanList as $k) --}}
                     <tr class="hover:bg-gray-50">
-                        <td class="px-3 py-3 font-medium">Agus Salim</td>
+                        {{-- <td class="px-3 py-3 font-medium">Agus Salim</td> --}}
                         <td class="px-3 py-3"></td>
                         <td class="px-3 py-3"></td>
                         <td class="px-3 py-3 text-center"></td>

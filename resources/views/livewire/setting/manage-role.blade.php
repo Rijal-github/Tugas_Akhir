@@ -1,7 +1,4 @@
-{{-- @extends('layouts.main') --}}
-
-@section('breadcrumb', 'Manage Setting / Setting Role')
-{{-- @section('content') --}}
+@section('breadcrumb', 'Manage Setting / Setting User')
 
 <div class="container mx-auto p-6">
     <div class="bg-white rounded-xl p-6">
@@ -22,20 +19,22 @@
               <th class="py-3 px-6 border">Avatar</th>
               <th class="py-3 px-6 border">Role</th>
               <th class="py-3 px-6 border">Email</th>
+              <th class="py-3 px-6 border">No. Handphone</th>
               <th class="py-3 px-6 border">Nama</th>
               <th class="py-3 px-6 border">Alamat</th>
               <th class="py-3 px-6 border">Action</th>
             </tr>
           </thead>
           <tbody>
-            @foreach ($users as $user)
+            @foreach ($users as $index => $user)
                 <tr class="text-gray-700 text-sm hover:bg-gray-50 transition-all">
-                <td class="py-3 px-6 border text-center">{{ $user->id }}</td>
+                <td class="py-3 px-6 border text-center">{{ $index + 1 }}</td>
                 <td class="py-3 px-6 border text-center">
-                    <img src="{{ asset('storage/' . $user->avatar) }}" alt="Avatar" class="w-10 h-10 rounded-full mx-auto">
+                    {{-- <img src="{{ asset('storage/' . $user->avatar) }}" alt="Avatar" class="w-10 h-10 rounded-full mx-auto"> --}}
                 </td>
-                <td class="py-3 px-6 border text-center">{{ $user->role }}</td>
+                <td class="py-3 px-6 border text-center">{{ $user->role->name }}</td>
                 <td class="py-3 px-6 border text-center">{{ $user->email }}</td>
+                <td class="py-3 px-6 border text-center">{{ $user->no_hp }}</td>
                 <td class="py-3 px-6 border text-center">{{ $user->name }}</td>
                 <td class="py-3 px-6 border text-center">{{ $user->addres }}</td>
                 <td class="py-3 px-6 border text-center">
@@ -58,7 +57,7 @@
                               Delete
                             </div>
                           <!-- Modal Popup -->
-                          @if ($confirmDeleteOpen)
+                          @if ($confirmDelete)
                           <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20">
                               <div class="bg-white rounded-lg shadow-lg p-6 w-1/3">
                                   <h3 class="text-lg font-semibold mb-4">Konfirmasi Hapus</h3>
@@ -84,7 +83,7 @@
                           </div>
                       @endif
                     </div>
-                    </div>
+                  </div>
                 </td>
                 </tr>
               @endforeach
@@ -94,7 +93,7 @@
       </div>
     </div>
     <!-- Modal Background -->
-    <div x-data="{showModal: @entangle('showModal'), showSuccess: @entangle('successMessage'), confirmDelete: @entangle('confirmDelete')}" 
+    <div x-data="{showModal: @entangle('showModal'), showSuccess: @entangle('showSuccess'), confirmDelete: @entangle('confirmDelete')}" 
           
           x-show="showModal" 
           x-cloak
@@ -120,37 +119,38 @@
               <input type="file" wire:model="avatar" class="w-full border rounded-lg px-3 py-2">
             </div>
             <div>
-                <label class="block text-gray-700 font-semibold mb-2">Role</label>
-                <div class="flex flex-col gap-2">
-                    <label class="inline-flex items-center">
-                        <input type="radio"  wire:model="role" value="dlh" class="form-radio text-blue-600">
-                        <span class="ml-2 text-gray-700">Admin DLH</span>
-                    </label>
-                    <label class="inline-flex items-center">
-                        <input type="radio" wire:model="role" value="uptd" class="form-radio text-blue-600">
-                        <span class="ml-2 text-gray-700">Admin UPTD</span>
-                    </label>
-                    <label class="inline-flex items-center">
-                        <input type="radio"  wire:model="role" value="operator" class="form-radio text-blue-600">
-                        <span class="ml-2 text-gray-700">Operator TPA</span>
-                    </label>
-                </div>
-            </div>
+              <label class="block text-gray-700 font-semibold mb-2">Role</label>
+              <select wire:model="role" class="form-select border border-gray-300 rounded px-3 py-2 w-full">
+                  <option>-- Pilih Role --</option>
+                  @foreach ($roles as $r)
+                      <option value="{{ $r->id_role }}">{{ $r->name }}</option>
+                  @endforeach
+              </select>
+              @error('role') <span class="text-red-500">{{ $message }}</span> @enderror
+          </div>
             <div>
               <label class="block text-gray-700 font-semibold mb-2">Email</label>
               <input type="email" wire:model="email" class="w-full border rounded-lg px-3 py-2" placeholder="Enter Email">
+              @error('email') <span class="text-red-500">{{ $message }}</span> @enderror
+            </div>
+            <div>
+              <label class="block text-gray-700 font-semibold mb-2">No. Handphone</label>
+              <input type="text" wire:model="no_hp" class="w-full border rounded-lg px-3 py-2" placeholder="Enter No. Handphone">
             </div>
             <div>
               <label class="block text-gray-700 font-semibold mb-2">Nama</label>
               <input type="text" wire:model="name" class="w-full border rounded-lg px-3 py-2" placeholder="Enter Name">
+              @error('name') <span class="text-red-500">{{ $message }}</span> @enderror
             </div>
             <div>
               <label class="block text-gray-700 font-semibold mb-2">Alamat</label>
               <input type="text" wire:model="addres" class="w-full border rounded-lg px-3 py-2" placeholder="Enter Alamat">
+              @error('addres') <span class="text-red-500">{{ $message }}</span> @enderror
             </div>
             <div>
               <label class="block text-gray-700 font-semibold mb-2">Password {{ $isEditMode ? '(Kosongkan jika tidak ingin diubah)' : '' }}</label>
               <input type="password" wire:model="password" class="w-full border rounded-lg px-3 py-2" placeholder="Enter Password">
+              @error('password') <span class="text-red-500">{{ $message }}</span> @enderror
             </div>
     
             <div class="flex justify-end pt-4">
@@ -161,14 +161,14 @@
         </form>
       </div>
         <!-- Popup Pesan Berhasil -->
-        {{-- <div x-show="showSuccess" class="ctr-mainPopup fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+        <div x-show="showSuccess" class="ctr-mainPopup fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
           <div class="cMainPopup relative p-5 bg-white rounded-md shadow-lg w-full max-w-lg">
               <div class="TitleHeadPopup text-center">
                   <p class="text-xl font-semibold text-green-500">Your Data Profile  Add Sucesfully!</p>
                   <button @click="showSuccess = false" class="mt-5 bg-blue-500 hover:bg-blue-700 text-white font-semibold p-2 rounded-md">Close</button>
               </div>
           </div>
-        </div> --}}
+        </div>
     </div>
 
     <style>
@@ -187,8 +187,4 @@
       }
     </style>
 </div>
-
-    
-
- {{-- @endsection --}}
   

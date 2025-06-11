@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('kendaraans', function (Blueprint $table) {
-            $table->bigIncrements('id_kendaraan');
+        Schema::create('vehicle', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('id_driver');
             $table->unsignedBigInteger('id_uptd');
             $table->string('no_polisi');
             $table->string('jenis_kendaraan');
@@ -20,6 +21,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('id_uptd')->references('id_uptd')->on('uptd')->onDelete('cascade');
+            $table->foreign('id_driver')->references('id')->on('users')->onDelete('cascade');
         });  
     }
 

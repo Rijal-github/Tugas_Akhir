@@ -13,8 +13,9 @@ class AuthControllerphp extends Controller
 {
     public function login(Request $request)
     {
+        $credentials = $request->only('name', 'password');
 
-        $credentials = $request->only('email', 'password');
+        $user = User::where('name', $credentials['name'])->first();
 
         if (!$token = JWTAuth::attempt($credentials)) {
             return response()->json([
@@ -24,7 +25,25 @@ class AuthControllerphp extends Controller
             ], 401);
         }
 
-        // $token = JWTAuth::fromUser($user);
+        $user = Auth::user();
+
+        // Struktur respons tergantung role (non-UPTD vs UPTD)
+        $userData = [
+            'id' => $user->id,
+            'nama' => $user->name,
+            'email' => $user->email,
+            'id_role' => $user->id_role,
+            'role' => $user->role->name ?? 'Unknown', // pastikan relasi role tersedia
+            'addres' => $user->addres ?? '-',
+            'created_at' => $user->created_at,
+            'updated_at' => $user->updated_at,
+        ];
+
+        // Jika user adalah UPTD (misal role_id = 2), tambahkan info uptd
+        if ($user->role_id == 2 && $user->uptd_id) {
+            $userData['uptd_id'] = $user->uptd_id;
+            $userData['nama_uptd'] = $user->uptd->name ?? 'Unknown'; // pastikan relasi uptd tersedia
+        }
 
         return response()->json([
             'code' => 200,
@@ -32,8 +51,30 @@ class AuthControllerphp extends Controller
             'message' => 'Login successful',
             'data' => [
                 'token' => $token,
-                'user' => Auth::user(),
+                'user' => $userData,
             ]
         ]);
     }
 }
+
+// $credentials = $request->only('name', 'password');
+
+// if (!$token = JWTAuth::attempt($credentials)) {
+//     return response()->json([
+//         'code' => 401,
+//         'status' => false,
+//         'message' => 'Login failed, invalid credentials',
+//     ], 401);
+// }
+
+// // $token = JWTAuth::fromUser($user);
+
+// return response()->json([
+//     'code' => 200,
+//     'status' => true,
+//     'message' => 'Login successful',
+//     'data' => [
+//         'token' => $token,
+//         'user' => Auth::user(),
+//     ]
+// ]);

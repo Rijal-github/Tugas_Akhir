@@ -32,31 +32,31 @@
         @livewireStyles
 
     </head>
-<body class="bg-[#e8f0fe] text-gray-800">
-    <div x-data="{ sidebarOpen: true }" class="flex min-h-screen">
-        @include('layouts.partials.sidebar') 
+    <body class="bg-[#e8f0fe] text-gray-800">
+        <div x-data="{ sidebarOpen: true }" class="flex min-h-screen">
+            @include('layouts.partials.sidebar') 
 
-        <main :class="sidebarOpen ? 'pl-72' : 'pl-24'" class="flex-1 transition-all duration-300">
-            {{-- @include('layouts.partials.header') --}}
+            <main :class="sidebarOpen ? 'pl-72' : 'pl-24'" class="flex-1 transition-all duration-300">
+                {{-- @include('layouts.partials.header') --}}
 
 
-            <div class="flex justify-between items-start mt-4 p-4">
-                <div>
-                    <h2 class="text-xl font-semibold">@yield('breadcrumb')</h2>
-                    {{-- <h1 class="text-3xl font-bold text-indigo-700">@yield('title')</h1> --}}
+                <div class="flex justify-between items-start mt-4 p-4">
+                    <div>
+                        <h2 class="text-xl font-semibold">@yield('breadcrumb')</h2>
+                        {{-- <h1 class="text-3xl font-bold text-indigo-700">@yield('title')</h1> --}}
+                    </div>
+                    <div>
+                        <input type="text" placeholder="Search..." class="px-4 py-2 rounded-lg shadow-sm border focus:outline-none" />
+                    </div>
                 </div>
-                <div>
-                    <input type="text" placeholder="Search..." class="px-4 py-2 rounded-lg shadow-sm border focus:outline-none" />
-                </div>
-            </div>
-            
+                
 
 
-            {{-- Main Content --}}
-            {{ $slot }}
-        </main>
-    </div>
-    {{-- @stack('scripts') --}}
-    @livewireScripts
+                {{-- Main Content --}}
+                {{ $slot }}
+            </main>
+        </div>
+        {{-- @stack('scripts') --}}
+        @livewireScripts
     </body> 
 </html>

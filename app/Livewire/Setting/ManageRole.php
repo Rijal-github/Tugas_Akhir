@@ -6,6 +6,7 @@ use Livewire\Component;
 use Livewire\Attributes;
 use Livewire\WithFileUploads;
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
@@ -17,15 +18,18 @@ class ManageRole extends Component
     public $users;
     public $userId;
     public $avatar;
-    public $role;
     public $email;
+    public $no_hp;
     public $name;
     public $addres;
     public $password;
+    public $roles;  // untuk simpan data role dari DB
+    public $role;   // untuk menyimpan role yang dipilih di form
+
 
 
     public $showModal = false;
-    public $confirmDeleteOpen = false;
+    public $confirmDelete = false;
     public $showSuccess = false;
     public $successMessage = '';
     public $isEditMode = false;
@@ -35,7 +39,7 @@ class ManageRole extends Component
     protected function rules()
     {
     $rules = [
-        'role' => 'required',
+        'role' => 'required|exists:roles,id_role',
         'email' => 'required|email',
         'name' => 'required',
         'addres' => 'required',
@@ -73,13 +77,15 @@ class ManageRole extends Component
 
     public function save()
     {
+
         $this->validate();
 
         if ($this->isEditMode) {
             $user = User::findOrFail($this->userId);
             $data = [
-                'role' => $this->role,
+                'id_role' => $this->role,
                 'email' => $this->email,
+                'no_hp' => $this->no_hp,
                 'name' => $this->name,
                 'addres' => $this->addres,
             ];
@@ -98,8 +104,9 @@ class ManageRole extends Component
             }
 
             $user = User::create([
-                'role' => $this->role,
+                'id_role' => $this->role,
                 'email' => $this->email,
+                'no_hp' => $this->no_hp,
                 'name' => $this->name,
                 'addres' => $this->addres,
                 'password' => Hash::make($this->password),
@@ -114,7 +121,7 @@ class ManageRole extends Component
         }        
 
         $this->showSuccess = true;
-        $this->successMessage = true;
+        // $this->successMessage = true;
         $this->closeModal();
         $this->mount();
     }
@@ -122,18 +129,21 @@ class ManageRole extends Component
     public function mount()
     {
         $this->users = User::all(); // ambil semua user
+        $this->roles = Role::all(); // ambil semua role dari DB
+
+        // logger($this->roles); // log isi roles ke laravel.log
     }
 
     public function confirmDelete($id)
     {
-        $this->confirmDeleteOpen = true;
+        $this->confirmDelete = true;
         $this->dispatch('confirmDelete', $id);
     }
     
     public function delete($id)
     {
         User::findOrFail($id)->delete();
-        $this->confirmDeleteOpen = false;
+        $this->confirmDelete = false;
         $this->mount();
     }
 
@@ -146,7 +156,7 @@ class ManageRole extends Component
     public function closeModal()
     {
         $this->showModal = false;
-        $this->confirmDeleteOpen = false;
+        $this->confirmDelete = false;
         // $this->showSuccess = false;
         $this->resetForm();
     }
@@ -157,6 +167,7 @@ class ManageRole extends Component
         $this->avatar = null;
         $this->role = null;
         $this->email = null;
+        $this->no_hp = null;
         $this->name = null;
         $this->addres = null;
     }

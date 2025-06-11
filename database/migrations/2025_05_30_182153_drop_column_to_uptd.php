@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::table('uptd', function (Blueprint $table) {
              // Hapus foreign key constraint terlebih dahulu
-             $table->dropForeign(['id_supir']);
+            //  $table->dropForeign(['id_supir']);
 
-            $table->dropColumn('id_supir');
+            // $table->dropColumn('id_supir');
             $table->dropColumn('no_polisi');
             $table->dropColumn('jenis_kendaraan');
             $table->dropColumn('keterangan');
@@ -29,7 +29,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('uptd', function (Blueprint $table) {
-            $table->unsignedBigInteger('id_supir');
+            // $table->unsignedBigInteger('id_supir');
             $table->string('no_polisi');
             $table->string('jenis_kendaraan');
             $table->text('keterangan');

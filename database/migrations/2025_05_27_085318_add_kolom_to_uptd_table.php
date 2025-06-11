@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('uptd', function (Blueprint $table) {
-            $table->string('wilayah')->after('jenis_kendaraan');
-            $table->text('keterangan')->after('wilayah');
-            $table->decimal('kapasitas_angkutan', 8, 2)->after('keterangan');
-        });
+        // Schema::table('uptd', function (Blueprint $table) {
+        //     $table->string('wilayah')->after('jenis_kendaraan');
+        //     $table->text('keterangan')->after('wilayah');
+        //     $table->decimal('kapasitas_angkutan', 8, 2)->after('keterangan');
+        // });
     }
 
     /**
@@ -23,8 +23,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('uptd', function (Blueprint $table) {
-            $table->dropColumn(['wilayah', 'keterangan', 'kapasitas_angkutan']);
-        });
+        // Schema::table('uptd', function (Blueprint $table) {
+        //     $table->dropColumn(['wilayah', 'keterangan', 'kapasitas_angkutan']);
+        // });
     }
 };
