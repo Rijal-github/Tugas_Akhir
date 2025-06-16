@@ -10,13 +10,14 @@ class Role extends Model
     protected $table = 'roles';
     protected $primaryKey = 'id_role';
     public $incrementing = true;
+    public $timestamps = true;
     protected $keyType = 'int';
 
     protected $fillable = ['name'];
 
     public function permissions()
     {
-        return $this->belongsToMany(Permission::class, 'permission_role', 'id_role', 'permission_id');
+        return $this->hasMany(Permission::class, 'id_role');
     }
 
     public function users()

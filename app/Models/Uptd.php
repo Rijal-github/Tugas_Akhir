@@ -17,13 +17,13 @@ class Uptd extends Model
         'nama_uptd',
     ];
     
-   public function kendaraans()
+   public function vehicle()
     {
-        return $this->hasMany(Kendaraan::class, 'id_uptd');
+        return $this->hasMany(Vehicle::class, 'id_uptd');
     }
 
     public function users()
     {
-        return $this->belongsToMany(User::class, 'user_uptd', 'id_uptd', 'user_id');
+        return $this->belongsToMany(User::class, 'users_uptd', 'id_uptd', 'user_id');
     }
 }

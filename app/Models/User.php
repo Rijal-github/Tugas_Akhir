@@ -22,6 +22,7 @@ class User extends Authenticatable implements JWTSubject
     protected $fillable = [
         'name',
         'email',
+        'no_hp',
         'addres',
         'password',
         'id_role',
@@ -67,13 +68,35 @@ class User extends Authenticatable implements JWTSubject
     
     public function uptds()
     {
-        return $this->belongsToMany(Uptd::class, 'user_uptd', 'user_id', 'id_uptd');
+        return $this->belongsToMany(Uptd::class, 'users_uptd', 'user_id', 'id_uptd');
         // return $this->belongsTo(Uptd::class, 'id_uptd', 'id_uptd');
     }
 
-    public function Kendaraan()
+    public function vehicles()
     {
-        return $this->belongsToMany(Kendaraan::class, 'user_driver', 'user_id', 'id_kendaraan');
+        return $this->hasMany(Vehicle::class, 'id_driver');
     }
 
+    public function ritasiTpaPecuk()
+    {
+        return $this->hasMany(Ritasi::class, 'id_driver');
+    }
+
+    public function laporanPembersihans()
+    {
+        return $this->hasMany(LaporanPembersihan::class);
+    }
+
+    // Transaksi yang dibuat oleh user
+    public function buktiTransaksis()
+    {
+        return $this->hasMany(BuktiTransaksi::class, 'user_id');
+    }
+
+    // Transaksi sebagai driver
+    public function transaksiSebagaiDriver()
+    {
+        return $this->hasMany(BuktiTransaksi::class, 'id_driver');
+    }
+    
 }

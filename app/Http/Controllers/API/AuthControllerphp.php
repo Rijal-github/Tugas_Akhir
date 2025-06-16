@@ -25,7 +25,10 @@ class AuthControllerphp extends Controller
             ], 401);
         }
 
-        $user = Auth::user();
+        // $user = Auth::user();
+        // $user->load('uptds');
+        $user = User::with('uptds')->find(Auth::id());
+
 
         // Struktur respons tergantung role (non-UPTD vs UPTD)
         $userData = [
@@ -40,10 +43,18 @@ class AuthControllerphp extends Controller
         ];
 
         // Jika user adalah UPTD (misal role_id = 2), tambahkan info uptd
-        if ($user->role_id == 2 && $user->uptd_id) {
-            $userData['uptd_id'] = $user->uptd_id;
-            $userData['nama_uptd'] = $user->uptd->name ?? 'Unknown'; // pastikan relasi uptd tersedia
+        if ($user->role_id == 3 || $user->id_role == 7) { // jika peran uptd / kepala uptd
+            $uptd = $user->uptds()->first(); // ambil satu saja
+        
+            if ($uptd) {
+                $userData['id_uptd'] = $uptd->id_uptd;
+                $userData['nama_uptd'] = $uptd->nama_uptd;
+            }
         }
+        // if ($user->role_id == 3 && $user->id_uptd) {
+        //     $userData['id_uptd'] = $user->id_uptd;
+        //     $userData['nama_uptd'] = $user->uptd->name ?? 'Unknown'; // pastikan relasi uptd tersedia
+        // }
 
         return response()->json([
             'code' => 200,

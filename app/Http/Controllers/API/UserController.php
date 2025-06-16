@@ -72,7 +72,7 @@ public function store(Request $request)
         'id_role' => 'required|integer',
         'email' => 'required|email|unique:users,email',
         'addres' => 'required|string',
-        'password' => 'required|string|min:6'
+        'password' => 'required|min:8'
     ]);
 
     $user = User::create([
@@ -99,6 +99,7 @@ public function update(Request $request, $id)
         'name' => 'required|string',
         'id_role' => 'required|integer',
         'email' => 'required|email|unique:users,email,'.$id,
+        'no_hp' => 'required|string',
         'addres' => 'required|string',
     ]);
 
@@ -111,6 +112,20 @@ public function update(Request $request, $id)
         'data' => $user->load('role')
     ]);
 }
+
+public function delete($id)
+{
+    $user = User::findOrFail($id);
+    $user->delete();
+
+    return response()->json([
+        'code' => 200,
+        'status' => true,
+        'message' => 'User deleted successfully',
+        'data' => $user
+    ]);
+}
+
 
 
 

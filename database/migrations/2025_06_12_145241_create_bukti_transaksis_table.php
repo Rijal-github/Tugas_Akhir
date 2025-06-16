@@ -11,19 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ritasi_tpa_pecuk', function (Blueprint $table) {
+        Schema::create('bukti_transaksis', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('id_driver');
-            $table->bigInteger('banyak_ritasi');
-            $table->bigInteger('netto_pre');
-            $table->bigInteger('netto_post');
-            $table->string('keterangan', 255);
+            $table->string('nota');
+            $table->string('keterangan');
             $table->timestamps();
 
-            
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('id_driver')->references('id')->on('users')->onDelete('cascade');
         });
-        
     }
 
     /**
@@ -31,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ritasi');
+        Schema::dropIfExists('bukti_transaksis');
     }
 };

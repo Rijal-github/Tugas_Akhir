@@ -16,10 +16,10 @@ class userUptdSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        $uptdUser = User::where('email', 'kepalauptd@gmail.com')->first();
+        $uptdUser = User::where('email', 'yudi@example.com')->first();
 
         DB::table('users_uptd')->insert([
-            ['user_id' => $uptdUser->id, 'id_uptd' => 1],
+            ['user_id' => $uptdUser->id, 'id_uptd' => 2],
         ]);
     }
 }

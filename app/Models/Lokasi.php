@@ -14,6 +14,7 @@ class Lokasi extends Model
     protected $fillable = ['tps_id', 'nama_lokasi', 'unit', 'latitude', 'longitude'];
     public function tps()
 {
+    // return $this->belongsTo(Tps::class);
     return $this->belongsTo(Tps::class);
 }
 }
