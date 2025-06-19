@@ -26,14 +26,14 @@ class ManageRole extends Component
     public $roles;  // untuk simpan data role dari DB
     public $role;   // untuk menyimpan role yang dipilih di form
 
-
+    public $confirmDeleteId = null;
 
     public $showModal = false;
     public $confirmDelete = false;
     public $showSuccess = false;
     public $successMessage = '';
     public $isEditMode = false;
-    public $statusMessage;
+    // public $statusMessage;
 
     
     protected function rules()
@@ -52,6 +52,14 @@ class ManageRole extends Component
         return $rules;
     }
 
+    public function showSuccessMessages(string $message): void
+    {
+        $this->showSuccess = true;
+        $this->successMessage = $message;
+        // Tambahkan logika untuk menyembunyikan popup setelah beberapa detik, jika diperlukan.
+        // Misalnya, menggunakan JavaScript atau metode Livewire.
+    }
+
     public function openCreateModal()
     {
         $this->resetForm();
@@ -64,8 +72,9 @@ class ManageRole extends Component
         $user = User::findOrFail($id);
 
         $this->userId = $user->id;
-        $this->role = $user->role;
+        $this->role = $user->id_role;
         $this->email = $user->email;
+        $this->no_hp = $user->no_hp;
         $this->name = $user->name;
         $this->addres = $user->addres;
         $this->avatar = null;
@@ -120,10 +129,11 @@ class ManageRole extends Component
             $user->save();
         }        
 
-        $this->showSuccess = true;
-        // $this->successMessage = true;
+        $message = $this->userId ? 'Data berhasil diperbaharui.' : 'Data berhasil disimpan.';
         $this->closeModal();
         $this->mount();
+
+        $this->showSuccessMessages($message);
     }
 
     public function mount()
@@ -134,22 +144,30 @@ class ManageRole extends Component
         // logger($this->roles); // log isi roles ke laravel.log
     }
 
-    public function confirmDelete($id)
+    public function confirmDeleted($id)
     {
         $this->confirmDelete = true;
-        $this->dispatch('confirmDelete', $id);
+        $this->confirmDeleteId = $id;
+        // $this->confirmDelete = true;
+        // $this->dispatch('confirmDelete', $id);
     }
     
-    public function delete($id)
+    public function deleted()
     {
-        User::findOrFail($id)->delete();
-        $this->confirmDelete = false;
-        $this->mount();
+        if ($this->confirmDeleteId) {
+            User::find($this->confirmDeleteId)?->delete();
+            $this->confirmDelete = false;
+            $this->confirmDeleteId = null;
+            $this->showSuccessMessages('Data berhasil dihapus.');
+        }
+        // User::findOrFail($id)->delete();
+        // $this->confirmDelete = false;
+        // $this->mount();
     }
 
     public function cancelDelete()
     {
-        $this->statusMessage = 'Profile cancel to deleted!';
+        // $this->statusMessage = 'Profile cancel to deleted!';
         $this->closeModal();
     }
 

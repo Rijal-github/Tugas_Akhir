@@ -12,8 +12,8 @@ class Tps extends Model
     protected $fillable = ['jenis_tps', 'tahun', 'jumlah'];
     public function lokasi()
     {
-        // return $this->hasMany(Lokasi::class);
-        return $this->hasOne(Lokasi::class, 'tps_id');
+        return $this->hasMany(Lokasi::class);
+        // return $this->hasOne(Lokasi::class, 'tps_id');
     }
 
     public function laporanPembersihans()

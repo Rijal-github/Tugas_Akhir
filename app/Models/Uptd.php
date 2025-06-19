@@ -13,11 +13,10 @@ class Uptd extends Model
     protected $primaryKey = 'id_uptd';
 
     protected $fillable = [
-        'id_uptd',
         'nama_uptd',
     ];
     
-   public function vehicle()
+   public function vehicles()
     {
         return $this->hasMany(Vehicle::class, 'id_uptd');
     }

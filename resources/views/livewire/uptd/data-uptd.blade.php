@@ -1,7 +1,7 @@
 
 @section('breadcrumb', 'Data UPTD')
 
-<div x-data="{ showModal: @entangle('showModal') }" class="p-5 mr-5">
+<div x-data="{ showModal: @entangle('showModal'), showConfirm: @entangle('confirmingDelete'), show: @entangle('showSuccess'), open: @entangle('confirmingDelete') }" class="p-5 mr-5">
     <div class="p-3 bg-white rounded-lg shadow-md">
         <div class="mb-4 flex items-center justify-between">
             <div class="relative inline-block">
@@ -39,7 +39,7 @@
                     </ul>
                 </div>
             </div>
-            <button wire:click="openCreateForm"  class="flex items-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-1 px-3 rounded-lg">
+            <button wire:click="$set('showModal', true)" class="flex items-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-1 px-3 rounded-lg">
                 <i class="fas fa-user-plus mr-2"></i> 
                 Tambah 
             </button>
@@ -47,22 +47,16 @@
 
         <!-- Alpine.js Modal -->
         <div>
-            <!-- Tombol tambah sudah ada di atas dengan @click="open = true" -->
-
             <!-- Modal -->
-            <div x-show="showModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" style="display: none;">
-                <div @click.away="open = false" class="bg-white w-full max-w-lg p-6 rounded-lg shadow-lg">
-                    <button @click="showForm = false; $wire.resetForm()" class="absolute top-3 right-3 text-gray-600 hover:text-gray-800 text-xl">&times;</button>
+            <div x-show="showModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                <div class="bg-white w-full max-w-lg p-6 rounded-lg shadow-lg">
+                    <button class="absolute top-3 right-3 text-gray-600 hover:text-gray-800 text-xl"></button>
                     <h2 class="text-lg font-semibold mb-4">Tambah Data Kendaraan</h2>
                     <form wire:submit.prevent="store">
                         @csrf
-                        {{-- <div class="mb-4">
-                            <label class="block text-sm font-medium">Nama Supir</label>
-                            <input type="text" name="nama_supir" class="w-full border rounded px-3 py-2 mt-1" required>
-                        </div> --}}
                         <div class="mb-4">
                             <label class="block text-sm font-medium">Jenis Kendaraan</label>
-                            <select name="jenis_kendaraan" class="w-full border rounded px-3 py-2 mt-1" required>
+                            <select wire:model="jenis_kendaraan" class="w-full border rounded px-3 py-2 mt-1" required>
                                 <option value="Amroll Truck">Amroll Truck</option>
                                 <option value="Dump Truck">Dump Truck</option>
                                 <option value="APV">APV</option>
@@ -73,100 +67,99 @@
                         </div>
                         <div class="mb-4">
                             <label class="block text-sm font-medium">No. Polisi</label>
-                            <input type="text" name="no_polisi" class="w-full border rounded px-3 py-2 mt-1" required>
+                            <input type="text" wire:model="no_polisi" class="w-full border rounded px-3 py-2 mt-1" required>
                         </div>
                         <div class="mb-4">
                             <label class="block text-sm font-medium">Kapasitas Angkutan</label>
-                            <input type="number" name="kapasitas_angkutan" class="w-full border rounded px-3 py-2 mt-1" required>
+                            <input type="number" wire:model="kapasitas_angkutan" class="w-full border rounded px-3 py-2 mt-1" required>
                         </div>
                         <div class="mb-4">
                             <label class="block text-sm font-medium">Wilayah</label>
-                            <input type="text" name="wilayah" class="w-full border rounded px-3 py-2 mt-1" required>
+                            <input type="text" wire:model="nama_uptd" class="w-full border rounded px-3 py-2 mt-1" required>
                         </div>
-                        <div class="mb-4">
-                            <label class="block text-sm font-medium">Keterangan</label>
-                            <textarea name="keterangan" class="w-full border rounded px-3 py-2 mt-1"></textarea>
-                        </div>
+
                         <div class="flex justify-end gap-2">
                             <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">Simpan</button>
-                            <button type="button" @click="showModal = false; $wire.resetForm()" class="text-gray-500">Batal</button>
+                            <button type="button"  @click="showModal = false; $wire.resetFields()" class="text-white bg-gray-600 hover:bg-gray-700 px-4 py-2 rounded">Batal</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
-    
-        @if(session()->has('message'))
-            <div class="bg-green-200 text-green-800 p-3 rounded mb-4">
-                {{ session('message') }}
+
+        {{-- popup Success --}}
+        <div x-show="show" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-90" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+            <div class="bg-white rounded-lg shadow-lg p-6 max-w-sm mx-auto">
+                <div class="text-center">
+                    <svg class="w-12 h-12 mx-auto text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <p class="mt-4 text-lg font-semibold text-gray-700">{{ $successMessage }}</p>
+                    <button @click="show = false" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300">Tutup</button>
+                </div>
             </div>
-         @endif
+        </div>
+    
         <div class="overflow-x-auto border-b">
             <table class="min-w-full divide-y divide-gray-200 text-sm">
                 <thead class="bg-gray-100 text-gray-700">
                     <tr>
-                        {{-- <th class="px-3 py-3 text-left">Nama Supir</th> --}}
                         <th class="px-3 py-3 text-left">Jenis Kendaraan</th>
                         <th class="px-3 py-3 text-left">No. Polisi</th>
                         <th class="px-3 py-3 text-center">Kapasitas Angkutan</th>
-                        <th class="px-3 py-3 text-left">Wilayah</th>
-                        <th class="px-3 py-3 text-left">Keterangan</th>
+                        <th class="px-3 py-3 text-left">Nama UPTD</th>
                         <th class="px-3 py-3">Action</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-200 text-gray-800 space-y-2">
-                    {{-- @foreach($kendaraanList as $k) --}}
-                    <tr class="hover:bg-gray-50">
-                        {{-- <td class="px-3 py-3 font-medium">Agus Salim</td> --}}
-                        <td class="px-3 py-3"></td>
-                        <td class="px-3 py-3"></td>
-                        <td class="px-3 py-3 text-center"></td>
-                        <td class="px-3 py-3"></td>
-                        <td class="px-3 py-3"></td>
-                        <td class=" py-3 text-center">
-                            <div class="flex justify-center space-x-6">
-                              <!-- Update Icon with Tooltip -->
-                              <div class="relative group">
-                                  <button wire:click="#)" class="text-green-500 hover:text-green-600 transition-transform transform hover:scale-110">
-                                  <i class="fas fa-pen-to-square fa-lg"></i>
-                                  </button>
-                                  <div class="absolute bottom-full left-1/2 -translate-x-1/2 bg-gray-900 text-white text-xs rounded-md py-1 px-3 opacity-0 group-hover:opacity-100 group-hover:translate-y-[-6px] transition-all duration-300">
-                                  Update
-                                  </div>
-                              </div>
-                              <!-- Delete Icon with Tooltip -->
-                              <div class="relative group">
-                                  <button wire:click="#" class="text-red-500 hover:text-red-600 transition-transform transform hover:scale-110">
-                                  <i class="fas fa-trash fa-lg"></i>
-                                  </button>
+                @foreach ($vehicles as $vehicle)
+                    <tbody class="divide-y divide-gray-200 text-gray-800 space-y-2">
+                        <tr class="hover:bg-gray-50">
+                            <td>{{ $vehicle->jenis_kendaraan }}</td>
+                            <td>{{ $vehicle->no_polisi }}</td>
+                            <td class="text-center">{{ $vehicle->kapasitas_angkutan }} Kg</td>
+                            <td>{{ $vehicle->uptd->nama_uptd ?? '-' }}</td>
+                            <td class=" py-3 text-center">
+                                <div class="flex justify-center space-x-6">
+                                <!-- Update Icon with Tooltip -->
+                                <div class="relative group">
+                                    <button wire:click="editForm({{ $vehicle->id }})" class="text-green-500 hover:text-green-600 transition-transform transform hover:scale-110">
+                                    <i class="fas fa-pen-to-square fa-lg"></i>
+                                    </button>
                                     <div class="absolute bottom-full left-1/2 -translate-x-1/2 bg-gray-900 text-white text-xs rounded-md py-1 px-3 opacity-0 group-hover:opacity-100 group-hover:translate-y-[-6px] transition-all duration-300">
-                                        Delete
+                                    Update
                                     </div>
-                              </div>
-                            </div>
-                        </td>
-                    </tr>
-                    {{-- @endforeach --}}
-                </tbody>
+                                </div>
+                                <div class="relative group">
+                                    <button wire:click="confirmDelete({{ $vehicle->id }})" class="text-red-500 hover:text-red-600 transition-transform transform hover:scale-110">
+                                    <i class="fas fa-trash fa-lg"></i>
+                                    </button>
+                                        <div class="absolute bottom-full left-1/2 -translate-x-1/2 bg-gray-900 text-white text-xs rounded-md py-1 px-3 opacity-0 group-hover:opacity-100 group-hover:translate-y-[-6px] transition-all duration-300">
+                                            Delete
+                                        </div>
+                                </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                @endforeach
             </table>
+        </div>
 
-            {{-- Modal Form --}}
-            {{-- @if($showModal) --}}
-                {{-- @include('livewire.uptd.form-uptd') --}}
-            {{-- @endif --}}
-
-            {{-- Konfirmasi Hapus --}}
-            @if($confirmingDelete)
-                <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div class="bg-white rounded-lg p-6 max-w-sm w-full">
-                        <p class="mb-4">Yakin ingin menghapus data ini?</p>
-                        <div class="flex justify-end gap-2">
-                            <button wire:click="delete" class="bg-red-600 text-white px-4 py-2 rounded">Ya</button>
-                            <button wire:click="$set('confirmingDelete', false)" class="text-gray-500">Batal</button>
-                        </div>
-                    </div>
+        <div x-show="open" class="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center">
+            <div class="bg-white p-6 rounded shadow-md max-w-sm w-full text-center">
+                <span class="text-red-600 text-5xl block mb-4 animate-bounce drop-shadow-lg">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                </span>
+                <p class="text-lg font-semibold mb-4 text-center">Apakah anda yakin ingin menghapus data UPTD ini?</p>
+                <div class="flex justify-center gap-4">
+                    <button wire:click="destroy" class="bg-gradient-to-r from-red-500 to-red-700 hover:from-red-600 hover:to-red-800 text-white font-semibold px-5 py-2 rounded-lg shadow-md transition duration-200 ease-in-out">
+                        <i class="fa-solid fa-trash mr-2"></i> Hapus
+                    </button>
+                    <button @click="open = false" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold px-5 py-2 rounded-lg shadow-sm transition duration-200 ease-in-out">
+                        <i class="fa-solid fa-xmark mr-2"></i> Batal
+                    </button>
                 </div>
-            @endif
+            </div>
         </div>
         <!-- Pagination -->
       <div class="flex justify-end mt-4">
