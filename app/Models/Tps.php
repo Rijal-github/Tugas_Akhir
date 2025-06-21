@@ -9,12 +9,7 @@ class Tps extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['jenis_tps', 'tahun', 'jumlah'];
-    public function lokasi()
-    {
-        // return $this->hasMany(Lokasi::class);
-        return $this->hasOne(Lokasi::class, 'tps_id');
-    }
+    protected $fillable = ['jenis_tps', 'tahun', 'unit', 'lokasi', 'latitude', 'longitude', 'keterangan'];
 
     public function laporanPembersihans()
     {
