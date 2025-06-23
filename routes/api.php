@@ -24,7 +24,7 @@ Route::middleware(['auth:api'])->group(function () {
     Route::get('/tps', [TpsController::class, 'index']);     
     Route::get('/tps/{id}', [TpsController::class, 'show']);  
 
-    Route::post('/tps', [TpsController::class, 'store']);
+    Route::post('/tps-store', [TpsController::class, 'store']);
     Route::put('/tps/{id}', [TpsController::class, 'update']);
     Route::put('/tps/{id}', [TpsController::class, 'delete']);
 });

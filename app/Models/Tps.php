@@ -9,11 +9,15 @@ class Tps extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['jenis_tps', 'tahun', 'unit', 'lokasi', 'latitude', 'longitude', 'keterangan'];
+    protected $fillable = ['user_id', 'jenis_tps', 'nama', 'tahun', 'unit', 'lokasi', 'latitude', 'longitude', 'keterangan', 'foto_tps',];
 
     public function laporanPembersihans()
     {
         return $this->hasMany(LaporanPembersihan::class);
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
