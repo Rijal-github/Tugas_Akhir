@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use App\Models\Tps;
 use App\Models\LaporanPembersihan;
 use App\Helpers\ApiResponse;
@@ -46,9 +47,9 @@ class TpsController extends Controller
                 'keterangan' => 'nullable|string',
                 'deskripsi' => 'nullable|string',
                 'user_id' => 'required|string',
-                'foto_tps' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-                'foto_sebelum' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-                'foto_sesudah' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+                'foto_tps' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+                'foto_sebelum' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+                'foto_sesudah' => 'required|image|mimes:jpg,jpeg,png|max:2048',
             ]);
 
             if ($validator->fails()) {
