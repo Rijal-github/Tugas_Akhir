@@ -4,7 +4,7 @@
     <div class="bg-white rounded-xl p-6">
       <!-- Header -->
       <div class="flex justify-between items-center mb-6">
-        <h2 class="text-2xl font-bold">Setting Role</h2>
+        <h2 class="text-2xl font-bold">Setting User</h2>
         <button  wire:click="openCreateModal"  class="flex items-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-transform transform hover:scale-105">
           <i class="fas fa-user-plus mr-2"></i> Create User
         </button>
@@ -48,6 +48,11 @@
               <label class="block text-gray-700 font-semibold mb-2">Email</label>
               <input type="email" wire:model="email" class="w-full border rounded-lg px-3 py-2" placeholder="Enter Email">
               @error('email') <span class="text-red-500">{{ $message }}</span> @enderror
+            </div>
+            <div>
+              <label class="block text-gray-700 font-semibold mb-2">Username</label>
+              <input type="text" wire:model="username" class="w-full border rounded-lg px-3 py-2" placeholder="Enter Username">
+              @error('username') <span class="text-red-500">{{ $message }}</span> @enderror
             </div>
             <div>
               <label class="block text-gray-700 font-semibold mb-2">No. Handphone</label>
@@ -99,6 +104,7 @@
               <th class="py-3 px-6 border">Avatar</th>
               <th class="py-3 px-6 border">Role</th>
               <th class="py-3 px-6 border">Email</th>
+              <th class="py-3 px-6 border">Username</th>
               <th class="py-3 px-6 border">No. Handphone</th>
               <th class="py-3 px-6 border">Nama</th>
               <th class="py-3 px-6 border">Alamat</th>
@@ -114,6 +120,7 @@
                 </td>
                 <td class="py-3 px-6 border text-center">{{ $user->role->name }}</td>
                 <td class="py-3 px-6 border text-center">{{ $user->email }}</td>
+                <td class="py-3 px-6 border text-center">{{ $user->username }}</td>
                 <td class="py-3 px-6 border text-center">{{ $user->no_hp }}</td>
                 <td class="py-3 px-6 border text-center">{{ $user->name }}</td>
                 <td class="py-3 px-6 border text-center">{{ $user->addres }}</td>

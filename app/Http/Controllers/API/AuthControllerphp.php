@@ -13,9 +13,9 @@ class AuthControllerphp extends Controller
 {
     public function login(Request $request)
     {
-        $credentials = $request->only('name', 'password');
+        $credentials = $request->only('username', 'password');
 
-        $user = User::where('name', $credentials['name'])->first();
+        $user = User::where('username', $credentials['username'])->first();
 
         if (!$token = JWTAuth::attempt($credentials)) {
             return response()->json([
@@ -35,6 +35,7 @@ class AuthControllerphp extends Controller
             'id' => $user->id,
             'nama' => $user->name,
             'email' => $user->email,
+            'username' => $user->username,
             'id_role' => $user->id_role,
             'role' => $user->role->name ?? 'Unknown', // pastikan relasi role tersedia
             'addres' => $user->addres ?? '-',

@@ -19,6 +19,7 @@ class ManageRole extends Component
     public $userId;
     public $avatar;
     public $email;
+    public $username;
     public $no_hp;
     public $name;
     public $addres;
@@ -42,6 +43,7 @@ class ManageRole extends Component
         'role' => 'required|exists:roles,id_role',
         'email' => 'required|email',
         'name' => 'required',
+        'username' => 'required|username',
         'addres' => 'required',
     ];
 
@@ -74,6 +76,7 @@ class ManageRole extends Component
         $this->userId = $user->id;
         $this->role = $user->id_role;
         $this->email = $user->email;
+        $this->username = $user->username;
         $this->no_hp = $user->no_hp;
         $this->name = $user->name;
         $this->addres = $user->addres;
@@ -94,6 +97,7 @@ class ManageRole extends Component
             $data = [
                 'id_role' => $this->role,
                 'email' => $this->email,
+                'username' => $this->username,
                 'no_hp' => $this->no_hp,
                 'name' => $this->name,
                 'addres' => $this->addres,
@@ -115,6 +119,7 @@ class ManageRole extends Component
             $user = User::create([
                 'id_role' => $this->role,
                 'email' => $this->email,
+                'username' => $this->username,
                 'no_hp' => $this->no_hp,
                 'name' => $this->name,
                 'addres' => $this->addres,
@@ -185,6 +190,7 @@ class ManageRole extends Component
         $this->avatar = null;
         $this->role = null;
         $this->email = null;
+        $this->username = null;
         $this->no_hp = null;
         $this->name = null;
         $this->addres = null;

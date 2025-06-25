@@ -22,8 +22,8 @@
                                   <div class="cFormLoginInpt my-6 space-y-8 w-72">
                                       <div class="form-input items-center gap-2 relative">
                                           {{-- <input type="text" id="email" name="email" wire:model.lazy="email" class="peer inptEmail text-sm w-full rounded-md bg-slate-100 border-1 border-gray-300 @error('email') is-invalid @enderror" placeholder=" "> --}}
-                                          <input required wire:model="name" type="text" id="name" name="name" class="peer inptEmail text-sm w-full rounded-md bg-slate-100 border-1 border-gray-300">
-                                          <label for="name" class="block text-sm cursor-text px-1.5 py-0.5 rounded-lg absolute transition-all -translate-y-1/2 top-1/2 peer-focus:-top-1/4 peer-focus:text-white">
+                                          <input required wire:model="username" type="text" id="username" name="username" class="peer inptEmail text-sm w-full rounded-md bg-slate-100 border-1 border-gray-300">
+                                          <label for="username" class="block text-sm cursor-text px-1.5 py-0.5 rounded-lg absolute transition-all -translate-y-1/2 top-1/2 peer-focus:-top-1/4 peer-focus:text-white">
                                               <div class="tx text-slate-400">
                                                   <p>Username</p>
                                               </div>   

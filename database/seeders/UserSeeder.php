@@ -30,6 +30,7 @@ class UserSeeder extends Seeder
         $admin = User::create([
             'name' => 'Super Admin',
             'email' => 'admin@example.com',
+            'username' => 'superadmin123',
             'no_hp' => '123456789',
             'addres' => 'Ds. Admin',
             'password' => bcrypt('password123'), // password di-hash
@@ -39,6 +40,7 @@ class UserSeeder extends Seeder
         $dlh = User::create([
             'name' => 'Admin dlh',
             'email' => 'dlh@example.com',
+            'username' => 'admindlh123',
             'no_hp' => '12345678910',
             'addres' => 'Ds. Dlh',
             'password' => bcrypt('password1234'), // password di-hash
@@ -48,6 +50,7 @@ class UserSeeder extends Seeder
         $uptd = User::create([
             'name' => 'Admin uptd',
             'email' => 'uptd@example.com',
+            'username' => 'adminuptd123',
             'no_hp' => '12345678911',
             'addres' => 'Ds. Uptd',
             'password' => bcrypt('password1235'), // password di-hash
@@ -57,6 +60,7 @@ class UserSeeder extends Seeder
         $operator = User::create([
             'name' => 'Operator TPA',
             'email' => 'operator@example.com',
+            'username' => 'admintpa123',
             'no_hp' => '12345678912',
             'addres' => 'Ds. Operator',
             'password' => bcrypt('password1236'), // password di-hash
@@ -66,6 +70,7 @@ class UserSeeder extends Seeder
         $driver = User::create([
             'name' => 'sutrisno',
             'email' => 'sutrisno@example.com',
+            'username' => '@driver1',
             'no_hp' => '12345678912',
             'addres' => 'Ds. Cidempet',
             'password' => bcrypt('sutrisno1236'), // password di-hash
@@ -75,6 +80,7 @@ class UserSeeder extends Seeder
         $driver = User::create([
             'name' => 'sudrajat',
             'email' => 'sudrajat@example.com',
+            'username' => '@driver2',
             'no_hp' => '123456789123',
             'addres' => 'Ds. Linggajati',
             'password' => bcrypt('sudrajat1236'), // password di-hash
@@ -84,6 +90,7 @@ class UserSeeder extends Seeder
         $driver = User::create([
             'name' => 'daryono',
             'email' => 'daryono@example.com',
+            'username' => '@driver3',
             'no_hp' => '123456789124',
             'addres' => 'Ds. Legok',
             'password' => bcrypt('daryono1236'), // password di-hash
@@ -93,6 +100,7 @@ class UserSeeder extends Seeder
         $kepala_dlh = User::create([
             'name' => 'karyanto',
             'email' => 'karyanto@example.com',
+            'username' => '@kepaladlh',
             'no_hp' => '123456789120',
             'addres' => 'Ds. Lohbener',
             'password' => bcrypt('karyanto1236'), // password di-hash
@@ -102,6 +110,7 @@ class UserSeeder extends Seeder
         $kepala_uptd = User::create([
             'name' => 'yudistira',
             'email' => 'yudi@example.com',
+            'username' => '@kepalauptd',
             'no_hp' => '123456789121',
             'addres' => 'Ds. Bulak',
             'password' => bcrypt('yudistira1236'), // password di-hash
