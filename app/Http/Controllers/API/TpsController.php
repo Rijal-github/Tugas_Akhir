@@ -13,18 +13,21 @@ class TpsController extends Controller
 {
     public function indexWithLaporan()
     {
-        $tpsList = Tps::with('laporanPembersihans')->get()->map(function ($tps) {
-            return [
-                'id' => $tps->id,
-                'nama' => $tps->nama,
-                'laporan_pembersihan' => $tps->laporanPembersihans->isNotEmpty() ? true : null,
-                'deskripsi' => $tps->laporanPembersihans->isNotEmpty() ? $tps->laporanPembersihans->first()->deskripsi : null,
-            ];
-        });
+        $tpsList = Tps::with(['laporanPembersihans' => function ($q) {
+            $q->latest(); // ambil yang terbaru
+        }])->get();
 
         return response()->json([
-            'status' => true,
-            'data' => $tpsList,
+            'data' => $tpsList->map(function ($tps) {
+                $latestLaporan = $tps->laporanPembersihans->first();
+                return [
+                    'id' => $tps->id,
+                    'nama' => $tps->nama,
+                    'foto_tps' => $tps->foto_tps ? asset('storage/' . $tps->foto_tps) : null,
+                    'deskripsi' => $latestLaporan ? $latestLaporan->deskripsi : 'Belum ada laporan pembersihan',
+                    'created_at' => $latestLaporan ? $latestLaporan->created_at->toIso8601String() : null,
+                ];
+            }),
         ]);
     }
 
