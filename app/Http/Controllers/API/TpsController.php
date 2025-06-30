@@ -11,6 +11,24 @@ use App\Helpers\ApiResponse;
 
 class TpsController extends Controller
 {
+    public function indexWithLaporan()
+    {
+        $tpsList = Tps::with('laporanPembersihans')->get()->map(function ($tps) {
+            return [
+                'id' => $tps->id,
+                'nama' => $tps->nama,
+                'laporan_pembersihan' => $tps->laporanPembersihans->isNotEmpty() ? true : null,
+                'deskripsi' => $tps->laporanPembersihans->isNotEmpty() ? $tps->laporanPembersihans->first()->deskripsi : null,
+            ];
+        });
+
+        return response()->json([
+            'status' => true,
+            'data' => $tpsList,
+        ]);
+    }
+
+
     public function index()
     {
         // return response()->json(Tps::all(), 200);
