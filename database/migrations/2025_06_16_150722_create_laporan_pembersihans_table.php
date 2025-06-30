@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('tps_id');
             $table->string('foto_sebelum');
             $table->string('foto_sesudah');
-            $table->string('deskripsi');
+            $table->string('deskripsi')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
