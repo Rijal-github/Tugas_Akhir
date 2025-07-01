@@ -13,10 +13,19 @@ return new class extends Migration
     {
         Schema::create('tps', function (Blueprint $table) {
             $table->id();
-            $table->string('jenis_tps');
+            $table->unsignedBigInteger('user_id');
+            $table->string('nama');
             $table->year('tahun');
-            $table->integer('jumlah');
+            $table->string('jenis_tps');
+            $table->integer('unit');
+            $table->string('lokasi');
+            $table->decimal('latitude', 10, 6);
+            $table->decimal('longitude', 10, 6);
+            $table->string('keterangan')->nullable();
+            $table->string('foto_tps');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

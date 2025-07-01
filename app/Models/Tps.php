@@ -9,16 +9,24 @@ class Tps extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['jenis_tps', 'tahun', 'jumlah'];
-    public function lokasi()
-    {
-        return $this->hasMany(Lokasi::class);
-        // return $this->hasOne(Lokasi::class, 'tps_id');
-    }
+ mobile_dede/dev
+    protected $fillable = ['user_id', 'jenis_tps', 'nama', 'tahun', 'unit', 'lokasi', 'latitude', 'longitude', 'keterangan', 'foto_tps',];
+
+//     protected $fillable = ['jenis_tps', 'tahun', 'jumlah'];
+//     public function lokasi()
+//     {
+//         return $this->hasMany(Lokasi::class);
+//         // return $this->hasOne(Lokasi::class, 'tps_id');
+//     }
+main
 
     public function laporanPembersihans()
     {
         return $this->hasMany(LaporanPembersihan::class);
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

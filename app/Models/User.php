@@ -83,6 +83,11 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Ritasi::class, 'id_driver');
     }
 
+    public function tps()
+    {
+        return $this->hasMany(Tps::class);
+    }
+
     public function laporanPembersihans()
     {
         return $this->hasMany(LaporanPembersihan::class);
