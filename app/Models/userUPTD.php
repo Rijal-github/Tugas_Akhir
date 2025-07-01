@@ -7,5 +7,20 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class userUPTD extends Pivot
 {
-    //
+    protected $table = 'users_uptd';
+
+    protected $fillable = [
+        'user_id',
+        'id_uptd'
+    ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function uptd()
+    {
+        return $this->belongsTo(UPTD::class, 'id_uptd');
+    }
 }

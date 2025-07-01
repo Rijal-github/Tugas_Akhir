@@ -13,7 +13,7 @@ class DataDriver extends Component
 
     public function mount()
     {
-        $this->supirs = supir::all();
+        // $this->supirs = supir::all();
     }
 
     #[Attributes\Layout('layouts.content.content')]

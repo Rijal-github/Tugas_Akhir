@@ -20,7 +20,7 @@ class Vehicle extends Model
 
     public function driver()
     {
-        return $this->belongsTo(User::class, 'id_driver');
+        return $this->belongsTo(User::class, 'id_driver')->where('id_role', 5);
     }
 
     public function uptd()
