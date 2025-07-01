@@ -9,19 +9,19 @@ use App\Models\User;
 class Login extends Component
 {
 
-    public $name;
+    public $username;
     public $password;
 
     public function login()
     {
 
         $this->validate([
-            'name' => 'required|string',
+            'username' => 'required|string',
             'password' => 'required|min:8',
         ]);
 
         $credentials = [
-            'name' => $this->name,
+            'username' => $this->username,
             'password' => $this->password,
         ];
 

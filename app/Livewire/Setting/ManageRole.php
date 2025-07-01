@@ -19,6 +19,7 @@ class ManageRole extends Component
     public $userId;
     public $avatar;
     public $email;
+    public $username;
     public $no_hp;
     public $name;
     public $addres;
@@ -26,14 +27,14 @@ class ManageRole extends Component
     public $roles;  // untuk simpan data role dari DB
     public $role;   // untuk menyimpan role yang dipilih di form
 
-
+    public $confirmDeleteId = null;
 
     public $showModal = false;
     public $confirmDelete = false;
     public $showSuccess = false;
     public $successMessage = '';
     public $isEditMode = false;
-    public $statusMessage;
+    // public $statusMessage;
 
     
     protected function rules()
@@ -42,6 +43,7 @@ class ManageRole extends Component
         'role' => 'required|exists:roles,id_role',
         'email' => 'required|email',
         'name' => 'required',
+        'username' => 'required|username',
         'addres' => 'required',
     ];
 
@@ -50,6 +52,14 @@ class ManageRole extends Component
     }
 
         return $rules;
+    }
+
+    public function showSuccessMessages(string $message): void
+    {
+        $this->showSuccess = true;
+        $this->successMessage = $message;
+        // Tambahkan logika untuk menyembunyikan popup setelah beberapa detik, jika diperlukan.
+        // Misalnya, menggunakan JavaScript atau metode Livewire.
     }
 
     public function openCreateModal()
@@ -64,8 +74,10 @@ class ManageRole extends Component
         $user = User::findOrFail($id);
 
         $this->userId = $user->id;
-        $this->role = $user->role;
+        $this->role = $user->id_role;
         $this->email = $user->email;
+        $this->username = $user->username;
+        $this->no_hp = $user->no_hp;
         $this->name = $user->name;
         $this->addres = $user->addres;
         $this->avatar = null;
@@ -85,6 +97,7 @@ class ManageRole extends Component
             $data = [
                 'id_role' => $this->role,
                 'email' => $this->email,
+                'username' => $this->username,
                 'no_hp' => $this->no_hp,
                 'name' => $this->name,
                 'addres' => $this->addres,
@@ -106,6 +119,7 @@ class ManageRole extends Component
             $user = User::create([
                 'id_role' => $this->role,
                 'email' => $this->email,
+                'username' => $this->username,
                 'no_hp' => $this->no_hp,
                 'name' => $this->name,
                 'addres' => $this->addres,
@@ -120,10 +134,11 @@ class ManageRole extends Component
             $user->save();
         }        
 
-        $this->showSuccess = true;
-        // $this->successMessage = true;
+        $message = $this->userId ? 'Data berhasil diperbaharui.' : 'Data berhasil disimpan.';
         $this->closeModal();
         $this->mount();
+
+        $this->showSuccessMessages($message);
     }
 
     public function mount()
@@ -134,22 +149,30 @@ class ManageRole extends Component
         // logger($this->roles); // log isi roles ke laravel.log
     }
 
-    public function confirmDelete($id)
+    public function confirmDeleted($id)
     {
         $this->confirmDelete = true;
-        $this->dispatch('confirmDelete', $id);
+        $this->confirmDeleteId = $id;
+        // $this->confirmDelete = true;
+        // $this->dispatch('confirmDelete', $id);
     }
     
-    public function delete($id)
+    public function deleted()
     {
-        User::findOrFail($id)->delete();
-        $this->confirmDelete = false;
-        $this->mount();
+        if ($this->confirmDeleteId) {
+            User::find($this->confirmDeleteId)?->delete();
+            $this->confirmDelete = false;
+            $this->confirmDeleteId = null;
+            $this->showSuccessMessages('Data berhasil dihapus.');
+        }
+        // User::findOrFail($id)->delete();
+        // $this->confirmDelete = false;
+        // $this->mount();
     }
 
     public function cancelDelete()
     {
-        $this->statusMessage = 'Profile cancel to deleted!';
+        // $this->statusMessage = 'Profile cancel to deleted!';
         $this->closeModal();
     }
 
@@ -167,6 +190,7 @@ class ManageRole extends Component
         $this->avatar = null;
         $this->role = null;
         $this->email = null;
+        $this->username = null;
         $this->no_hp = null;
         $this->name = null;
         $this->addres = null;

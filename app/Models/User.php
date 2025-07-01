@@ -22,6 +22,7 @@ class User extends Authenticatable implements JWTSubject
     protected $fillable = [
         'name',
         'email',
+        'username',
         'no_hp',
         'addres',
         'password',
@@ -103,5 +104,5 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(BuktiTransaksi::class, 'id_driver');
     }
-    
+
 }

@@ -20,7 +20,9 @@ class UserController extends Controller
             'name' => $user->name,
             'role' => $user->role ? $user->role->name : null,
             'email' => $user->email,
+            'username' => $user->username,
             'addres' => $user->addres,
+            'no_hp' => $user->no_hp,
         ];
     });
 
@@ -52,9 +54,11 @@ public function getUserById($id)
         'id' => $user->id,
         'name' => $user->name,
         'email' => $user->email,
+        'username' => $user->username,
         'id_role' => $user->id_role,
         'role' => $user->role ? $user->role->name : null,
         'addres' => $user->addres,
+        'no_hp' => $user->no_hp,
     ];
 
     return response()->json([
@@ -71,7 +75,9 @@ public function store(Request $request)
         'name' => 'required|string',
         'id_role' => 'required|integer',
         'email' => 'required|email|unique:users,email',
+        'username' => 'required|string',
         'addres' => 'required|string',
+        'no_hp' => 'required|string',
         'password' => 'required|min:8'
     ]);
 
@@ -79,7 +85,9 @@ public function store(Request $request)
         'name' => $validated['name'],
         'id_role' => $validated['id_role'],
         'email' => $validated['email'],
+        'username' => $validated['username'],
         'addres' => $validated['addres'],
+        'no_hp' => $validated['no_hp'],
         'password' => bcrypt($validated['password']),
     ]);
 
@@ -99,6 +107,7 @@ public function update(Request $request, $id)
         'name' => 'required|string',
         'id_role' => 'required|integer',
         'email' => 'required|email|unique:users,email,'.$id,
+        'username' => 'required|string',
         'no_hp' => 'required|string',
         'addres' => 'required|string',
     ]);

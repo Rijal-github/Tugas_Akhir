@@ -12,19 +12,32 @@ class Roles extends Component
     public $roleId;
     public $isEdit = false;
     public $showModal = false;
-    public $statusMessage;
-    public $Message;
+
+    public $konfirmDelete = false;
+    public bool $showSuccess = false;
+    public string $successMessage = '';
+
+    public $konfirmDeleteId = null;
+    public $isUpdate = false;
 
     protected $rules = [
         'name' => 'required|string|max:255'
     ];
 
-    public function openCreateModal()
+    public function showSuccessMessage(string $message): void
     {
-        $this->reset(['name', 'roleId']);
-        $this->isEdit = false;
-        $this->showModal = true;
+        $this->showSuccess = true;
+        $this->successMessage = $message;
+        // Tambahkan logika untuk menyembunyikan popup setelah beberapa detik, jika diperlukan.
+        // Misalnya, menggunakan JavaScript atau metode Livewire.
     }
+
+    // public function openCreateModal()
+    // {
+    //     $this->reset(['name', 'roleId']);
+    //     $this->isEdit = false;
+    //     $this->showModal = true;
+    // }
 
     // public function save()
     // {
@@ -38,23 +51,43 @@ class Roles extends Component
     //     session()->flash('success', 'Role berhasil ditambahkan.');
     // }
 
+    // public function save()
+    // {
+    //     $this->validate();
+
+    //     Role::updateOrCreate(
+    //         ['id_role' => $this->roleId],
+    //         ['name' => $this->name]
+    //     );
+
+    //     $this->showModal = false;
+    //     $this->reset(['name', 'roleId']);
+    // }
+
     public function save()
     {
-        $this->validate();
+        $this->validate([
+            'name' => 'required|string|max:255',
+        ]);
 
         Role::updateOrCreate(
             ['id_role' => $this->roleId],
             ['name' => $this->name]
         );
 
+        $message = $this->roleId ? 'Data role berhasil diperbarui.' : 'Data role berhasil disimpan.';
+
+        $this->resetForms();
         $this->showModal = false;
-        $this->reset(['name', 'roleId']);
+        $this->showSuccessMessage($message);
     }
+
 
     public function openEditModal($id)
     {
         // Karena kolom ID-nya adalah 'id_role'
-        $role = Role::where('id_role', $id)->firstOrFail();
+        // $role = Role::where('id_role', $id)->firstOrFail();
+        $role = Role::findOrFail($id);
     
         $this->roleId = $role->id_role; // ❗ pakai id_role, bukan id
         $this->name = $role->name;
@@ -62,6 +95,29 @@ class Roles extends Component
         $this->showModal = true;
     }
 
+    public function openDelete($id)
+    {
+        $this->konfirmDelete = true;
+        $this->konfirmDeleteId = $id;
+    }
+
+    public function Delete()
+    {
+        // Vehicle::find($id)->delete();
+        if ($this->konfirmDeleteId) {
+            Role::find($this->konfirmDeleteId)?->delete();
+            $this->konfirmDelete = false;
+            $this->konfirmDeleteId = null;
+            $this->showSuccessMessage('Data berhasil dihapus.');
+        }
+    }
+
+    public function resetForms()
+    {
+        $this->name = '';
+        $this->showModal = false;
+        $this->isEdit = false;
+    }
     // public function update()
     // {
     //     $this->validate([
@@ -81,10 +137,10 @@ class Roles extends Component
     //     $this->deleteId = $id;
     // }
 
-    public function delete($id)
-    {
-        Role::findOrFail($id)->delete();
-    }
+    // public function delete($id)
+    // {
+    //     Role::findOrFail($id)->delete();
+    // }
 
 
     #[Attributes\Layout('layouts.content.content')]
