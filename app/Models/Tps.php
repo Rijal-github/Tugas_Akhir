@@ -9,7 +9,7 @@ class Tps extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'jenis_tps', 'nama', 'tahun', 'unit', 'lokasi', 'latitude', 'longitude', 'keterangan', 'foto_tps',];
+    protected $fillable = ['created_by', 'jenis_tps', 'nama', 'tahun', 'lokasi', 'latitude', 'longitude', 'keterangan',];
 
     public function laporanPembersihans()
     {

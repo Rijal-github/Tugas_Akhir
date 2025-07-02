@@ -11,27 +11,6 @@ use App\Helpers\ApiResponse;
 
 class TpsController extends Controller
 {
-    public function indexWithLaporan()
-    {
-        $tpsList = Tps::with(['laporanPembersihans' => function ($q) {
-            $q->latest(); // ambil yang terbaru
-        }])->get();
-
-        return response()->json([
-            'data' => $tpsList->map(function ($tps) {
-                $latestLaporan = $tps->laporanPembersihans->first();
-                return [
-                    'id' => $tps->id,
-                    'nama' => $tps->nama,
-                    'foto_tps' => $tps->foto_tps ? asset('storage/' . $tps->foto_tps) : null,
-                    'deskripsi' => $latestLaporan ? $latestLaporan->deskripsi : 'Belum ada laporan pembersihan',
-                    'created_at' => $latestLaporan ? $latestLaporan->created_at->toIso8601String() : null,
-                ];
-            }),
-        ]);
-    }
-
-
     public function index()
     {
         // return response()->json(Tps::all(), 200);
@@ -60,7 +39,6 @@ class TpsController extends Controller
             $validator = Validator::make($request->all(), [
                 'nama' => 'required|string',
                 'jenis_tps' => 'required|string',
-                'unit' => 'required|integer',
                 'tahun' => 'required|integer',
                 'lokasi' => 'required|string',
                 'latitude' => 'required|numeric',
@@ -68,7 +46,6 @@ class TpsController extends Controller
                 'keterangan' => 'nullable|string',
                 'deskripsi' => 'nullable|string',
                 'user_id' => 'required|string',
-                'foto_tps' => 'required|image|mimes:jpg,jpeg,png',
                 'foto_sebelum' => 'required|image|mimes:jpg,jpeg,png',
                 'foto_sesudah' => 'required|image|mimes:jpg,jpeg,png',
             ]);
@@ -77,17 +54,9 @@ class TpsController extends Controller
                 return ApiResponse::error('Validasi gagal', $validator->errors(), 422);
             }
 
-            $fotoTpsPath = null;
-            if ($request->hasFile('foto_tps')) {
-                $fotoTpsPath = $request->file('foto_tps')->store('tps/foto_tps', 'public');
-            }
-
-            $userId = (int) $request->user_id;
-
-            // Simpan data TPS
             $tps = Tps::create([
                 'nama' => $request->nama,
-                'user_id' => $userId,
+                'created_by' => $request->user_id,
                 'jenis_tps' => $request->jenis_tps,
                 'unit' => $request->unit,
                 'tahun' => $request->tahun,
@@ -95,7 +64,6 @@ class TpsController extends Controller
                 'latitude' => $request->latitude,
                 'longitude' => $request->longitude,
                 'keterangan' => $request->keterangan,
-                'foto_tps' => $fotoTpsPath,
             ]);
 
             // Upload foto laporan pembersihan
