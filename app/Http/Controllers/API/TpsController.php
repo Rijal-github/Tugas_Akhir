@@ -68,9 +68,9 @@ class TpsController extends Controller
                 'keterangan' => 'nullable|string',
                 'deskripsi' => 'nullable|string',
                 'user_id' => 'required|string',
-                'foto_tps' => 'required|image|mimes:jpg,jpeg,png|max:2048',
-                'foto_sebelum' => 'required|image|mimes:jpg,jpeg,png|max:2048',
-                'foto_sesudah' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+                'foto_tps' => 'required|image|mimes:jpg,jpeg,png',
+                'foto_sebelum' => 'required|image|mimes:jpg,jpeg,png',
+                'foto_sesudah' => 'required|image|mimes:jpg,jpeg,png',
             ]);
 
             if ($validator->fails()) {
