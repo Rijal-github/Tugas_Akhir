@@ -25,15 +25,14 @@ Route::middleware('auth:api')->group(function () {
 
 // Protected routes (akses pakai token)
 Route::middleware(['auth:api'])->group(function () {
-    Route::get('/tps', [TpsController::class, 'index']);     
-    Route::get('/tps-with-laporan', [TpsController::class, 'indexWithLaporan']);    
+    Route::get('/tps', [TpsController::class, 'index']); 
     Route::get('/tps/{id}', [TpsController::class, 'show']);  
 
     Route::post('/tps-store', [TpsController::class, 'store']);
     Route::put('/tps/{id}', [TpsController::class, 'update']);
     Route::put('/tps/{id}', [TpsController::class, 'delete']);
 
-    Route::get('/laporan/{tps_id}', [LaporanPembersihanController::class, 'index']);
+    Route::get('/laporan', [LaporanPembersihanController::class, 'index']);
 });
 
 Route::middleware(['auth:api'])->group(function () {
