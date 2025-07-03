@@ -80,7 +80,7 @@ class TpsController extends Controller
 
             // Simpan laporan pembersihan
             $laporan = LaporanPembersihan::create([
-                'user_id' => $userId,
+                'user_id' => $request->user_id,
                 'tps_id' => $tps->id,
                 'foto_sebelum' => $fotoSebelumPath,
                 'foto_sesudah' => $fotoSesudahPath,
