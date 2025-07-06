@@ -22,6 +22,7 @@ return new class extends Migration
             $table->decimal('latitude', 10, 6);
             $table->decimal('longitude', 10, 6);
             $table->string('keterangan')->nullable();
+            $table->string('foto_tps');
             $table->timestamps();
 
             $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');

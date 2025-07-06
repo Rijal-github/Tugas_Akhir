@@ -72,6 +72,10 @@ class TpsController extends Controller
                 ->orderBy('distance')
                 ->first();
 
+            // Upload foto
+            $fotoSebelumPath = $request->file('foto_sebelum')->store('laporan/foto_sebelum', 'public');
+            $fotoSesudahPath = $request->file('foto_sesudah')->store('laporan/foto_sesudah', 'public');
+
             // Gunakan TPS lama atau buat TPS baru
             if ($tpsTerdekat) {
                 $tpsId = $tpsTerdekat->id;
@@ -87,12 +91,9 @@ class TpsController extends Controller
                     'latitude' => $latitude,
                     'longitude' => $longitude,
                     'keterangan' => $request->keterangan,
+                    'foto_tps' => $fotoSesudahPath,
                 ]);
             }
-
-            // Upload foto
-            $fotoSebelumPath = $request->file('foto_sebelum')->store('laporan/foto_sebelum', 'public');
-            $fotoSesudahPath = $request->file('foto_sesudah')->store('laporan/foto_sesudah', 'public');
 
             // Simpan laporan
             $laporan = LaporanPembersihan::create([
