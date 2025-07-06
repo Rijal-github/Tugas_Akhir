@@ -13,6 +13,7 @@ class Ritasi extends Model
 
     protected $fillable = [
         'id_driver',
+        'id_vehicle',
         'banyak_ritasi',
         'netto_pre',
         'netto_post',
@@ -26,6 +27,6 @@ class Ritasi extends Model
 
     public function vehicle()
     {
-        return $this->hasOne(Vehicle::class, 'id_driver', 'id_driver');
+        return $this->belongsTo(Vehicle::class, 'id_vehicle');
     }
 }

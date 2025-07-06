@@ -30,11 +30,12 @@ class Vehicle extends Model
 
     public function ritasiTpaPecuk()
     {
-        return $this->hasMany(Ritasi::class, 'id_driver', 'id_driver');
+        return $this->hasMany(Ritasi::class, 'id_vehicle');
     }
 
-    // public function users()
-    // {
-    //     return $this->belongsToMany(User::class, 'user_driver', 'id_kendaraan', 'user_id');
-    // }
 }
+
+// public function users()
+// {
+//     return $this->belongsToMany(User::class, 'user_driver', 'id_kendaraan', 'user_id');
+// }

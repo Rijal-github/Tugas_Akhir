@@ -1,56 +1,58 @@
 
 @section('breadcrumb', 'Data TPA')
 
-<div class="p-6 bg-white shadow-md rounded-lg overflow-x-auto">
-    <div class="mb-6">
-        <div class="items-center">
-            <h1 class="text-2xl font-bold text-center text-gray-800 mb-1">LAPORAN HARIAN</h1>
-            <p class="text-sm text-gray-600 leading-tight text-center">Penerimaan Sampah di UPT TPA Pecuk, UPTD Indramayu, Karangampel, JTB, Losarang, dan Sampah Luar</p>
-            <p class="text-sm text-gray-600 text-center">Dinas Lingkungan Hidup Kab. Indramayu</p>
+<div class="p-5 bg-white rounded shadow mr-5">
+    <div class="flex items-center justify-between">
+        <h2 class="text-xl font-semibold mb-4">Form Input Ritasi</h2>
+        <div class="flex items-center gap-3">
+            <select wire:model="filterType" class="border border-slate-200 p-2 rounded">
+                <option value="daily">Harian</option>
+                <option value="weekly">Mingguan</option>
+                <option value="monthly">Bulanan</option>
+                <option value="yearly">Tahunan</option>
+            </select>
+            
+            <div class="border border-slate-200 p-2 rounded">
+                @if(in_array($filterType, ['daily', 'weekly']))
+                    <input type="date" wire:model="tanggal">
+                @endif
+                
+                @if($filterType === 'monthly')
+                    <select wire:model="bulan">
+                        @for($m=1; $m<=12; $m++)
+                            <option value="{{ str_pad($m, 2, '0', STR_PAD_LEFT) }}">{{ DateTime::createFromFormat('!m', $m)->format('F') }}</option>
+                        @endfor
+                    </select>
+                    <input type="number" wire:model="tahun" placeholder="Tahun">
+                @endif
+                
+                @if($filterType === 'yearly')
+                    <input type="number" wire:model="tahun" placeholder="Tahun">
+                @endif
+            </div>
+            
+            <button wire:click="export" class="bg-green-500 text-white px-4 py-2 rounded">Export</button>
         </div>
-        {{-- <span><strong>Tanggal:</strong> 08 Januari 2025</span> --}}
-        <strong class="text-sm mt-2 font-semibold text-gray-700">Tanggal : <span class="text-blue-700">08 Januari 2025</span></strong>
     </div>
 
-    <table class="min-w-full table-auto text-sm border border-gray-300">
-        <thead class="bg-gray-100 text-gray-700">
-            <tr>
-                <th class="border px-3 py-2 text-left">No.</th>
-                <th class="border px-3 py-2 text-left">Nama Supir</th>
-                <th class="border px-3 py-2 text-left">No. Polisi</th>
-                <th class="border px-3 py-2 text-left">Nama Mobil</th>
-                <th class="border px-3 py-2 text-center">Banyaknya Ritasi</th>
-                <th class="border px-3 py-2 text-right">Netto (kg)</th>
-                <th class="border px-3 py-2 text-left">Lok. / Wil.</th>
-                <th class="border px-3 py-2 text-left">Keterangan</th>
-            </tr>
-        </thead>
-        <tbody>
-            @for ($i = 1; $i <= 10; $i++)
-                <tr class="hover:bg-gray-50">
-                    <td class="border px-3 py-2">{{ $i }}</td>
-                    <td class="border px-3 py-2">Nama Supir {{ $i }}</td>
-                    <td class="border px-3 py-2">E 8{{ rand(100,999) }} P</td>
-                    <td class="border px-3 py-2">Armroll Truck</td>
-                    <td class="border px-3 py-2 text-center">{{ rand(1, 5) }}</td>
-                    <td class="border px-3 py-2 text-right text-red-600 font-semibold">{{ number_format(rand(2000, 10000)) }}</td>
-                    <td class="border px-3 py-2">UPTD Indramayu</td>
-                    <td class="border px-3 py-2">Sampah DLH</td>
-                </tr>
-            @endfor
-            <!-- Baris total -->
-            <tr class="bg-yellow-100 font-bold">
-                <td colspan="4" class="border px-3 py-2 text-right">JUMLAH</td>
-                <td class="border px-3 py-2 text-center">108</td>
-                <td class="border px-3 py-2 text-right">243.380</td>
-                <td colspan="2" class="border px-3 py-2"></td>
-            </tr>
-        </tbody>
-    </table>
-
-    <div class="mt-8 text-sm text-gray-700">
-        <p class="mb-1">Tanggal : 08 Januari 2025</p>
-        <p class="mb-1 font-bold uppercase">Pencatat Ritasi Sampah</p>
-        <p class="mt-4">Sunarno</p>
+    <div class="flex gap-4 mb-6">
+        <button wire:click="$set('selectedForm', 'pecuk')" class="px-6 py-2 bg-blue-500 text-white rounded">
+            Ritasi TPA Pecuk
+        </button>
+        <button wire:click="$set('selectedForm', 'kertawinangun')" class="px-3 py-2 bg-green-500 text-white rounded">
+            Ritasi TPA Kertawinangun
+        </button>
     </div>
+
+    @if ($selectedForm === 'pecuk')
+        @livewire('tpa.ritasi-pecuk-form')
+    @elseif ($selectedForm === 'kertawinangun')
+        @livewire('tpa.ritasi-kertawinangun-form')
+    @else
+        <p class="text-gray-600">Silakan pilih jenis ritasi terlebih dahulu.</p>
+    @endif
+
+    {{-- @livewire('data-tpa') --}}
+
 </div>
+

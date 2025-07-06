@@ -62,7 +62,7 @@
         </div>
         @endif
 
-        @if(in_array($role, ['admin', 'operator_tpa']))
+        {{-- @if(in_array($role, ['admin', 'operator_tpa']))
         <div>
             <a href="/data-sampah" class="flex items-center px-4 py-2 rounded-lg text-sm font-medium transition gap-3
             {{ request()->routeIs('data-sampah') ? 'bg-indigo-200 text-indigo-800' : 'text-indigo-700 bg-indigo-100 hover:bg-indigo-200' }}">
@@ -70,7 +70,7 @@
                 <span x-show="sidebarOpen" x-transition>Pendataan Sampah</span>
             </a>
         </div>
-        @endif
+        @endif --}}
 
         @if(in_array($role, ['admin', 'operator_tpa']))
         <div>
@@ -82,7 +82,7 @@
         </div>
         @endif
 
-        @if(in_array($role, ['admin', 'dlh', 'uptd', 'operator_tpa']))
+        {{-- @if(in_array($role, ['admin', 'dlh', 'uptd', 'operator_tpa']))
         <div>
             <a href="/pengangkutan" class="flex items-center px-4 py-2 rounded-lg text-sm font-medium transition gap-3
             {{ request()->routeIs('pengangkutan') ? 'bg-indigo-200 text-indigo-800' : 'text-indigo-700 bg-indigo-100 hover:bg-indigo-200' }}">
@@ -90,7 +90,7 @@
                 <span x-show="sidebarOpen" x-transition>Jadwal Pengangkutan</span>
             </a>
         </div>
-        @endif
+        @endif --}}
 
         @if(in_array($role, ['admin', 'operator_tpa']))
         <div>
@@ -102,14 +102,7 @@
         </div>
         @endif
 
-        @if(in_array($role, ['admin', 'dlh', 'uptd', 'operator_tpa']))
-        {{-- <div>
-            <a href="/pelaporan" class="flex items-center px-4 py-2 rounded-lg text-sm font-medium transition gap-3
-            {{ request()->routeIs('data-tps') ? 'bg-indigo-200 text-indigo-800' : 'text-indigo-700 bg-indigo-100 hover:bg-indigo-200' }}">
-                <i class="fas fa-file-lines text-lg"></i>
-                <span x-show="sidebarOpen" x-transition>Pelaporan</span>
-            </a>
-        </div> --}}
+        {{-- @if(in_array($role, ['admin', 'dlh', 'uptd', 'operator_tpa']))
         <div>
             <div class="flex flex-col">
                 <button type="button" class="flex items-center w-full px-4 py-2 rounded-lg text-sm font-medium transition gap-3
@@ -148,7 +141,7 @@
                 </div>
             </div>
         </div>
-        @endif
+        @endif --}}
 
         @if($role === 'admin')
         <div>

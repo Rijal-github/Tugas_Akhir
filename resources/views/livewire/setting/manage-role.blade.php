@@ -20,23 +20,21 @@
           x-transition:leave-start="opacity-100 scale-100"
           x-transition:leave-end="opacity-0 scale-95"
 
-
-        class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-      <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-lg relative animate-fade-in-down">
+        class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-10">
+      <div class="bg-white p-5 rounded-xl shadow-xl w-full max-w-lg relative animate-fade-in-down">
         <!-- Close Button -->
         <button @click="showModal = false; $wire.resetForm()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
-    
-        
+          
         <!-- Form -->
-        <form wire:submit.prevent="save" class="space-y-4">
+        <form wire:submit.prevent="save" class="space-y-2">
           <h2 class="text-xl font-bold mb-6">{{ $isEditMode ? 'Edit User' : 'Create New User' }}</h2>
             <div>
-              <label class="block text-gray-700 font-semibold mb-2">Avatar</label>
-              <input type="file" wire:model="avatar" class="w-full border rounded-lg px-3 py-2">
+              <label class="block text-gray-700 font-semibold mb-1">Avatar</label>
+              <input type="file" wire:model="avatar" class="w-full border rounded-lg px-3 py-1">
             </div>
             <div>
-              <label class="block text-gray-700 font-semibold mb-2">Role</label>
-              <select wire:model="role" class="form-select border border-gray-300 rounded px-3 py-2 w-full">
+              <label class="block text-gray-700 font-semibold mb-1">Role</label>
+              <select wire:model="role" class="form-select border border-gray-300 rounded px-1 py-2 w-full">
                   <option>-- Pilih Role --</option>
                   @foreach ($roles as $r)
                       <option value="{{ $r->id_role }}">{{ $r->name }}</option>
@@ -45,36 +43,35 @@
               @error('role') <span class="text-red-500">{{ $message }}</span> @enderror
           </div>
             <div>
-              <label class="block text-gray-700 font-semibold mb-2">Email</label>
+              <label class="block text-gray-700 font-semibold mb-1">Email</label>
               <input type="email" wire:model="email" class="w-full border rounded-lg px-3 py-2" placeholder="Enter Email">
               @error('email') <span class="text-red-500">{{ $message }}</span> @enderror
             </div>
             <div>
-              <label class="block text-gray-700 font-semibold mb-2">Username</label>
+              <label class="block text-gray-700 font-semibold mb-1">Username</label>
               <input type="text" wire:model="username" class="w-full border rounded-lg px-3 py-2" placeholder="Enter Username">
               @error('username') <span class="text-red-500">{{ $message }}</span> @enderror
             </div>
             <div>
-              <label class="block text-gray-700 font-semibold mb-2">No. Handphone</label>
+              <label class="block text-gray-700 font-semibold mb-1">No. Handphone</label>
               <input type="text" wire:model="no_hp" class="w-full border rounded-lg px-3 py-2" placeholder="Enter No. Handphone">
             </div>
             <div>
-              <label class="block text-gray-700 font-semibold mb-2">Nama</label>
+              <label class="block text-gray-700 font-semibold mb-1">Nama</label>
               <input type="text" wire:model="name" class="w-full border rounded-lg px-3 py-2" placeholder="Enter Name">
               @error('name') <span class="text-red-500">{{ $message }}</span> @enderror
             </div>
             <div>
-              <label class="block text-gray-700 font-semibold mb-2">Alamat</label>
+              <label class="block text-gray-700 font-semibold mb-1">Alamat</label>
               <input type="text" wire:model="addres" class="w-full border rounded-lg px-3 py-2" placeholder="Enter Alamat">
               @error('addres') <span class="text-red-500">{{ $message }}</span> @enderror
             </div>
             <div>
-              <label class="block text-gray-700 font-semibold mb-2">Password {{ $isEditMode ? '(Kosongkan jika tidak ingin diubah)' : '' }}</label>
-              <input type="password" wire:model="password" class="w-full border rounded-lg px-3 py-2" placeholder="Enter Password">
+              <label class="block text-gray-700 font-semibold mb-1">Password {{ $isEditMode ? '(Kosongkan jika tidak ingin diubah)' : '' }}</label>
+              <input type="password" wire:model="password" class="w-full border rounded-lg px13 py-2" placeholder="Enter Password">
               @error('password') <span class="text-red-500">{{ $message }}</span> @enderror
             </div>
-    
-            <div class="flex justify-end pt-4">
+            <div class="flex justify-end pt-2">
               <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-lg font-bold transition-transform transform hover:scale-105">
                 {{ $isEditMode ? 'Update' : 'Create' }}
               </button>

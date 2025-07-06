@@ -18,7 +18,7 @@
                                 List Driver
                             </span>
                         </div>
-                        <div class="flex items-center gap-4">                              
+                        {{-- <div class="flex items-center gap-4">                              
                             <div class="relative group">
                                 <button class="text-red-500 hover:text-red-600 transition-transform transform hover:scale-110 bg-red-100 px-2 py-1 rounded-full">
                                     <i class="fas fa-trash text-lg"></i>
@@ -29,16 +29,32 @@
                             </div>
                             
                             @livewire('driver.driver-form')
-                        </div>
+                        </div> --}}
 
                         
                     </div>
                     <div class="ctr-listDataMainUser body-listShwAllData">
                         <div class="cListDataMainUser">
-                                {{-- @foreach ($supirs as $supir)
-                                    <div class="ctr-itmContentMainUser px-2 py-1" data-supir-id="{{ $supir->id_supir }}">
-                                        <div
-                                            class="cItmContentMainUser row-dataItem flex items-center justify-between p-4 mb-2 bg-slate-100 rounded-md dark:bg-darker transition duration-50 focus:outline-none hover:bg-slate-200">
+                            @foreach ($vehicles as $vehicle)
+                                @if ($vehicle->driver && $vehicle->uptd)
+
+                                @php
+                                    $driverData = [
+                                        'name' => $vehicle->driver->name,
+                                        'email' => $vehicle->driver->email,
+                                        'jenis_kendaraan' => $vehicle->jenis_kendaraan,
+                                        'no_polisi' => $vehicle->no_polisi,
+                                        'kapasitas' => $vehicle->kapasitas_angkutan,
+                                        'phone' => $vehicle->driver->no_hp,
+                                        'photo' => asset('storage/assets/img/github.jpg'),
+                                        'join_date' => \Carbon\Carbon::parse($vehicle->driver->created_at)->format('d/m/Y'),
+                                        'addres' => $vehicle->driver->addres ?? '-', // kalau kolom address tidak nullable
+                                        "role" => $vehicle->driver->role->name ?? '-',
+                                    ];
+                                @endphp
+                                    <div class="ctr-itmContentMainUser wrapper-item mt-4 p-3 bg-slate-100 rounded-md dark:bg-darker transition duration-50 hover:bg-slate-200">
+                                        <div class="cItmContentMainUser row-dataItem flex items-center justify-between mb-2 rounded-md cursor-pointer text-black"
+                                        data-driver='@json($driverData)'>
                                             <div class="lftContent flex items-center gap-4">
                                                 <div class="selectThsItm flex items-center justify-center shrink-0">
                                                     <input type="checkbox" name="" id=""
@@ -46,38 +62,39 @@
                                                 </div>
                                                 <div class="summUser flex items-center gap-2">
                                                     <img src="{{ asset('storage/assets/img/github.jpg') }}"
-                                                        fill="black" alt=""
-                                                        class="w-7 h-7 rounded-[100%] object-cover object-center">
-                                                    <div class="nmeUser ">
-                                                        <p class="block text-sm">{{ $supir->nama_supir }}</p>
-                                                        <span
-                                                            class="block text-xs text-slate-400">{{ $supir->email }}</span>
+                                                        alt="" class="w-10 aspect-square rounded-full object-cover object-center border">
+                                                    <div class="nmeUser">
+                                                        <p class="block text-sm font-semibold">{{ $vehicle->driver->name }}</p>
+                                                        <span class="block text-xs text-slate-400">{{ $vehicle->uptd->nama_uptd }}</span>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div
-                                                class="flex size-10 shrink-0 items-center justify-start rounded-full relative">
+                                            <div class="flex size-10 shrink-0 items-center justify-start rounded-full relative">
                                                 <span class="icon">
                                                     <i class="fas fa-chevron-right text-xl text-slate-400"></i>
                                                 </span>
                                             </div>
                                         </div>
                                     </div>
-                                @endforeach --}}
+                                @endif
+                            @endforeach
                         </div>
                     </div>
                 </div>
           
             </div>
-            <div id="userDetail" class="ctr-detailMainUser flex-grow rounded-2xl border mt-2 hidden">
+            <div id="userDetail" class="ctr-detailMainUser flex-grow rounded-2xl border bg-white mt-2 hidden">
                 <div class="cDetailMainUser p-4 rounded-2xl">
                     <div class="summUser flex items-center justify-between gap-5 border-b p-4">
                         <div class="flex items-center gap-5">
-                            <img src="{{ asset('storage/assets/img/github.jpg') }}" alt=""class="w-24 aspect-square rounded-[100%] object-cover object-center border border-black">
-                            {{-- <div class="nmeUser ">
-                                <p class="block text-xl font-bold">{{ $supir->nama_supir }}</p>
-                                <span class="block text-sm text-slate-400">{{ $supir->email }}</span>
-                            </div> --}}
+                            <!-- Foto -->
+                            <img id="detailPhoto" src="{{ asset('storage/assets/img/github.jpg') }}"
+                            class="w-24 aspect-square rounded-[100%] object-cover object-center border border-black">
+                            <div class="nmeUser ">
+                                <!-- Bagian nama dan email -->
+                                <p class="block text-xl font-bold" id="detailName"></p>
+                                <span class="block text-sm text-slate-400" id="detailEmail"></span>
+                            </div>
                             
                         </div>
                         <a href="#" class="flex items-center gap-2 rounded-lg px-2 py-2 bg-gray-600 hover:bg-gray-500">
@@ -95,38 +112,60 @@
                         </div>
                     </div>
                     
-                    <div class="border-b p-3">
-                        <div class="flex items-center text-slate-300 gap-5 mt-3">
-                            <i class="fas fa-phone"></i>
-                            <p class="">Phone</p>
-                                <div>
-                                    <p class="text-end">:</p>
-                                </div>
+                    <div class="grid grid-cols-1 border-b p-3 space-y-3">
+                        <div class="flex items-center mt-2 gap-3">
+                            <i class="fas fa-car-side text-slate-700 w-5 text-center"></i>
+                            <span class="w-48">Jenis Kendaraan</span>
+                            <span>:</span>
+                            <span id="detailJenis"></span>
                         </div>
-                        <div class="flex items-center text-slate-300 gap-5 mt-3">
-                            <i class="far fa-envelope"></i>
-                            <p class="">Email</p>
-                                <div>
-                                    <p class="text-end">:</p>
-                                </div>
+                        <div class="flex items-center gap-3">
+                            <i class="far fa-id-card text-slate-700 w-5 text-center"></i>
+                            <span class="w-48">No Polisi</span>
+                            <span>:</span>
+                            <span id="detailNoPolisi"></span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <i class="fas fa-weight-scale text-slate-700 w-5 text-center"></i>
+                            <span class="w-48">Kapasitas angkutan</span>
+                            <span>:</span>
+                            <span id="detailKapasitas"></span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <i class="far fa-envelope text-slate-700 w-5 text-center"></i>
+                            <span class="w-48">Email</span>
+                            <span>:</span>
+                            <span id="detailEmail2"></span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <i class="far fa-phone text-slate-700 w-5 text-center"></i>
+                            <span class="w-48">Phone</span>
+                            <span>:</span>
+                            <span id="detailPhone"></span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <i class="fas fa-map-marker-alt text-slate-700 w-5 text-center"></i>
+                            <span class="w-48">Address</span>
+                            <span>:</span>
+                            <span id="detail-address"></span>
                         </div>
                     </div>
                     <div class="ctr-roleUserProfile mt-4">
                         <div class="cRoleUserProfile">
                             <div class="headRoleUserProfile">
                                 <div class="txSince text-xs font-semibold">
-                                    <p>Status</p>
+                                    <p>Role</p>
                                 </div>
                             </div>
                             <div class="ctr-listRoleUser mt-1">
                                 <div class="cListRoleUser flex items-center flex-wrap gap-1 text-xs">
                                     <div class="ctr-itmRoleUser group relative">
                                         <div class="cItemRoleUser flex items-center gap-2 px-2 py-0.5 bg-gray-200 rounded-md">
-                                            <span class="iconCircle text-red-600">
+                                            <span class="iconCircle text-green-600">
                                                 <i class="fas fa-circle"></i>
                                             </span>
                                             <div class="txRole">
-                                                <p>Driver</p>
+                                                <p id="detail-role">Driver</p>
                                             </div>
                                         </div>
                                         <div class="detSinceGetRoles bg-gray-300 absolute text-xs -top-[125%] left-1/2 -translate-x-1/2 px-1 py-0.5 rounded-md hidden group-hover:block delay-150">
@@ -152,7 +191,7 @@
                                     <img src="{{ asset('storage/assets/img/github.jpg') }}" alt="" class="w-full object-cover object-center">
                                 </span>
                                 <div class="txSince">
-                                    <p>{{ Carbon\Carbon::parse(Auth::user()->created_at)->format('d/m/Y') }}</p>
+                                    <p id="detailJoinDate"></p>
                                 </div>
                             </div>
                         </div>
@@ -162,39 +201,39 @@
                             <div class="ctr-headMainItemProduct">
                                 <div class="cHeadMainItemProduct flex items-center border-b p-4">
                                     <div class="mainHeadItemProduct flex-grow w-1/2 ml-20">
-                                        <h2 class="text-lg font-semibold text-slate-500">Product</h2>
+                                        <h2 class="text-lg font-semibold text-slate-500">Jenis TPS</h2>
                                     </div>
                                     <div class="priceDateHeadItemProduct w-1/2 shrink-0 flex">
                                         <div class="priceHeadItemProduct flex-grow w-1/2 text-balance">
-                                            <h2 class="text-lg font-semibold text-slate-500">Price</h2>
+                                            <h2 class="text-lg font-semibold text-slate-500">Alamat</h2>
                                         </div>
                                         <div class="dateHeadItemProduct flex-grow w-1/2 text-center">
-                                            <h2 class="text-lg font-semibold text-slate-500">Date</h2>                                  
+                                            <h2 class="text-lg font-semibold text-slate-500">Tanggal</h2>                                  
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="ctr-listItemProduct p-2">
                                 <div class="cListItemProduct space-y-2">
-                                    @for ($i = 0; $i < 10; $i++)
+                                    @for ($i = 0; $i < 5; $i++)
                                         <div class="itmProduct flex items-center border mt-4 p-2 bg-slate-100 rounded-md dark:bg-darker transition duration-50 focus:outline-none hover:bg-slate-200">
                                             <div class="mainProduct flex-grow w-1/2 flex items-center gap-5">
                                                 <img src="{{ asset('storage/assets/img/github.jpg') }}"
                                                     fill="black" alt=""class="w-10 aspect-square rounded-[100%] object-cover object-center border">
                                                 <div class="nmeProduct mt-4">
-                                                    <p class="block text-sm font-semibold">Product title</p>
-                                                    <span class="block text-sm text-slate-400">Deskription Shop</span>
+                                                    <p class="block text-sm font-semibold">Jenis tps</p>
+                                                    <span class="block text-sm text-slate-400">Unit : 1</span>
                                                 </div>
                                             </div>
                                             <div class="priceDateProduct w-1/2 shrink-0 flex items-center justify-start">
                                                 <div class="ctr-priceProduct flex-grow w-1/2 flex justify-start">
-                                                    <div class="cPriceProduct bg-green-500 mt-4 w-fit px-2 py-1 rounded-md">
-                                                        <p class="text-sm font-semibold text-white">Rp.{{ number_format(mt_rand(10, 100) * 1000) }}</p>
+                                                    <div class="cPriceProduct mt-4">
+                                                        <p class="text-sm font-semibold text-slate-400">Ds. Lohbener</p>
                                                     </div>
                                                 </div>
                                                 <div class="ctr-dateProduct flex-grow w-1/2 flex justify-center">
-                                                    <div class="cDateProduct mt-4">
-                                                        <p class="text-sm font-semibold text-slate-400">{{ date('d/m/Y', time()) }}</p>
+                                                    <div class="cDateProduct  bg-green-500 mt-4 w-fit px-2 py-1 rounded-md">
+                                                        <p class="text-sm font-semibold text-white">{{ date('d/m/Y', time()) }}</p>
                                                     </div>
                                                 </div>
                                             </div>

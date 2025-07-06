@@ -6,14 +6,18 @@ use App\Models\supir;
 
 use Livewire\Component;
 use Livewire\Attributes;
+use App\Models\Vehicle;
 
 class DataDriver extends Component
 {
-    public $supirs;
+    public $vehicles;
 
     public function mount()
     {
-        // $this->supirs = supir::all();
+        $this->vehicles = Vehicle::with(['driver.role', 'uptd'])
+        ->whereHas('driver', fn($q) => $q->where('id_role', 5))
+        ->whereNotNull('id_uptd')
+        ->get();
     }
 
     #[Attributes\Layout('layouts.content.content')]

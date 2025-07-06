@@ -11,10 +11,42 @@
             <p class="text-sm text-gray-600 text-center">Dinas Lingkungan Hidup Kab. Indramayu</p>
         </div>
         {{-- <span><strong>Tanggal:</strong> 08 Januari 2025</span> --}}
-        <strong class="text-sm mt-2 font-semibold text-gray-700">Tanggal : <span class="text-blue-700">08 Januari 2025</span></strong>
+        {{-- <strong class="text-sm mt-2 font-semibold text-gray-700">Tanggal : <span class="text-blue-700">08 Januari 2025</span></strong> --}}
+        <div class="mb-4">
+            <label for="tanggal">Pilih Tanggal:</label>
+            <input type="date" id="tanggal" wire:model="tanggal" class="border p-2 rounded">
+        </div>
     </div>
 
-    <table class="min-w-full table-auto text-sm border border-gray-300">
+    <table class="w-full border mt-4">
+        <thead>
+            <tr class="bg-gray-100">
+                <th class="border px-3 py-1">Supir</th>
+                <th class="border px-3 py-1">Netto Pre</th>
+                <th class="border px-3 py-1">Netto Post</th>
+                <th class="border px-3 py-1">Selisih Netto</th>
+                <th class="border px-3 py-1">Banyak Ritasi</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($ritasi as $r)
+                <tr>
+                    <td class="border px-3 py-1">{{ $r->driver->name ?? '-' }}</td>
+                    <td class="border px-3 py-1">{{ $r->netto_pre }}</td>
+                    <td class="border px-3 py-1">{{ $r->netto_post }}</td>
+                    <td class="border px-3 py-1">{{ $r->netto_post - $r->netto_pre }}</td>
+                    <td class="border px-3 py-1">{{ $r->banyak_ritasi }}</td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+
+    <div class="mt-4 font-semibold">
+        Total Ritasi: {{ $total_ritasi }} |
+        Total Netto: {{ $total_netto }}
+    </div>
+
+    {{-- <table class="min-w-full table-auto text-sm border border-gray-300">
         <thead class="bg-gray-100 text-gray-700">
             <tr>
                 <th class="border px-3 py-2 text-left">No.</th>
@@ -48,7 +80,7 @@
                 <td colspan="2" class="border px-3 py-2"></td>
             </tr>
         </tbody>
-    </table>
+    </table> --}}
 
     <div class="mt-8 text-sm text-gray-700">
         <p class="mb-1">Tanggal : 08 Januari 2025</p>

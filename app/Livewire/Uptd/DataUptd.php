@@ -14,6 +14,9 @@ class DataUptd extends Component
     public $vehicles, $jenis_kendaraan, $no_polisi, $kapasitas_angkutan, $nama_uptd, $vehicle_id;
     public $showModal = false, $confirmingDelete = false;
 
+    public $driver_id;
+    public $drivers = [];
+
     public bool $showSuccess = false;
     public string $successMessage = '';
 
@@ -36,6 +39,7 @@ class DataUptd extends Component
             'no_polisi' => 'required|string|max:255',
             'kapasitas_angkutan' => 'required|numeric',
             'nama_uptd' => 'required',
+            'driver_id' => 'required|exists:users,id',
         ]);
 
         $uptd = Uptd::firstOrCreate(['nama_uptd' => $this->nama_uptd]);
@@ -48,7 +52,7 @@ class DataUptd extends Component
                 'no_polisi' => $this->no_polisi,
                 'kapasitas_angkutan' => $this->kapasitas_angkutan,
                 'id_uptd' => $uptd->id_uptd,
-                'id_driver' => $driver ? $driver->id : null
+                'id_driver' => $this->driver_id
             ]
         );
 
@@ -64,6 +68,7 @@ class DataUptd extends Component
     {
         $vehicle = Vehicle::findOrFail($id);
         $this->vehicle_id = $id;
+        $this->driver_id = $vehicle->id_driver;
         $this->jenis_kendaraan = $vehicle->jenis_kendaraan;
         $this->no_polisi = $vehicle->no_polisi;
         $this->kapasitas_angkutan = $vehicle->kapasitas_angkutan;
@@ -95,6 +100,7 @@ class DataUptd extends Component
         $this->no_polisi = '';
         $this->kapasitas_angkutan = '';
         $this->nama_uptd = '';
+        $this->driver_id = '';
         $this->showModal = false;
         $this->isUpdate = false;
     }
@@ -103,7 +109,12 @@ class DataUptd extends Component
     #[Attributes\Layout('layouts.content.content')]
     public function render()
     {
+        // $this->vehicles = Vehicle::with(['uptd', 'driver'])->latest()->get();
         $this->vehicles = Vehicle::with(['uptd', 'driver'])->latest()->get();
+        $this->drivers = User::whereHas('role', function($query) {
+            $query->where('name', 'driver');
+        })->get();
+
         return view('livewire.uptd.data-uptd');
     }
 }

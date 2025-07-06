@@ -55,6 +55,15 @@
                     <form wire:submit.prevent="store">
                         @csrf
                         <div class="mb-4">
+                            <label class="block text-sm font-medium">Driver</label>
+                            <select wire:model="driver_id" class="w-full border rounded px-3 py-2 mt-1" required>
+                                <option value="">-- Pilih Driver --</option>
+                                @foreach($drivers as $driver)
+                                    <option value="{{ $driver->id }}">{{ $driver->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-4">
                             <label class="block text-sm font-medium">Jenis Kendaraan</label>
                             <select wire:model="jenis_kendaraan" class="w-full border rounded px-3 py-2 mt-1" required>
                                 <option value="Amroll Truck">Amroll Truck</option>
@@ -104,6 +113,7 @@
             <table class="min-w-full divide-y divide-gray-200 text-sm">
                 <thead class="bg-gray-100 text-gray-700">
                     <tr>
+                        <th class="px-3 py-3 text-left">Nama Driver</th>
                         <th class="px-3 py-3 text-left">Jenis Kendaraan</th>
                         <th class="px-3 py-3 text-left">No. Polisi</th>
                         <th class="px-3 py-3 text-center">Kapasitas Angkutan</th>
@@ -114,6 +124,7 @@
                 @foreach ($vehicles as $vehicle)
                     <tbody class="divide-y divide-gray-200 text-gray-800 space-y-2">
                         <tr class="hover:bg-gray-50">
+                            <td>{{ $vehicle->driver->name ?? '-' }}</td>
                             <td>{{ $vehicle->jenis_kendaraan }}</td>
                             <td>{{ $vehicle->no_polisi }}</td>
                             <td class="text-center">{{ $vehicle->kapasitas_angkutan }} Kg</td>
