@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\TpsController;
 use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\API\LaporanPembersihanController;
 use App\Http\Controllers\API\UserUptdController;
 use App\Http\Controllers\API\VehicleesController;
 
@@ -24,13 +25,14 @@ Route::middleware('auth:api')->group(function () {
 
 // Protected routes (akses pakai token)
 Route::middleware(['auth:api'])->group(function () {
-    Route::get('/tps', [TpsController::class, 'index']);     
-    Route::get('/tps-with-laporan', [TpsController::class, 'indexWithLaporan']);    
+    Route::get('/tps', [TpsController::class, 'index']); 
     Route::get('/tps/{id}', [TpsController::class, 'show']);  
 
     Route::post('/tps-store', [TpsController::class, 'store']);
     Route::put('/tps/{id}', [TpsController::class, 'update']);
-    Route::delete('/tps/{id}', [TpsController::class, 'delete']);
+    Route::put('/tps/{id}', [TpsController::class, 'delete']);
+
+    Route::get('/laporan', [LaporanPembersihanController::class, 'index']);
 });
 
 Route::middleware(['auth:api'])->group(function () {

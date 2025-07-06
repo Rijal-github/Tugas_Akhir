@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Tps;
 use App\Models\LaporanPembersihan;
@@ -11,27 +12,6 @@ use App\Helpers\ApiResponse;
 
 class TpsController extends Controller
 {
-    public function indexWithLaporan()
-    {
-        $tpsList = Tps::with(['laporanPembersihans' => function ($q) {
-            $q->latest(); // ambil yang terbaru
-        }])->get();
-
-        return response()->json([
-            'data' => $tpsList->map(function ($tps) {
-                $latestLaporan = $tps->laporanPembersihans->first();
-                return [
-                    'id' => $tps->id,
-                    'nama' => $tps->nama,
-                    'foto_tps' => $tps->foto_tps ? asset('storage/' . $tps->foto_tps) : null,
-                    'deskripsi' => $latestLaporan ? $latestLaporan->deskripsi : 'Belum ada laporan pembersihan',
-                    'created_at' => $latestLaporan ? $latestLaporan->created_at->toIso8601String() : null,
-                ];
-            }),
-        ]);
-    }
-
-
     public function index()
     {
         // return response()->json(Tps::all(), 200);
@@ -56,11 +36,9 @@ class TpsController extends Controller
     public function store(Request $request)
     {
         try {
-            // Validasi manual agar bisa ditangkap dan dikustom responsenya
             $validator = Validator::make($request->all(), [
                 'nama' => 'required|string',
                 'jenis_tps' => 'required|string',
-                'unit' => 'required|integer',
                 'tahun' => 'required|integer',
                 'lokasi' => 'required|string',
                 'latitude' => 'required|numeric',
@@ -68,133 +46,133 @@ class TpsController extends Controller
                 'keterangan' => 'nullable|string',
                 'deskripsi' => 'nullable|string',
                 'user_id' => 'required|string',
-                'foto_tps' => 'required|image|mimes:jpg,jpeg,png|max:2048',
-                'foto_sebelum' => 'required|image|mimes:jpg,jpeg,png|max:2048',
-                'foto_sesudah' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+                'foto_sebelum' => 'required|image|mimes:jpg,jpeg,png',
+                'foto_sesudah' => 'required|image|mimes:jpg,jpeg,png',
             ]);
 
             if ($validator->fails()) {
                 return ApiResponse::error('Validasi gagal', $validator->errors(), 422);
             }
 
-            $fotoTpsPath = null;
-            if ($request->hasFile('foto_tps')) {
-                $fotoTpsPath = $request->file('foto_tps')->store('tps/foto_tps', 'public');
+            $latitude = $request->latitude;
+            $longitude = $request->longitude;
+
+            // Cek apakah ada TPS lain dalam radius 50 meter
+            $tpsTerdekat = DB::table('tps')
+                ->selectRaw("id, (
+                6371000 * acos(
+                    cos(radians(?)) *
+                    cos(radians(latitude)) *
+                    cos(radians(longitude) - radians(?)) +
+                    sin(radians(?)) *
+                    sin(radians(latitude))
+                )
+            ) AS distance", [$latitude, $longitude, $latitude])
+                ->having("distance", "<=", 50)
+                ->orderBy('distance')
+                ->first();
+
+            // Gunakan TPS lama atau buat TPS baru
+            if ($tpsTerdekat) {
+                $tpsId = $tpsTerdekat->id;
+                $tps = Tps::find($tpsId);
+            } else {
+                $tps = Tps::create([
+                    'nama' => $request->nama,
+                    'created_by' => $request->user_id,
+                    'jenis_tps' => $request->jenis_tps,
+                    'unit' => $request->unit,
+                    'tahun' => $request->tahun,
+                    'lokasi' => $request->lokasi,
+                    'latitude' => $latitude,
+                    'longitude' => $longitude,
+                    'keterangan' => $request->keterangan,
+                ]);
             }
 
-            $userId = (int) $request->user_id;
+            // Upload foto
+            $fotoSebelumPath = $request->file('foto_sebelum')->store('laporan/foto_sebelum', 'public');
+            $fotoSesudahPath = $request->file('foto_sesudah')->store('laporan/foto_sesudah', 'public');
 
-            // Simpan data TPS
-            $tps = Tps::create([
-                'nama' => $request->nama,
-                'user_id' => $userId,
-                'jenis_tps' => $request->jenis_tps,
-                'unit' => $request->unit,
-                'tahun' => $request->tahun,
-                'lokasi' => $request->lokasi,
-                'latitude' => $request->latitude,
-                'longitude' => $request->longitude,
-                'keterangan' => $request->keterangan,
-                'foto_tps' => $fotoTpsPath,
-            ]);
-
-            // Upload foto laporan pembersihan
-            $fotoSebelumPath = null;
-            $fotoSesudahPath = null;
-
-            if ($request->hasFile('foto_sebelum')) {
-                $fotoSebelumPath = $request->file('foto_sebelum')->store('laporan/foto_sebelum', 'public');
-            }
-
-            if ($request->hasFile('foto_sesudah')) {
-                $fotoSesudahPath = $request->file('foto_sesudah')->store('laporan/foto_sesudah', 'public');
-            }
-
-            // Simpan laporan pembersihan
+            // Simpan laporan
             $laporan = LaporanPembersihan::create([
-                'user_id' => $userId,
+                'user_id' => $request->user_id,
                 'tps_id' => $tps->id,
                 'foto_sebelum' => $fotoSebelumPath,
                 'foto_sesudah' => $fotoSesudahPath,
                 'deskripsi' => $request->deskripsi,
             ]);
 
-            return ApiResponse::success('Data TPS dan laporan berhasil disimpan.', [
+            return ApiResponse::success('Data berhasil disimpan.', [
                 'tps' => $tps,
                 'laporan' => $laporan,
             ]);
 
         } catch (\Exception $e) {
-            // Catat error ke log Laravel
-            Log::error('Gagal menyimpan data TPS dan laporan', [
-                'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString(),
-            ]);
-
             return ApiResponse::error('Terjadi kesalahan server.', $e->getMessage(), 500);
         }
     }
 
-public function update(Request $request, $id)
-{
-    $request->validate([
-        'jenis_tps' => 'required|string',
-        'jumlah' => 'required|integer',
-        'tahun' => 'required|integer',
-        'lokasi.nama_lokasi' => 'required|string',
-        'lokasi.unit' => 'required|integer',
-        'lokasi.latitude' => 'required|numeric',
-        'lokasi.longitude' => 'required|numeric'
-    ]);
-
-    $tps = Tps::findOrFail($id);
-
-    // Update TPS
-    $tps->update([
-        'jenis_tps' => $request->jenis_tps,
-        'jumlah' => $request->jumlah,
-        'tahun' => $request->tahun,
-    ]);
-
-    // Update Lokasi
-    if ($tps->lokasi) {
-        $tps->lokasi->update([
-            'nama_lokasi' => $request->lokasi['nama_lokasi'],
-            'unit' => $request->lokasi['unit'],
-            'latitude' => $request->lokasi['latitude'],
-            'longitude' => $request->lokasi['longitude'],
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'jenis_tps' => 'required|string',
+            'jumlah' => 'required|integer',
+            'tahun' => 'required|integer',
+            'lokasi.nama_lokasi' => 'required|string',
+            'lokasi.unit' => 'required|integer',
+            'lokasi.latitude' => 'required|numeric',
+            'lokasi.longitude' => 'required|numeric'
         ]);
-    } else {
-        // Jika belum ada lokasi, buat baru
-        $tps->lokasi()->create([
-            'nama_lokasi' => $request->lokasi['nama_lokasi'],
-            'unit' => $request->lokasi['unit'],
-            'latitude' => $request->lokasi['latitude'],
-            'longitude' => $request->lokasi['longitude'],
+
+        $tps = Tps::findOrFail($id);
+
+        // Update TPS
+        $tps->update([
+            'jenis_tps' => $request->jenis_tps,
+            'jumlah' => $request->jumlah,
+            'tahun' => $request->tahun,
+        ]);
+
+        // Update Lokasi
+        if ($tps->lokasi) {
+            $tps->lokasi->update([
+                'nama_lokasi' => $request->lokasi['nama_lokasi'],
+                'unit' => $request->lokasi['unit'],
+                'latitude' => $request->lokasi['latitude'],
+                'longitude' => $request->lokasi['longitude'],
+            ]);
+        } else {
+            // Jika belum ada lokasi, buat baru
+            $tps->lokasi()->create([
+                'nama_lokasi' => $request->lokasi['nama_lokasi'],
+                'unit' => $request->lokasi['unit'],
+                'latitude' => $request->lokasi['latitude'],
+                'longitude' => $request->lokasi['longitude'],
+            ]);
+        }
+
+        $tps->load('lokasi');
+
+        return response()->json([
+            'code' => 200,
+            'status' => true,
+            'message' => 'TPS & Lokasi berhasil diperbarui',
+            'data' => $tps
         ]);
     }
 
-    $tps->load('lokasi');
+    public function delete($id)
+    {
+        $tps = Tps::findOrFail($id);
+        $tps->delete();
 
-    return response()->json([
-        'code' => 200,
-        'status' => true,
-        'message' => 'TPS & Lokasi berhasil diperbarui',
-        'data' => $tps
-    ]);
-}
-
-public function delete($id)
-{
-    $tps = Tps::findOrFail($id);
-    $tps->delete();
-
-    return response()->json([
-        'code' => 200,
-        'status' => true,
-        'message' => 'TPS deleted successfully',
-        'data' => $tps
-    ]);
-}
+        return response()->json([
+            'code' => 200,
+            'status' => true,
+            'message' => 'TPS deleted successfully',
+            'data' => $tps
+        ]);
+    }
 
 }
