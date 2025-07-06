@@ -1,5 +1,5 @@
 
-<aside :class="sidebarOpen ? 'w-64' : 'w-20'" class="fixed h-screen bg-white shadow-md transition-all duration-300 overflow-hidden z-10 flex flex-col">
+<aside :class="sidebarOpen ? 'w-64' : 'w-24'" class="fixed h-screen bg-white shadow-md transition-all duration-300 overflow-hidden z-10 flex flex-col">
     <!-- Logo & Title -->
     <div class="flex items-center justify-between p-4">
         <div class="flex items-center space-x-3" x-show="sidebarOpen" x-transition>
