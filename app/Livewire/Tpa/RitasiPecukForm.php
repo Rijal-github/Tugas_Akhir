@@ -14,12 +14,14 @@ class RitasiPecukForm extends Component
     // public array $vehicles = [];
     public $vehicle;
     public $id_driver = '';
-    public $netto_pre, $netto_post, $banyak_ritasi, $keterangan;
+    public $netto_pre, $netto_post, $banyak_ritasi;
 
     public $selectedVehicleNoPolisi = null;
     public $selectedVehicleJenis = null;
     public $id_vehicle = null;
 
+    // public $keteranganSelect = '';
+    public $keterangan = '';
 
 
     public function updatedIdDriver($value)
@@ -55,6 +57,7 @@ class RitasiPecukForm extends Component
             'netto_pre' => 'required|numeric',
             'netto_post' => 'required|numeric',
             'banyak_ritasi' => 'required|integer|min:1',
+            'keterangan' => 'required|string',
         ]);
 
         Ritasi::create([
@@ -65,16 +68,26 @@ class RitasiPecukForm extends Component
             'netto_post' => $this->netto_post,
             'banyak_ritasi' => $this->banyak_ritasi,
             'keterangan' => $this->keterangan,
+            'ritasi' => 1,
         ]);
 
         session()->flash('message', 'Data berhasil disimpan.');
         $this->reset(); // reset form
     }
 
-    public function batal()
+    public function updatedKeteranganSelect($value)
     {
-        $this->dispatch('batalInputRitasi'); // kirim ke komponen induk
+        if ($value !== 'Lainnya') {
+            $this->keterangan = $value;
+        } else {
+            $this->keterangan = '';
+        }
     }
+
+    // public function batal()
+    // {
+    //     $this->dispatch('batalInputRitasi'); // kirim ke komponen induk
+    // }
 
     public function render()
     {

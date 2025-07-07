@@ -15,11 +15,12 @@ class DataTpa extends Component
 
     public $selectedForm = null;
 
-    public $filterType = 'daily'; // daily, weekly, monthly, yearly
+    public $ritasiList = [];
+
+    public $filterType = 'daily';
     public $tanggal;
     public $bulan;
     public $tahun;
-
     // public $selectedDate;
 
     public function mount()
@@ -28,6 +29,11 @@ class DataTpa extends Component
         $this->bulan = now()->format('m');
         $this->tahun = now()->format('Y');
         // $this->selectedDate = $this->tanggal;
+
+        $this->ritasiList = Ritasi::with(['driver', 'vehicle.uptd'])
+        ->where('id', 'pecuk') // Asumsikan Anda menyimpan lokasi TPA
+        ->orderBy('created_at', 'desc')
+        ->get();
     }
 
     public function export()
@@ -98,6 +104,10 @@ class DataTpa extends Component
     #[Attributes\Layout('layouts.content.content')]
     public function render()
     {
-        return view('livewire.tpa.data-tpa');
+        // return view('livewire.tpa.data-tpa', [
+        //     'ritasiList' => $this->getFilteredData(),
+        // ]);
+
+        return view('livewire.tpa.data-tpa', );
     }
 }
