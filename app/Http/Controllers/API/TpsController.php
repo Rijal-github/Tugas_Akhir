@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Tps;
 use App\Models\LaporanPembersihan;
+use App\Models\User;
 use App\Helpers\ApiResponse;
 
 class TpsController extends Controller
@@ -90,9 +91,10 @@ class TpsController extends Controller
                 // Jika belum ada, gunakan nama aslinya
                 $namaUnik = $jumlahSama === 0 ? $baseNama : $baseNama . ' ' . $jumlahSama;
 
-                $idUptd = DB::table('users_uptd')
-                    ->where('user_id', $request->user_id)
-                    ->value('id_uptd');
+                // cari id_uptd dari user
+                $user = User::find($request->user_id);
+
+                $idUptd = $user->uptds->first()?->id_uptd; // Pakai optional chaining agar aman
 
                 if (!$idUptd) {
                     return ApiResponse::error('User belum terhubung dengan UPTD manapun', null, 400);

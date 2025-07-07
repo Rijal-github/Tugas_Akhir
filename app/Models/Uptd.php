@@ -25,4 +25,9 @@ class Uptd extends Model
     {
         return $this->belongsToMany(User::class, 'users_uptd', 'id_uptd', 'user_id');
     }
+
+    public function tps()
+    {
+        return $this->hasMany(Tps::class, 'id_uptd');
+    }
 }
