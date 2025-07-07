@@ -9,19 +9,8 @@ class Tps extends Model
 {
     use HasFactory;
 
-//  mobile_dede/dev
-    // protected $fillable = ['user_id', 'jenis_tps', 'jumlah', 'nama', 'tahun', 'unit', 'lokasi', 'latitude', 'longitude', 'keterangan', 'foto_tps',];
-
     
-    protected $fillable = ['created_by', 'updated_by', 'jenis_tps', 'nama', 'tahun', 'lokasi', 'latitude', 'longitude', 'keterangan','foto_tps'];
-    
-    // protected $fillable = ['jenis_tps', 'tahun', 'jumlah'];
-
-    // public function lokasi()
-    // {
-    //     return $this->hasMany(Lokasi::class);
-    //     // return $this->hasOne(Lokasi::class, 'tps_id');
-    // }
+    protected $fillable = ['created_by', 'id_uptd', 'jenis_tps', 'nama', 'tahun', 'lokasi', 'latitude', 'longitude', 'keterangan', 'foto_tps'];
 
     public function laporanPembersihans()
     {
@@ -31,5 +20,10 @@ class Tps extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    
+    public function uptd()
+    {
+        return $this->belongsTo(Uptd::class, 'id_uptd');
     }
 }

@@ -33,6 +33,7 @@ Route::middleware(['auth:api'])->group(function () {
     Route::put('/tps/{id}', [TpsController::class, 'delete']);
 
     Route::get('/laporan', [LaporanPembersihanController::class, 'index']);
+    Route::get('/laporanSupir', [LaporanPembersihanController::class, 'indexBySupir']);
 });
 
 Route::middleware(['auth:api'])->group(function () {

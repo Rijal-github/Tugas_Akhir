@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Tps;
 use App\Models\LaporanPembersihan;
+use App\Models\User;
 use App\Helpers\ApiResponse;
 
 class TpsController extends Controller
@@ -72,27 +73,46 @@ class TpsController extends Controller
                 ->orderBy('distance')
                 ->first();
 
+            // Upload foto
+            $fotoSebelumPath = $request->file('foto_sebelum')->store('laporan/foto_sebelum', 'public');
+            $fotoSesudahPath = $request->file('foto_sesudah')->store('laporan/foto_sesudah', 'public');
+
             // Gunakan TPS lama atau buat TPS baru
             if ($tpsTerdekat) {
                 $tpsId = $tpsTerdekat->id;
                 $tps = Tps::find($tpsId);
             } else {
+                // Ambil nama dasar
+                $baseNama = $request->nama;
+
+                // Hitung jumlah TPS yang memiliki nama diawali dengan nama dasar
+                $jumlahSama = Tps::where('nama', 'LIKE', "$baseNama%")->count();
+
+                // Jika belum ada, gunakan nama aslinya
+                $namaUnik = $jumlahSama === 0 ? $baseNama : $baseNama . ' ' . $jumlahSama;
+
+                // cari id_uptd dari user
+                $user = User::find($request->user_id);
+
+                $idUptd = $user->uptds->first()?->id_uptd; // Pakai optional chaining agar aman
+
+                if (!$idUptd) {
+                    return ApiResponse::error('User belum terhubung dengan UPTD manapun', null, 400);
+                }
+
                 $tps = Tps::create([
-                    'nama' => $request->nama,
+                    'nama' => $namaUnik,
+                    'id_uptd' => $idUptd,
                     'created_by' => $request->user_id,
                     'jenis_tps' => $request->jenis_tps,
-                    'unit' => $request->unit,
                     'tahun' => $request->tahun,
                     'lokasi' => $request->lokasi,
                     'latitude' => $latitude,
                     'longitude' => $longitude,
                     'keterangan' => $request->keterangan,
+                    'foto_tps' => $fotoSesudahPath,
                 ]);
             }
-
-            // Upload foto
-            $fotoSebelumPath = $request->file('foto_sebelum')->store('laporan/foto_sebelum', 'public');
-            $fotoSesudahPath = $request->file('foto_sesudah')->store('laporan/foto_sesudah', 'public');
 
             // Simpan laporan
             $laporan = LaporanPembersihan::create([
