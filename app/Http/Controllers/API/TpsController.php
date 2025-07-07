@@ -81,8 +81,26 @@ class TpsController extends Controller
                 $tpsId = $tpsTerdekat->id;
                 $tps = Tps::find($tpsId);
             } else {
+                // Ambil nama dasar
+                $baseNama = $request->nama;
+
+                // Hitung jumlah TPS yang memiliki nama diawali dengan nama dasar
+                $jumlahSama = Tps::where('nama', 'LIKE', "$baseNama%")->count();
+
+                // Jika belum ada, gunakan nama aslinya
+                $namaUnik = $jumlahSama === 0 ? $baseNama : $baseNama . ' ' . $jumlahSama;
+
+                $idUptd = DB::table('users_uptd')
+                    ->where('user_id', $request->user_id)
+                    ->value('id_uptd');
+
+                if (!$idUptd) {
+                    return ApiResponse::error('User belum terhubung dengan UPTD manapun', null, 400);
+                }
+
                 $tps = Tps::create([
-                    'nama' => $request->nama,
+                    'nama' => $namaUnik,
+                    'id_uptd' => $idUptd,
                     'created_by' => $request->user_id,
                     'jenis_tps' => $request->jenis_tps,
                     'unit' => $request->unit,
