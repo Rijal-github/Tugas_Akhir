@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('tps', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('created_by');
-            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->unsignedBigInteger('id_uptd');
             $table->string('nama');
             $table->year('tahun');
             $table->string('jenis_tps');
@@ -26,7 +26,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('updated_by')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('id_uptd')->references('id_uptd')->on('uptd')->onDelete('cascade');
         });
     }
 
