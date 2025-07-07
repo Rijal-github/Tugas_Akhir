@@ -105,7 +105,6 @@ class TpsController extends Controller
                     'id_uptd' => $idUptd,
                     'created_by' => $request->user_id,
                     'jenis_tps' => $request->jenis_tps,
-                    'unit' => $request->unit,
                     'tahun' => $request->tahun,
                     'lokasi' => $request->lokasi,
                     'latitude' => $latitude,
