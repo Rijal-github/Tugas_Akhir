@@ -58,15 +58,15 @@ class DataTps extends Component
             'jumlah' => $this->jumlah,
         ]);
 
-            foreach ($this->lokasi_unit as $lok) {
-                Lokasi::create([
-                    'tps_id' => $tps->id,
-                    'nama_lokasi' => $lok['nama_lokasi'],
-                    'unit' => $lok['unit'],
-                    'latitude' => $lok['latitude'],
-                    'longitude' => $lok['longitude'],
-                ]);
-            }
+            // foreach ($this->lokasi_unit as $lok) {
+            //     Lokasi::create([
+            //         'tps_id' => $tps->id,
+            //         'nama_lokasi' => $lok['nama_lokasi'],
+            //         'unit' => $lok['unit'],
+            //         'latitude' => $lok['latitude'],
+            //         'longitude' => $lok['longitude'],
+            //     ]);
+            // }
 
         session()->flash('success', 'Data TPS berhasil disimpan.');
         $this->reset(['jenis_tps', 'tahun', 'jumlah', 'nama_lokasi']);
@@ -117,18 +117,18 @@ class DataTps extends Component
         ]);
 
         // Hapus lokasi lama
-        $tps->lokasi()->delete();
+        // $tps->lokasi()->delete();
 
-        // Tambah lokasi baru
-        foreach ($this->lokasi_unit as $lok) {
-            Lokasi::create([
-                'tps_id' => $tps->id,
-                'nama_lokasi' => $lok['nama_lokasi'],
-                'unit' => $lok['unit'],
-                'latitude' => $lok['latitude'],
-                'longitude' => $lok['longitude'],
-            ]);
-        }
+        // // Tambah lokasi baru
+        // foreach ($this->lokasi_unit as $lok) {
+        //     Lokasi::create([
+        //         'tps_id' => $tps->id,
+        //         'nama_lokasi' => $lok['nama_lokasi'],
+        //         'unit' => $lok['unit'],
+        //         'latitude' => $lok['latitude'],
+        //         'longitude' => $lok['longitude'],
+        //     ]);
+        // }
 
         session()->flash('success', 'Data TPS berhasil diperbarui.');
         $this->closeModal();

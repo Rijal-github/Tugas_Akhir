@@ -52,7 +52,5 @@
         <p class="text-gray-600">Silakan pilih jenis ritasi terlebih dahulu.</p>
     @endif
 
-    {{-- @livewire('data-tpa') --}}
-
 </div>
 

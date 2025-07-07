@@ -1,11 +1,6 @@
 <div class="p-4 bg-white rounded shadow">
     <div class="flex justify-between p-2">
         <h2 class="text-lg font-semibold mb-4">Input Ritasi - TPA Pecuk</h2>
-    
-        {{-- <div class="mb-3 flex items-center gap-4">
-            <label class="whitespace-nowrap w-32 font-medium">Tanggal Ritasi</label>
-            <input type="date" wire:model="tanggal_ritasi" class="flex-1 border p-2 rounded" />
-        </div> --}}
     </div>
 
     @if (session()->has('message'))

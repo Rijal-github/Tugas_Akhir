@@ -39,6 +39,5 @@
         <div class="text-right mt-4">
             <a href="#" class="text-indigo-600 text-sm font-semibold hover:underline">View all →</a>
         </div>
-    </div>
-    
+    </div>   
 </div>

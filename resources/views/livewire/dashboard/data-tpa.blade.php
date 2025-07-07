@@ -16,10 +16,10 @@
                         <i class="fas fa-building-user text-sm"></i>
                     </div>
                     <div class="flex-1">
-                        <div class="flex justify-between">
+                        <div class="flex justify-between cursor-pointer">
                             <div class="font-semibold text-sm">{{ $uptd->nama_uptd }}</div>
                             <div class="relative group">
-                                <div class="absolute -top-6 right-0 translate-x-[-10px] w-max text-xs text-white bg-gray-700 px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition duration-200">
+                                <div class="absolute -top-6 translate-x-[-30px] w-max text-xs text-white bg-gray-700 px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition duration-200">
                                     Total kendaraan
                                 </div>
                                 <div class="text-sm font-medium text-gray-700 bg-green-100 text-green-500 px-3 py-1 rounded-full">
@@ -33,6 +33,8 @@
             @endforeach
         @endforeach
     </div>
-    
+    <div class="text-right mt-4">
+        <a href="#" class="text-indigo-600 text-sm font-semibold hover:underline">View all →</a>
+    </div> 
 </div>
 
