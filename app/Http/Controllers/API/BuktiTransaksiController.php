@@ -18,7 +18,7 @@ class BuktiTransaksiController extends Controller
             'nama_produk' => 'required|string',
             'volume' => 'required|numeric|min:0',
             'no_polisi' => 'required|string',
-            'operator_id' => 'required|integer',
+            'id_operator' => 'required|integer',
             'foto_nota' => 'nullable|image|mimes:jpg,jpeg,png',
         ]);
 
@@ -51,8 +51,8 @@ class BuktiTransaksiController extends Controller
                 'nama_produk' => $request->nama_produk,
                 'volume' => $request->volume,
                 'no_polisi' => $request->no_polisi,
-                'operator_id' => $request->operator_id,
-                'driver_id' => $vehicle->id_driver, // ambil dari relasi vehicle
+                'id_operator' => $request->id_operator,
+                'id_driver' => $vehicle->id_driver, // ambil dari relasi vehicle
                 'foto_nota' => $fotoNotaPath,
             ]);
 
