@@ -23,6 +23,7 @@ class UserSeeder extends Seeder
         $driver = Role::where('name','driver')->first();
         $driver = Role::where('name','driver')->first();
         $driver = Role::where('name','driver')->first();
+        $operator_spbu = Role::where('name','operator_spbu')->first();
         $kepala_dlh = Role::where('name','kepala dlh')->first();
         $kepala_uptd = Role::where('name','kepala uptd')->first();
         
@@ -95,6 +96,16 @@ class UserSeeder extends Seeder
             'addres' => 'Ds. Legok',
             'password' => bcrypt('daryono1236'), // password di-hash
             'id_role' => $driver->id_role, // pastikan user punya kolom 'role_id'
+        ]);  
+        
+        $operator_spbu = User::create([
+            'name' => 'Asep',
+            'email' => 'asep@example.com',
+            'username' => 'asepjr',
+            'no_hp' => '123456789124',
+            'addres' => 'Ds. Legok',
+            'password' => bcrypt('asepajah'), // password di-hash
+            'id_role' => $operator_spbu->id_role, // pastikan user punya kolom 'role_id'
         ]);  
 
         $kepala_dlh = User::create([
