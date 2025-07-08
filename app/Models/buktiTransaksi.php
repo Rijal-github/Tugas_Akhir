@@ -9,22 +9,24 @@ class buktiTransaksi extends Model
     protected $table = 'bukti_transaksis';
 
     protected $fillable = [
-        'id_driver',
-        'nota',
-        'keterangan',
+        'driver_id',
+        'operator_id',
+        'foto_nota',
+        'nama_produk',
+        'volume',
     ];
 
 
-     // Relasi ke user yang membuat transaksi
-     public function user()
+     // relasi ke operator spbu yang melaporkan bukti transaksi
+     public function operator()
      {
-         return $this->belongsTo(User::class, 'user_id');
+         return $this->belongsTo(User::class, 'operator_id');
      }
  
      // Relasi ke driver
      public function driver()
      {
-         return $this->belongsTo(User::class, 'id_driver');
+         return $this->belongsTo(User::class, 'driver_id');
      }
 
 }

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\TpsController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\LaporanPembersihanController;
+use App\Http\Controllers\API\BuktiTransaksiController;
 use App\Http\Controllers\API\UserUptdController;
 use App\Http\Controllers\API\VehicleesController;
 
@@ -34,6 +35,8 @@ Route::middleware(['auth:api'])->group(function () {
 
     Route::get('/laporan', [LaporanPembersihanController::class, 'index']);
     Route::get('/laporanSupir', [LaporanPembersihanController::class, 'indexBySupir']);
+
+    Route::post('/bukti-transaksi-store', [BuktiTransaksiController::class, 'store']);
 });
 
 Route::middleware(['auth:api'])->group(function () {
