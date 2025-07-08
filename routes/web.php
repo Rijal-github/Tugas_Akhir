@@ -21,6 +21,7 @@ use App\Livewire\Report\LaporanTahunan;
 use App\Livewire\Setting\ManageRole;
 use App\Livewire\Setting\Role\SettingRole;
 use App\Livewire\Setting\Roles;
+use App\Livewire\Tpa\InputRitasi;
 
 // Route::get('/', function () {
     //     return view('welcome');
@@ -41,6 +42,8 @@ use App\Livewire\Setting\Roles;
     Route::middleware(['auth', CheckRole::class . ':admin,dlh,operator_tpa'])->group(function () {
         Route::get('/data-tps', DataTPS::class)->name('data-tps');
         Route::get('/data-tpa', DataTpa::class)->name('data-tpa');
+
+        Route::get('/input-ritasi/{tpa}', InputRitasi::class)->name('input-ritasi');
     });
 
     // Data UPTD (admin, dlh, uptd)

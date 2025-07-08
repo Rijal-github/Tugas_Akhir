@@ -4,7 +4,9 @@
 
 {{-- @section('content') --}}
 
-<div x-data="{ showForm: @entangle('showForm') }" class="flex flex-col w-full p-6 bg-[#e8f0fe] min-h-screen">
+<div x-data="{ showForm: @entangle('showForm'), showDetailPopup: @entangle('showDetailPopup'), showDetailPopup: false }" 
+      x-effect="document.body.classList.toggle('overflow-hidden', showDetailPopup)"
+      class="flex flex-col w-full p-6 bg-[#e8f0fe] min-h-screen">
     <!-- Header -->
     <h1 class="text-2xl font-bold text-slate-800 mb-4">Data TPS</h1>
   
@@ -51,6 +53,15 @@
                   </td>
                   <td class="py-3 px-6 text-center">
                     <div class="flex justify-center space-x-6">
+                       <!-- view Icon with Tooltip -->
+                       <div class="relative group">
+                          <button @click="showDetailPopup = true" class="text-blue-500 hover:text-blue-600 transition-transform transform hover:scale-110">
+                          <i class="fas fa-eye fa-lg"></i>
+                          </button>
+                          <div class="absolute bottom-full left-1/2 -translate-x-1/2 bg-gray-900 text-white text-xs rounded-md py-1 px-3 opacity-0 group-hover:opacity-100 group-hover:translate-y-[-6px] transition-all duration-300">
+                          View
+                          </div>
+                      </div>
                       <!-- Update Icon with Tooltip -->
                       <div class="relative group">
                           <button wire:click="edit({{ $tps->id }})" class="text-green-500 hover:text-green-600 transition-transform transform hover:scale-110">
@@ -184,6 +195,10 @@
           </form>
         </div>
       </div>
+
+      <!-- Include Popup Detail -->
+      @include('livewire.tps.popup-detail-tps')
+
       <!-- Pagination -->
       <div class="flex justify-end mt-4">
         <nav class="inline-flex rounded-md shadow-sm overflow-hidden" aria-label="Pagination">

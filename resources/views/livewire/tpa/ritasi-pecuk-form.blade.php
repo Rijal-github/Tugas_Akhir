@@ -1,11 +1,6 @@
 <div class="p-4 bg-white rounded shadow">
     <div class="flex justify-between p-2">
         <h2 class="text-lg font-semibold mb-4">Input Ritasi - TPA Pecuk</h2>
-    
-        {{-- <div class="mb-3 flex items-center gap-4">
-            <label class="whitespace-nowrap w-32 font-medium">Tanggal Ritasi</label>
-            <input type="date" wire:model="tanggal_ritasi" class="flex-1 border p-2 rounded" />
-        </div> --}}
     </div>
 
     @if (session()->has('message'))
@@ -49,10 +44,31 @@
         <input type="number" wire:model="banyak_ritasi" class="w-full border p-2 rounded">
     </div>
 
-    <div class="mb-3">
-        <label>Keterangan</label>
-        <textarea wire:model="keterangan" class="w-full border p-2 rounded"></textarea>
-    </div>
+    <div class="mb-3 relative" x-data="{ open: false }" @click.away="open = false">
+        <label for="keterangan">Keterangan</label>
+        <input
+            type="text"
+            id="keterangan"
+            wire:model="keterangan"
+            @focus="open = true"
+            @click="open = true"
+            class="w-full border p-2 rounded"
+            placeholder="Ketik atau pilih keterangan..."
+        >
+    
+        <!-- Suggestion dropdown -->
+        <ul x-show="open" class="absolute z-50 bg-white border w-full mt-1 rounded shadow text-sm">
+            <li class="px-3 py-2 hover:bg-gray-100 cursor-pointer" @click="$wire.keterangan = 'Sampah Rutin'; open = false">
+                Sampah Rutin
+            </li>
+            <li class="px-3 py-2 hover:bg-gray-100 cursor-pointer" @click="$wire.keterangan = 'Sampah Luar'; open = false">
+                Sampah Luar
+            </li>
+            <li class="px-3 py-2 hover:bg-gray-100 cursor-pointer" @click="$wire.keterangan = 'Sampah Liar'; open = false">
+                Sampah Liar
+            </li>
+        </ul>
+    </div>    
 
     <button wire:click="save" class="bg-blue-500 text-white px-4 py-2 rounded">Simpan</button>
     <button wire:click="batal" class="bg-red-500 text-white px-4 py-2 rounded">Batal</button>

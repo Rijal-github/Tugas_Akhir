@@ -18,7 +18,7 @@
             const defaultLng = hasValidLocation ? lokasiList[0].longitude : 108.2884701;
         
             // Inisialisasi peta dengan posisi default
-            const map = L.map('map').setView([defaultLat, defaultLng], 13);
+            const map = L.map('map').setView([defaultLat, defaultLng], 11);
         
             // Tampilkan tile layer
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -32,12 +32,12 @@
                 lokasiList.forEach(loc => {
                     const marker = L.marker([loc.latitude, loc.longitude]).addTo(map);
                     marker.bindPopup(loc.nama_lokasi);
-                    routePoints.push([loc.latitude, loc.longitude]);
+                    // routePoints.push([loc.latitude, loc.longitude]);
                 });
         
-                if (routePoints.length > 1) {
-                    L.polyline(routePoints, { color: 'blue' }).addTo(map);
-                }
+                // if (routePoints.length > 1) {
+                //     L.polyline(routePoints, { color: 'blue' }).addTo(map);
+                // }
             } else {
                 console.log("Tidak ada data lokasi. Menampilkan peta default.");
             }

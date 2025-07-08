@@ -1,5 +1,5 @@
 <div>
-    <button wire:click="confirmLogout" class="flex items-center px-4 py-2 rounded-lg text-sm font-medium text-red-500 hover:bg-red-200 transition gap-3">
+    <button wire:click="confirmLogout" class="flex items-center px-4 py-2 rounded-lg text-sm font-medium text-red-500 hover:bg-red-100 transition gap-3">
         <i class="fas fa-arrow-right-from-bracket text-lg"></i>
         <span x-show="sidebarOpen" x-transition>Log Out</span>
     </button>
