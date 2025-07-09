@@ -37,6 +37,7 @@ Route::middleware(['auth:api'])->group(function () {
     Route::get('/laporanSupir', [LaporanPembersihanController::class, 'indexBySupir']);
 
     Route::post('/bukti-transaksi-store', [BuktiTransaksiController::class, 'store']);
+    Route::get('/bukti-transaksi-operator', [BuktiTransaksiController::class, 'indexByOperator']);
 });
 
 Route::middleware(['auth:api'])->group(function () {
