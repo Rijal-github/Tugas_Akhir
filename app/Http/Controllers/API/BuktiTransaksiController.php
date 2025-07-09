@@ -18,7 +18,7 @@ class BuktiTransaksiController extends Controller
             'nama_produk' => 'required|string',
             'volume' => 'required|numeric|min:0',
             'no_polisi' => 'required|string',
-            'operator_id' => 'required|integer',
+            'id_operator' => 'required|integer',
             'foto_nota' => 'nullable|image|mimes:jpg,jpeg,png',
         ]);
 
@@ -51,8 +51,8 @@ class BuktiTransaksiController extends Controller
                 'nama_produk' => $request->nama_produk,
                 'volume' => $request->volume,
                 'no_polisi' => $request->no_polisi,
-                'operator_id' => $request->operator_id,
-                'driver_id' => $vehicle->id_driver, // ambil dari relasi vehicle
+                'id_operator' => $request->id_operator,
+                'id_driver' => $vehicle->id_driver, // ambil dari relasi vehicle
                 'foto_nota' => $fotoNotaPath,
             ]);
 
@@ -70,4 +70,56 @@ class BuktiTransaksiController extends Controller
             ], 500);
         }
     }
+
+    public function indexByOperator(Request $request)
+{
+    try {
+        $userId = $request->user_id;
+
+        if (!$userId) {
+            return response()->json([
+                'status' => false,
+                'message' => 'User ID tidak ditemukan.',
+            ], 400);
+        }
+
+        $query = BuktiTransaksi::with('driver')->where('id_operator', $userId);
+
+        $filter = $request->query('filter');
+
+        if ($filter === 'daily') {
+            $query->whereDate('created_at', now()->toDateString());
+        } elseif ($filter === 'weekly') {
+            $query->where('created_at', '>=', now()->subWeek());
+        } elseif ($filter === 'monthly') {
+            $query->where('created_at', '>=', now()->subMonth());
+        } elseif ($filter === 'yearly') {
+            $query->whereYear('created_at', now()->year);
+        }
+
+        $laporan = $query->orderBy('created_at', 'desc')->get()
+            ->map(function ($item) {
+                return [
+                    'laporan_transaksi_id' => $item->id,
+                    'foto_nota' => $item->foto_nota ? asset('storage/' . $item->foto_nota) : null,
+                    'created_at' => optional($item->created_at)->toIso8601String(),
+                    'nama_produk' => $item->nama_produk ?? '-',
+                    'volume' => $item->volume ?? '-',
+                    'nama_driver' => $item->driver->name ?? '-',
+                ];
+            });
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Daftar laporan berhasil dimuat.',
+            'data' => $laporan
+        ], 200);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Gagal memuat data laporan transaksi BBM.',
+            'error' => $e->getMessage()
+        ], 500);
+    }
+}
 }

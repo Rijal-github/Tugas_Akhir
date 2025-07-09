@@ -13,15 +13,15 @@ return new class extends Migration
     {
         Schema::create('bukti_transaksis', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('driver_id');
-            $table->unsignedBigInteger('operator_id');
+            $table->unsignedBigInteger('id_driver');
+            $table->unsignedBigInteger('id_operator');
             $table->string('foto_nota');
             $table->string('nama_produk');
             $table->decimal('volume', 8, 2); // volume dalam liter
             $table->timestamps();
 
-            $table->foreign('driver_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('operator_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('id_driver')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('id_operator')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

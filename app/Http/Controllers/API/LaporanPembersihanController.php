@@ -73,7 +73,7 @@ class LaporanPembersihanController extends Controller
             }
 
             $query = LaporanPembersihan::with('tps')
-                ->where('user_id', $userId); // Hanya laporan milik user
+                ->where('id_driver', $userId); // Hanya laporan milik user
 
             $filter = $request->query('filter');
 
