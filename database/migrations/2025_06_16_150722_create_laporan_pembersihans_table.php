@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('laporan_pembersihans', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('id_driver');
             $table->unsignedBigInteger('tps_id');
             $table->string('foto_sebelum');
             $table->string('foto_sesudah');
             $table->string('deskripsi')->nullable();
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('id_driver')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('tps_id')->references('id')->on('tps')->onDelete('cascade');
         });
     }
