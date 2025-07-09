@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('id_driver');
             $table->bigInteger('banyak_ritasi');
-            $table->bigInteger('netto_pre');
-            $table->bigInteger('netto_post');
+            $table->bigInteger('bruto');
+            $table->bigInteger('netto');
             $table->string('keterangan', 255);
             $table->timestamps();
 
