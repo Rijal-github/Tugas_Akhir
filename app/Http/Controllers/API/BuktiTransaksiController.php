@@ -106,7 +106,7 @@ class BuktiTransaksiController extends Controller
                 ], 404);
             }
 
-            $column = 'id_kendaraan';
+            $column = 'id_vehicle';
             $userId = $vehicle->id;
         } elseif ($user->id_role == 8) { // Operator SPBU
             $column = 'id_operator';
