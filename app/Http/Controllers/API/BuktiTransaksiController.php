@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\BuktiTransaksi;
+use App\Models\User;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -52,7 +53,7 @@ class BuktiTransaksiController extends Controller
                 'volume' => $request->volume,
                 'no_polisi' => $request->no_polisi,
                 'id_operator' => $request->id_operator,
-                'id_driver' => $vehicle->id_driver, // ambil dari relasi vehicle
+                'id_vehicle' => $vehicle->id, // ambil dari relasi vehicle
                 'foto_nota' => $fotoNotaPath,
             ]);
 
@@ -71,7 +72,7 @@ class BuktiTransaksiController extends Controller
         }
     }
 
-    public function indexByOperator(Request $request)
+    public function index(Request $request)
 {
     try {
         $userId = $request->user_id;
@@ -83,10 +84,44 @@ class BuktiTransaksiController extends Controller
             ], 400);
         }
 
-        $query = BuktiTransaksi::with('driver')->where('id_operator', $userId);
+        $user = User::find($userId);
+
+        if (!$user) {
+            return response()->json([
+                'status' => false,
+                'message' => 'User tidak ditemukan.',
+            ], 404);
+        }
+
+        // Tentukan kolom dan nilai berdasarkan role
+        $column = null;
+
+        if ($user->id_role == 5) { // Driver
+            $vehicle = Vehicle::where('id_driver', $userId)->first();
+
+            if (!$vehicle) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Driver belum memiliki kendaraan.',
+                ], 404);
+            }
+
+            $column = 'id_kendaraan';
+            $userId = $vehicle->id;
+        } elseif ($user->id_role == 8) { // Operator SPBU
+            $column = 'id_operator';
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'Role tidak diizinkan untuk melihat laporan.',
+            ], 403);
+        }
+
+        // Query laporan dengan relasi vehicle dan driver
+        $query = BuktiTransaksi::with(['vehicle.driver'])
+            ->where($column, $userId);
 
         $filter = $request->query('filter');
-
         if ($filter === 'daily') {
             $query->whereDate('created_at', now()->toDateString());
         } elseif ($filter === 'weekly') {
@@ -105,7 +140,8 @@ class BuktiTransaksiController extends Controller
                     'created_at' => optional($item->created_at)->toIso8601String(),
                     'nama_produk' => $item->nama_produk ?? '-',
                     'volume' => $item->volume ?? '-',
-                    'nama_driver' => $item->driver->name ?? '-',
+                    'nomor_polisi' => $item->vehicle->no_polisi ?? '-',
+                    'nama_driver' => $item->vehicle->driver->name ?? '-', // akses driver melalui relasi vehicle
                 ];
             });
 
