@@ -68,65 +68,64 @@ class UserSeeder extends Seeder
             'id_role' => $operator->id, // pastikan user punya kolom 'role_id'
         ]);
         
-        // $driver = User::create([
-        //     'name' => 'sutrisno',
-        //     'email' => 'sutrisno@example.com',
-        //     'username' => '@driver1',
-        //     'no_hp' => '12345678912',
-        //     'addres' => 'Ds. Cidempet',
-        //     'password' => bcrypt('sutrisno1236'), // password di-hash
-        //     'id_role' => $driver->id_role, // pastikan user punya kolom 'role_id'
-        // ]);
+        $driver = User::create([
+            'name' => 'sutrisno',
+            'email' => 'sutrisno@example.com',
+            'username' => '@driver1',
+            'no_hp' => '12345678912',
+            'alamat_user' => 'Ds. Cidempet',
+            'password' => bcrypt('sutrisno1236'), // password di-hash
+            'id_role' => $driver->id, // pastikan user punya kolom 'role_id'
+        ]);
         
-        // $driver = User::create([
-        //     'name' => 'sudrajat',
-        //     'email' => 'sudrajat@example.com',
-        //     'username' => '@driver2',
-        //     'no_hp' => '123456789123',
-        //     'addres' => 'Ds. Linggajati',
-        //     'password' => bcrypt('sudrajat1236'), // password di-hash
-        //     'id_role' => $driver->id_role, // pastikan user punya kolom 'role_id'
-        // ]);  
+        $driver = User::create([
+            'name' => 'sudrajat',
+            'email' => 'sudrajat@example.com',
+            'username' => '@driver2',
+            'no_hp' => '123456789123',
+            'alamat_user' => 'Ds. Linggajati',
+            'password' => bcrypt('sudrajat1236'), // password di-hash
+            'id_role' => $driver->id, // pastikan user punya kolom 'role_id'
+        ]);  
 
-        // $driver = User::create([
-        //     'name' => 'daryono',
-        //     'email' => 'daryono@example.com',
-        //     'username' => '@driver3',
-        //     'no_hp' => '123456789124',
-        //     'addres' => 'Ds. Legok',
-        //     'password' => bcrypt('daryono1236'), // password di-hash
-        //     'id_role' => $driver->id_role, // pastikan user punya kolom 'role_id'
-        // ]);  
+        $driver = User::create([
+            'name' => 'daryono',
+            'email' => 'daryono@example.com',
+            'username' => '@driver3',
+            'no_hp' => '123456789124',
+            'alamat_user' => 'Ds. Legok',
+            'password' => bcrypt('daryono1236'), // password di-hash
+            'id_role' => $driver->id, // pastikan user punya kolom 'role_id'
+        ]);  
         
-        // $operator_spbu = User::create([
-        //     'name' => 'Asep',
-        //     'email' => 'asep@example.com',
-        //     'username' => 'asepjr',
-        //     'no_hp' => '123456789124',
-        //     'addres' => 'Ds. Legok',
-        //     'password' => bcrypt('asepajah'), // password di-hash
-        //     'id_role' => $operator_spbu->id_role, // pastikan user punya kolom 'role_id'
-        // ]);  
+        $operator_spbu = User::create([
+            'name' => 'Asep',
+            'email' => 'asep@example.com',
+            'username' => 'asepjr',
+            'no_hp' => '123456789124',
+            'alamat_user' => 'Ds. Legok',
+            'password' => bcrypt('asepajah'), // password di-hash
+            'id_role' => $operator_spbu->id, // pastikan user punya kolom 'role_id'
+        ]);  
 
-        // $kepala_dlh = User::create([
-        //     'name' => 'karyanto',
-        //     'email' => 'karyanto@example.com',
-        //     'username' => '@kepaladlh',
-        //     'no_hp' => '123456789120',
-        //     'addres' => 'Ds. Lohbener',
-        //     'password' => bcrypt('karyanto1236'), // password di-hash
-        //     'id_role' => $kepala_dlh->id_role, // pastikan user punya kolom 'role_id'
-        // ]);  
+        $kepala_dlh = User::create([
+            'name' => 'karyanto',
+            'email' => 'karyanto@example.com',
+            'username' => '@kepaladlh',
+            'no_hp' => '123456789120',
+            'alamat_user' => 'Ds. Lohbener',
+            'password' => bcrypt('karyanto1236'), // password di-hash
+            'id_role' => $kepala_dlh->id, // pastikan user punya kolom 'role_id'
+        ]);  
 
-        // $kepala_uptd = User::create([
-        //     'name' => 'yudistira',
-        //     'email' => 'yudi@example.com',
-        //     'username' => '@kepalauptd',
-        //     'no_hp' => '123456789121',
-        //     'addres' => 'Ds. Bulak',
-        //     'password' => bcrypt('yudistira1236'), // password di-hash
-        //     'id_role' => $kepala_uptd->id_role, // pastikan user punya kolom 'role_id'
-        // ]);  
-        
+        $kepala_uptd = User::create([
+            'name' => 'yudistira',
+            'email' => 'yudi@example.com',
+            'username' => '@kepalauptd',
+            'no_hp' => '123456789121',
+            'alamat_user' => 'Ds. Bulak',
+            'password' => bcrypt('yudistira1236'), // password di-hash
+            'id_role' => $kepala_uptd->id, // pastikan user punya kolom 'role_id'
+        ]);
     }
 }

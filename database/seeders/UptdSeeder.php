@@ -17,9 +17,9 @@ class UptdSeeder extends Seeder
         // User::factory(10)->create();
 
         Uptd::insert([
-            ['nama_uptd' => 'UPTD Indramayu'],
-            ['nama_uptd' => 'UPTD Jatibarang'],
-            ['nama_uptd' => 'UPTD Karangampel'],
+            ['nama_uptd' => 'UPTD Indramayu', 'alamat_uptd' => 'Jl. Raya Indramayu No.1'],
+            ['nama_uptd' => 'UPTD Jatibarang', 'alamat_uptd' => 'Jl. Raya Jatibarang No.2'],
+            ['nama_uptd' => 'UPTD Karangampel', 'alamat_uptd' => 'Jl. Raya Karangampel No.3'],
         ]);
     }
 }
