@@ -35,7 +35,7 @@
             </a>
         </div>
 
-        @if(in_array($role, ['admin', 'dlh', 'operator_tpa']))
+        @if(in_array($role, ['admin', 'dlh', 'operator tpa']))
         <div>
             <a href="/data-tps" class="flex items-center px-4 py-2 rounded-lg text-sm font-medium transition gap-3
             {{ request()->routeIs('data-tps') ? 'bg-white text-indigo-700' : 'text-white hover:bg-white hover:text-indigo-700' }}">
@@ -45,7 +45,7 @@
         </div>
         @endif
 
-        @if(in_array($role, ['admin', 'dlh', 'operator_tpa']))
+        @if(in_array($role, ['admin', 'dlh', 'operator tpa']))
         <div>
             <a href="/data-tpa" class="flex items-center px-4 py-2 rounded-lg text-sm font-medium transition gap-3
             {{ request()->routeIs('data-tpa') ? 'bg-white text-indigo-700' : 'text-white hover:bg-white hover:text-indigo-700' }}">
@@ -65,7 +65,7 @@
         </div>
         @endif
 
-        @if(in_array($role, ['admin', 'operator_tpa']))
+        @if(in_array($role, ['admin', 'operator tpa']))
         <div>
             <a href="data-driver" class="flex items-center px-4 py-2 rounded-lg text-sm font-medium transition gap-3
             {{ request()->routeIs('data-driver') ? 'bg-white text-indigo-700' : 'text-white hover:bg-white hover:text-indigo-700' }}">
@@ -75,7 +75,7 @@
         </div>
         @endif
 
-        @if(in_array($role, ['admin', 'operator_tpa']))
+        @if(in_array($role, ['admin', 'operator tpa']))
         <div>
             <a href="/data-iot" class="flex items-center px-4 py-2 rounded-lg text-sm font-medium transition gap-3
             {{ request()->routeIs('data-iot') ? 'bg-white text-indigo-700' : 'text-white hover:bg-white hover:text-indigo-700' }}">
@@ -122,7 +122,7 @@
         </div>
         {{-- Tambahkan menu lainnya sesuai kebutuhan --}}
     </nav>
-    <div class="px-4 mb-6 " wire:ignore>
+    <div class="px-4 mb-6 z-10" wire:ignore>
         @livewire('dashboard.logout')
     </div>
 </aside>

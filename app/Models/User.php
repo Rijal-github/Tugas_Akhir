@@ -23,8 +23,9 @@ class User extends Authenticatable implements JWTSubject
         'name',
         'email',
         'username',
+        'avatar',
         'no_hp',
-        'addres',
+        'alamat_user',
         'password',
         'id_role',
     ];
@@ -64,7 +65,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function role()
     {
-        return $this->belongsTo(Role::class, 'id_role', 'id_role');
+        return $this->belongsTo(Role::class, 'id_role', 'id');
     }  
     
     public function uptds()

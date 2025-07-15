@@ -8,12 +8,12 @@ class Role extends Model
 {
 
     protected $table = 'roles';
-    protected $primaryKey = 'id_role';
+    protected $primaryKey = 'id';
     public $incrementing = true;
     public $timestamps = true;
     protected $keyType = 'int';
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name','ranah'];
 
     public function permissions()
     {

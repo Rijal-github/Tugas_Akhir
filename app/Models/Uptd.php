@@ -14,6 +14,8 @@ class Uptd extends Model
 
     protected $fillable = [
         'nama_uptd',
+        'alamat_uptd',
+        'foto_uptd',
     ];
     
    public function vehicles()

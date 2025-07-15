@@ -1,4 +1,6 @@
-<div>
+<div x-data="{ showConfirm: @entangle('showConfirm') }" x-init="$watch('showConfirm', value => { 
+    document.body.classList.toggle('overflow-hidden', value); 
+    })">
     <button wire:click="confirmLogout" class="flex items-center px-4 py-2 rounded-lg text-sm font-medium text-red-500 hover:bg-red-100 transition gap-3">
         <i class="fas fa-arrow-right-from-bracket text-lg"></i>
         <span x-show="sidebarOpen" x-transition>Log Out</span>
@@ -6,7 +8,7 @@
 
      <!-- Popup Konfirmasi -->
      @if ($showConfirm)
-        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm transition-opacity">
+        <div class="fixed inset-0 z-64 flex items-center justify-center bg-black/50 backdrop-blur-sm transition-opacity">
             <div class="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 animate-fade-in">
                 <div class="text-center">
                     <h2 class="text-xl font-semibold text-gray-800 mb-4">Konfirmasi Logout</h2>
