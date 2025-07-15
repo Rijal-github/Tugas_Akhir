@@ -14,9 +14,9 @@ class StatsCards extends Component
 
     public function mount()
     {
-        $this->kontainer = Tps::where('jenis_tps', 'Landasan Kontainer')->sum('jumlah');
-        $this->beratap = Tps::where('jenis_tps', 'Landasan Beratap')->sum('jumlah');
-        $this->tpsKecil = Tps::where('jenis_tps', 'TPS Kecil')->sum('jumlah');
+        // $this->kontainer = Tps::where('jenis_tps', 'Landasan Kontainer')->sum('jumlah');
+        // $this->beratap = Tps::where('jenis_tps', 'Landasan Beratap')->sum('jumlah');
+        // $this->tpsKecil = Tps::where('jenis_tps', 'TPS Kecil')->sum('jumlah');
     }
     public function render()
     {

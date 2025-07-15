@@ -9,12 +9,12 @@ class Lokasi extends Model
 {
     use HasFactory;
 
-    protected $table = 'lokasi';
+//     protected $table = 'lokasi';
 
-    protected $fillable = ['tps_id', 'nama_lokasi', 'unit', 'latitude', 'longitude'];
-    public function tps()
-{
-    // return $this->belongsTo(Tps::class);
-    return $this->belongsTo(Tps::class);
-}
+//     protected $fillable = ['tps_id', 'nama_lokasi', 'unit', 'latitude', 'longitude'];
+//     public function tps()
+// {
+//     // return $this->belongsTo(Tps::class);
+//     return $this->belongsTo(Tps::class);
+// }
 }

@@ -17,7 +17,7 @@ class RolePermissionSeeder extends Seeder
         $admin = Role::firstOrCreate(['name' => 'admin']);
         $dlh = Role::firstOrCreate(['name' => 'dlh']);
         $uptd = Role::firstOrCreate(['name' => 'uptd']);
-        $operator = Role::firstOrCreate(['name' => 'operator_tpa']);
+        $operator = Role::firstOrCreate(['name' => 'operator tpa']);
 
         // $permissions = [
         //     'dashboard',
@@ -75,8 +75,8 @@ class RolePermissionSeeder extends Seeder
     {
         foreach ($permissions as $perm) {
             Permission::create([
-                'name' => $perm,
-                'id_role' => $role->id_role, // Pastikan kolom ini ada di tabel permissions
+                'akses' => $perm,
+                'id_role' => $role->id, // Pastikan kolom ini ada di tabel permissions
             ]);
         }
     }

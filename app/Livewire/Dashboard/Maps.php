@@ -11,7 +11,7 @@ class Maps extends Component
 
     public function mount()
     {
-        $this->lokasiList = Lokasi::select('latitude', 'longitude', 'nama_lokasi')->get();
+        // $this->lokasiList = Lokasi::select('latitude', 'longitude', 'nama_lokasi')->get();
     }
     public function render()
     {

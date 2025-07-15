@@ -1,10 +1,10 @@
-<div class="ctr-mainMaps">
+<div class="ctr-mainMaps z-0">
     {{-- <div class="flex items-center gap-3 mb-5 font-semibold text-lg">
         <i class="fas fa-map-location-dot"></i>
         <h2>Koordinat Tps</h2>
     </div> --}}
 
-    <div id="map" class="cMainmaps" style="height: 500px; width: 100%;"></div>
+    <div id="map" class="cMainmaps" style="height: 500px; width: 100%; position: relative; z-index: 0;"></div>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {

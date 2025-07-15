@@ -19,17 +19,17 @@ class UserSeeder extends Seeder
         $admin = Role::where('name', 'admin')->first();
         $dlh = Role::where('name', 'dlh')->first();
         $uptd = Role::where('name','uptd')->first();
-        $operator = Role::where('name','operator_tpa')->first();
-        $driver = Role::where('name','driver')->first();
-        $driver = Role::where('name','driver')->first();
-        $driver = Role::where('name','driver')->first();
-        $operator_spbu = Role::where('name','operator_spbu')->first();
-        $kepala_dlh = Role::where('name','kepala dlh')->first();
-        $kepala_uptd = Role::where('name','kepala uptd')->first();
+        $operator = Role::where('name','operator tpa')->first();
+        // $driver = Role::where('name','driver')->first();
+        // $driver = Role::where('name','driver')->first();
+        // $driver = Role::where('name','driver')->first();
+        // $operator_spbu = Role::where('name','operator_spbu')->first();
+        // $kepala_dlh = Role::where('name','kepala dlh')->first();
+        // $kepala_uptd = Role::where('name','kepala uptd')->first();
         
 
         $admin = User::create([
-            'name' => 'Super Admin',
+            'name' => 'Muhamad Rijal',
             'email' => 'admin@example.com',
             'username' => 'superadmin123',
             'no_hp' => '123456789',
@@ -126,7 +126,6 @@ class UserSeeder extends Seeder
             'alamat_user' => 'Ds. Bulak',
             'password' => bcrypt('yudistira1236'), // password di-hash
             'id_role' => $kepala_uptd->id, // pastikan user punya kolom 'role_id'
-        ]);  
-        
+        ]);
     }
 }

@@ -39,7 +39,7 @@
             <!-- Row 1 -->
             {{-- @foreach ($lokasi_unit as $lokasi) --}}
             {{-- Baris pertama --}}
-            @foreach ($dataTps as $tps)
+            {{-- @foreach ($dataTps as $tps)
               @foreach ($tps->lokasi as $lokasi)
                 <tr class="border-t border-slate-200">
                   <td class="py-2 px-3">{{ $tps->jenis_tps }}</td>
@@ -136,8 +136,8 @@
                             </span>
                         </td>
                     </tr>      --}}
-               @endforeach
-            @endforeach
+               {{-- @endforeach
+            @endforeach --}}
           </tbody>
         </table> 
       </div>
@@ -176,7 +176,7 @@
       
               <div class="mt-4">
                   <label class="block text-sm font-semibold text-slate-600 mb-2">Lokasi & Unit</label>
-                  @foreach ($lokasi_unit as $index => $lokasi)
+                  {{-- @foreach ($lokasi_unit as $index => $lokasi)
                   <div  wire:key="lokasi-{{ $index }}" class="grid grid-cols-1 md:grid-cols-4 gap-2 mb-2">
                       <input type="text" wire:model="lokasi_unit.{{ $index }}.nama_lokasi" placeholder="Lokasi" class="px-2 py-1 border rounded-md">
                       <input type="text" wire:model="lokasi_unit.{{ $index }}.unit" placeholder="Unit" class="px-2 py-1 border rounded-md">
@@ -184,7 +184,7 @@
                       <input type="text" wire:model="lokasi_unit.{{ $index }}.longitude" placeholder="Longitude" class="px-2 py-1 border rounded-md">
                       <button type="button" wire:click="removeLocation({{ $index }})" class="text-red-600">Hapus</button>
                   </div>
-                  @endforeach
+                  @endforeach --}}
                   <button type="button" wire:click="addLocation" class="text-blue-600 text-sm mt-1">+ Tambah Lokasi</button>
               </div>
       
