@@ -14,7 +14,7 @@ class RitasiPecukForm extends Component
     // public array $vehicles = [];
     public $vehicle;
     public $id_driver = '';
-    public $netto_pre, $netto_post, $banyak_ritasi;
+    public $bruto, $netto, $banyak_ritasi;
 
     public $selectedVehicleNoPolisi = null;
     public $selectedVehicleJenis = null;
@@ -54,8 +54,8 @@ class RitasiPecukForm extends Component
             'id_driver' => 'required',
             'id_vehicle' => 'required',
             // 'tanggal_ritasi' => 'required|date',
-            'netto_pre' => 'required|numeric',
-            'netto_post' => 'required|numeric',
+            'bruto' => 'required|numeric',
+            'netto' => 'required|numeric',
             'banyak_ritasi' => 'required|integer|min:1',
             'keterangan' => 'required|string',
         ]);
@@ -64,8 +64,8 @@ class RitasiPecukForm extends Component
             'id_driver' => $this->id_driver,
             'id_vehicle' => $this->id_vehicle,
             // 'tanggal_ritasi' => $this->tanggal_ritasi,
-            'netto_pre' => $this->netto_pre,
-            'netto_post' => $this->netto_post,
+            'bruto' => $this->bruto,
+            'netto' => $this->netto,
             'banyak_ritasi' => $this->banyak_ritasi,
             'keterangan' => $this->keterangan,
             'ritasi' => 1,

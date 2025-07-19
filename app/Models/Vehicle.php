@@ -25,7 +25,7 @@ class Vehicle extends Model
 
     public function uptd()
     {
-        return $this->belongsTo(Uptd::class, 'id_uptd');
+        return $this->belongsTo(Uptd::class, 'id_uptd', 'id_uptd');
     }
 
     public function ritasiTpaPecuk()

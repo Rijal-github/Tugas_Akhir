@@ -160,7 +160,8 @@ class DataTps extends Component
     #[Attributes\Layout('layouts.content.content')]
     public function render()
     {
-        $this->dataTps = Tps::with('lokasi')->latest()->get();
+        // $this->dataTps = Tps::with('lokasi')->latest()->get();
+        // $dataTps = \App\Models\Tps::all();
         return view('livewire.tps.data-tps');
 
     }

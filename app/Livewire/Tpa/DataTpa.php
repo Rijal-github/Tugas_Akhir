@@ -30,8 +30,8 @@ class DataTpa extends Component
         $this->tahun = now()->format('Y');
         // $this->selectedDate = $this->tanggal;
 
-        $this->ritasiList = Ritasi::with(['driver', 'vehicle.uptd'])
-        ->where('id', 'pecuk') // Asumsikan Anda menyimpan lokasi TPA
+        $this->ritasiList = Ritasi::with(['vehicle.uptd', 'driver'])
+        // ->where('id', 'pecuk') // Asumsikan Anda menyimpan lokasi TPA
         ->orderBy('created_at', 'desc')
         ->get();
     }

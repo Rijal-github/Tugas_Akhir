@@ -9,6 +9,7 @@ use App\Models\Role;
 class Roles extends Component
 {
     public $name;
+    public $ranah;
     public $roleId;
     public $isEdit = false;
     public $showModal = false;
@@ -28,51 +29,20 @@ class Roles extends Component
     {
         $this->showSuccess = true;
         $this->successMessage = $message;
-        // Tambahkan logika untuk menyembunyikan popup setelah beberapa detik, jika diperlukan.
-        // Misalnya, menggunakan JavaScript atau metode Livewire.
     }
-
-    // public function openCreateModal()
-    // {
-    //     $this->reset(['name', 'roleId']);
-    //     $this->isEdit = false;
-    //     $this->showModal = true;
-    // }
-
-    // public function save()
-    // {
-    //     $this->validate([
-    //         'name' => 'required|unique:roles,name|max:50'
-    //     ]);
-
-    //     Role::create(['name' => $this->name]);
-    //     $this->reset('name');
-    //     $this->loadRoles();
-    //     session()->flash('success', 'Role berhasil ditambahkan.');
-    // }
-
-    // public function save()
-    // {
-    //     $this->validate();
-
-    //     Role::updateOrCreate(
-    //         ['id_role' => $this->roleId],
-    //         ['name' => $this->name]
-    //     );
-
-    //     $this->showModal = false;
-    //     $this->reset(['name', 'roleId']);
-    // }
 
     public function save()
     {
         $this->validate([
             'name' => 'required|string|max:255',
+            'ranah' => 'required|string',
         ]);
 
         Role::updateOrCreate(
-            ['id_role' => $this->roleId],
-            ['name' => $this->name]
+            ['id' => $this->roleId],
+            ['name' => $this->name,
+                     'ranah' =>$this->ranah,               
+                    ]
         );
 
         $message = $this->roleId ? 'Data role berhasil diperbarui.' : 'Data role berhasil disimpan.';
@@ -115,9 +85,52 @@ class Roles extends Component
     public function resetForms()
     {
         $this->name = '';
+        $this->ranah = '';
         $this->showModal = false;
         $this->isEdit = false;
     }
+
+    #[Attributes\Layout('layouts.content.content')]
+    public function render()
+    {
+        $roles = Role::latest()->get();
+        return view('livewire.setting.roles', compact('roles'));
+    }
+}
+
+    // public function openCreateModal()
+    // {
+    //     $this->reset(['name', 'roleId']);
+    //     $this->isEdit = false;
+    //     $this->showModal = true;
+    // }
+
+    // public function save()
+    // {
+    //     $this->validate([
+    //         'name' => 'required|unique:roles,name|max:50'
+    //     ]);
+
+    //     Role::create(['name' => $this->name]);
+    //     $this->reset('name');
+    //     $this->loadRoles();
+    //     session()->flash('success', 'Role berhasil ditambahkan.');
+    // }
+
+    // public function save()
+    // {
+    //     $this->validate();
+
+    //     Role::updateOrCreate(
+    //         ['id_role' => $this->roleId],
+    //         ['name' => $this->name]
+    //     );
+
+    //     $this->showModal = false;
+    //     $this->reset(['name', 'roleId']);
+    // }
+
+    
     // public function update()
     // {
     //     $this->validate([
@@ -143,10 +156,3 @@ class Roles extends Component
     // }
 
 
-    #[Attributes\Layout('layouts.content.content')]
-    public function render()
-    {
-        $roles = Role::latest()->get();
-        return view('livewire.setting.roles', compact('roles'));
-    }
-}

@@ -19,11 +19,14 @@ class RitasiTpaPecukSeeder extends Seeder
         foreach ($vehiclesWithDrivers as $vehicle) {
             Ritasi::create([
                 'id_driver'     => $vehicle->id_driver,
-                'banyak_ritasi' => rand(1, 10),
-                'netto_pre'     => rand(4000, 8000),
-                'netto_post'    => rand(3000, 6000),
-                'keterangan'    => 'Ritasi untuk kendaraan ' . $vehicle->no_polisi,
+                'id_vehicle'     => $vehicle->id,
+                'banyak_ritasi' => rand(1, 5),
+                'bruto'     => rand(4000, 8000),
+                'netto'    => rand(3000, 5000),
+                'keterangan'    => 'Sampah Liar',
+                
             ]);
+            
         }
     }
 }

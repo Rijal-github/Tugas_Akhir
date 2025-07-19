@@ -14,7 +14,9 @@ use App\Livewire\Iot\DataIot;
 use App\Livewire\Jadwal\Pengangkutan;
 use App\Livewire\Report\Pelaporan;
 use App\Http\Middleware\CheckRole;
+use App\Livewire\Auth\ForgotPassword;
 use App\Livewire\Driver\DataDriver;
+use App\Livewire\Profile\ViewProfile;
 use App\Livewire\Report\LaporanBulanan;
 use App\Livewire\Report\LaporanMingguan;
 use App\Livewire\Report\LaporanTahunan;
@@ -22,6 +24,7 @@ use App\Livewire\Setting\ManageRole;
 use App\Livewire\Setting\Role\SettingRole;
 use App\Livewire\Setting\Roles;
 use App\Livewire\Tpa\InputRitasi;
+use App\Livewire\Uptd\AddDriver;
 
 // Route::get('/', function () {
     //     return view('welcome');
@@ -33,7 +36,10 @@ use App\Livewire\Tpa\InputRitasi;
     //             ->middleware('auth')
     //             ->name('login');
     Route::get('/', Login::class)->name('login');
+    Route::get('/forgot-password', ForgotPassword::class)->name('forgot-password');
     
+    Route::get('/view-profile', ViewProfile::class)->name('view-profile');
+
     Route::middleware(['auth', CheckRole::class . ':admin,dlh,uptd,operator tpa'])->group(function () {
         Route::get('/dashboard', Main::class)->name('dashboard');
     });
@@ -49,6 +55,8 @@ use App\Livewire\Tpa\InputRitasi;
     // Data UPTD (Super Admin, dlh, uptd)
     Route::middleware(['auth', CheckRole::class . ':admin,dlh,uptd'])->group(function () {
         Route::get('/data-uptd', DataUptd::class)->name('data-uptd');
+
+        Route::get('/add-driver/{driver}', AddDriver::class)->name('add-driver');
     });
 
     // Pendataan Sampah, Driver, IoT (Super Admin, operator_tpa)

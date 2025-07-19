@@ -56,12 +56,11 @@
                 <tr class="">
                     <th class="p-3">Nama Supir</th>
                     <th class="p-3">No Polisi</th>
-                    <th class="p-3">UPTD</th>
                     <th class="p-3">Netto In</th>
                     <th class="p-3">Netto Out</th>
                     <th class="p-3">Netto</th>
                     <th class="p-3">Tanggal</th>
-                    <th class="p-3">Lok/Wilayah</th>
+                    <th class="p-3">UPTD</th>
                     <th class="p-3">Keterangan</th>
                 </tr>
             </thead>
@@ -70,11 +69,11 @@
                 <tr class="border-b">
                     <td>{{ $ritasi->driver->name }}</td>
                     <td>{{ $ritasi->vehicle->no_polisi }}</td>
-                    <td>{{ $ritasi->vehicle->uptd->nama_uptd }}</td>
-                    <td>{{ $ritasi->netto_pre }}</td>
-                    <td>{{ $ritasi->netto_post }}</td>
-                    <td class="font-bold text-red-600">{{ $ritasi->netto_post - $ritasi->netto_pre }}</td>
+                    <td>{{ $ritasi->bruto }}</td>
+                    <td>{{ $ritasi->netto }}</td>
+                    <td class="font-bold text-red-600">{{ $ritasi->bruto - $ritasi->netto }}</td>
                     <td>{{ \Carbon\Carbon::parse($ritasi->created_at)->format('d-m-Y') }}</td>
+                    <td>{{ $ritasi->vehicle->uptd->nama_uptd ?? '-' }}</td>
                     <td>{{ $ritasi->keterangan }}</td>
                 </tr>
                 @endforeach

@@ -54,7 +54,7 @@
             <div x-show="showModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                 <div class="bg-white w-full max-w-lg p-6 rounded-lg shadow-lg">
                     <button class="absolute top-3 right-3 text-gray-600 hover:text-gray-800 text-xl"></button>
-                    <h2 class="text-lg font-semibold mb-4">Tambah Data Kendaraan</h2>
+                    <h2 class="text-lg font-semibold mb-4">Tambah Data UPTD</h2>
                     <form wire:submit.prevent="store">
                         @csrf
                         <div class="mb-4">
@@ -149,6 +149,14 @@
                             <td class="py-3 text-center">
                                 <div class="flex justify-center space-x-6">
                                     <div class="relative group">
+                                        <a href="{{ route('add-driver', $uptd->id_uptd) }}" class="text-blue-500 hover:text-blue-600 transition-transform transform hover:scale-110">
+                                            <i class="fas fa-eye fa-lg"></i>
+                                        </a>
+                                        <div class="absolute bottom-full left-1/2 -translate-x-1/2 bg-gray-900 text-white text-xs rounded-md py-1 px-3 opacity-0 group-hover:opacity-100 group-hover:translate-y-[-6px] transition-all duration-300">
+                                        View
+                                        </div>
+                                    </div>
+                                    <div class="relative group">
                                         <button wire:click="editForm({{ $uptd->id_uptd }})" class="text-green-500 hover:text-green-600 transition-transform transform hover:scale-110">
                                             <i class="fas fa-pen-to-square fa-lg"></i>
                                         </button>
@@ -190,15 +198,6 @@
         </div>
         <!-- Pagination -->
       <div class="flex justify-end mt-4">
-        {{-- <nav class="inline-flex rounded-md shadow-sm overflow-hidden" aria-label="Pagination">
-          <button class="px-3 py-1 text-sm bg-white border border-gray-300 hover:bg-gray-100">&lt;</button>
-          <button class="px-3 py-1 text-sm bg-indigo-600 text-white font-semibold">1</button>
-          <button class="px-3 py-1 text-sm bg-white border border-gray-300 hover:bg-gray-100">2</button>
-          <button class="px-3 py-1 text-sm bg-white border border-gray-300 hover:bg-gray-100">3</button>
-          <span class="px-3 py-1 text-sm bg-white border border-gray-300">...</span>
-          <button class="px-3 py-1 text-sm bg-white border border-gray-300 hover:bg-gray-100">40</button>
-          <button class="px-3 py-1 text-sm bg-white border border-gray-300 hover:bg-gray-100">&gt;</button>
-        </nav> --}}
         {{ $uptds->links() }}
       </div>
     </div>    

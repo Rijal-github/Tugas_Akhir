@@ -22,7 +22,7 @@ class ManageRole extends Component
     public $username;
     public $no_hp;
     public $name;
-    public $addres;
+    public $alamat_user;
     public $password;
     public $roles;  // untuk simpan data role dari DB
     public $role;   // untuk menyimpan role yang dipilih di form
@@ -40,11 +40,11 @@ class ManageRole extends Component
     protected function rules()
     {
     $rules = [
-        'role' => 'required|exists:roles,id_role',
+        'role' => 'required|exists:roles,id',
         'email' => 'required|email',
         'name' => 'required',
-        'username' => 'required|username',
-        'addres' => 'required',
+        'username' => 'required|string|alpha_dash|unique:users,username,' . $this->userId,
+        'alamat_user' => 'required',
     ];
 
         if (!$this->isEditMode || $this->password) {
@@ -79,7 +79,7 @@ class ManageRole extends Component
         $this->username = $user->username;
         $this->no_hp = $user->no_hp;
         $this->name = $user->name;
-        $this->addres = $user->addres;
+        $this->alamat_user = $user->alamat_user;
         $this->avatar = null;
         $this->password = null;
 
@@ -100,7 +100,7 @@ class ManageRole extends Component
                 'username' => $this->username,
                 'no_hp' => $this->no_hp,
                 'name' => $this->name,
-                'addres' => $this->addres,
+                'alamat_user' => $this->alamat_user,
             ];
 
             if ($this->password) {
@@ -122,7 +122,7 @@ class ManageRole extends Component
                 'username' => $this->username,
                 'no_hp' => $this->no_hp,
                 'name' => $this->name,
-                'addres' => $this->addres,
+                'alamat_user' => $this->alamat_user,
                 'password' => Hash::make($this->password),
             ]);
         
@@ -193,7 +193,7 @@ class ManageRole extends Component
         $this->username = null;
         $this->no_hp = null;
         $this->name = null;
-        $this->addres = null;
+        $this->alamat_user = null;
     }
 
     #[Attributes\Layout('layouts.content.content')]

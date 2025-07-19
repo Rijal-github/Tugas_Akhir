@@ -13,6 +13,7 @@
                 <tr>
                     <th class="border px-4 py-2">No</th>
                     <th class="border px-4 py-2">Role Name</th>
+                    <th class="border px-4 py-2">Ranah</th>
                     <th class="border px-4 py-2">Action</th>
                 </tr>
             </thead>
@@ -21,6 +22,7 @@
                     <tr class="hover:bg-gray-50">
                         <td class="border px-4 py-2">{{ $index + 1 }}</td>
                         <td class="border px-4 py-2">{{ $role->name }}</td>
+                        <td class="border px-4 py-2">{{ $role->ranah }}</td>
                         <td class="border px-4 py-2 text-center space-x-3">
                             <button wire:click="openEditModal({{ $role->id_role }})" class="text-green-500 hover:text-green-600"><i class="fas fa-edit"></i></button>
                             <button wire:click="openDelete({{ $role->id_role }})" class="text-red-500 hover:text-red-600"><i class="fas fa-trash"></i></button>
@@ -57,6 +59,11 @@
                             <label class="block text-sm font-medium text-gray-700 mb-1">Role Name</label>
                             <input type="text" wire:model.defer="name" class="w-full border px-3 py-2 rounded" placeholder="Enter Role Name">
                             @error('name') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Role Name</label>
+                            <input type="text" wire:model.defer="ranah" class="w-full border px-3 py-2 rounded" placeholder="Enter Ranah Role">
+                            @error('ranah') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                         </div>
                         <div class="flex justify-end gap-2">
                             <button type="button" wire:click="$set('showModal', false)" class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400">Cancel</button>

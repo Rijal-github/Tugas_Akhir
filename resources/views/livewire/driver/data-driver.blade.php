@@ -48,7 +48,7 @@
                                         'phone' => $vehicle->driver->no_hp,
                                         'photo' => asset('storage/assets/img/github.jpg'),
                                         'join_date' => \Carbon\Carbon::parse($vehicle->driver->created_at)->format('d/m/Y'),
-                                        'addres' => $vehicle->driver->addres ?? '-', // kalau kolom address tidak nullable
+                                        'addres' => $vehicle->driver->alamat_user ?? '-', // kalau kolom address tidak nullable
                                         "role" => $vehicle->driver->role->name ?? '-',
                                     ];
                                 @endphp
@@ -145,7 +145,7 @@
                         </div>
                         <div class="flex items-center gap-3">
                             <i class="fas fa-map-marker-alt text-slate-700 w-5 text-center"></i>
-                            <span class="w-48">Address</span>
+                            <span class="w-48">Alamat</span>
                             <span>:</span>
                             <span id="detail-address"></span>
                         </div>

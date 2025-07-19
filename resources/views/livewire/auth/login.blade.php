@@ -56,8 +56,8 @@
                                           <p>Forgot password?</p>
                                       </div>
                                           <div class="txHref text-[#006dc1]">
-                                              {{-- <a href="{{ route('forgot_password') }}">Click here</a> --}}
-                                              <a href="#">Click here</a>
+                                              <a href="{{ route('forgot-password') }}">Click here</a>
+                                              {{-- <a href="#">Click here</a> --}}
                                           </div>
                                   </div>
                               </div>

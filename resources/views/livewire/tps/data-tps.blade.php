@@ -29,13 +29,27 @@
             <tr class="border-b border-slate-200 text-slate-500 font-semibold">
               <th class="py-2 px-3">Jenis TPS</th>
               <th class="py-2 px-3">Tahun</th>
-              <th class="py-2 px-3">Jumlah</th>
               <th class="py-2 px-3">Lokasi</th>
+              <th class="py-2 px-3">Keterangan</th>
               <th class="py-2 px-3">Unit</th>
               <th class="py-2 px-3 text-center">Action</th>
             </tr>
           </thead>
           <tbody class="border-b text-slate-700">
+
+            {{-- @foreach ($dataTps as $tps) --}}
+              <tr>
+                  {{-- <td>{{ $tps->id }}</td> --}}
+                  <td>Landasan Kontainer</td>
+                  <td>2024</td>
+                  <td>Pekandangan Jaya</td>
+                  {{-- <td>{{ $tps->latitude }}</td>
+                  <td>{{ $tps->longitude }}</td> --}}
+                  {{-- <td>{{ $tps->tahun }}</td> --}}
+                  <td>TPS Beroperasi</td>
+                  <td>1</td>
+              </tr>
+            {{-- @endforeach --}}
             <!-- Row 1 -->
             {{-- @foreach ($lokasi_unit as $lokasi) --}}
             {{-- Baris pertama --}}
@@ -185,7 +199,7 @@
                       <button type="button" wire:click="removeLocation({{ $index }})" class="text-red-600">Hapus</button>
                   </div>
                   @endforeach --}}
-                  <button type="button" wire:click="addLocation" class="text-blue-600 text-sm mt-1">+ Tambah Lokasi</button>
+                  {{-- <button type="button" wire:click="addLocation" class="text-blue-600 text-sm mt-1">+ Tambah Lokasi</button> --}}
               </div>
       
               <div class="mt-6 flex justify-end gap-3">

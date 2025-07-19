@@ -37,7 +37,7 @@
               <select wire:model="role" class="form-select border border-gray-300 rounded px-1 py-2 w-full">
                   <option>-- Pilih Role --</option>
                   @foreach ($roles as $r)
-                      <option value="{{ $r->id_role }}">{{ $r->name }}</option>
+                      <option value="{{ $r->id }}">{{ $r->name }}</option>
                   @endforeach
               </select>
               @error('role') <span class="text-red-500">{{ $message }}</span> @enderror
@@ -63,8 +63,8 @@
             </div>
             <div>
               <label class="block text-gray-700 font-semibold mb-1">Alamat</label>
-              <input type="text" wire:model="addres" class="w-full border rounded-lg px-3 py-2" placeholder="Enter Alamat">
-              @error('addres') <span class="text-red-500">{{ $message }}</span> @enderror
+              <input type="text" wire:model="alamat_user" class="w-full border rounded-lg px-3 py-2" placeholder="Enter Alamat">
+              @error('alamat_user') <span class="text-red-500">{{ $message }}</span> @enderror
             </div>
             <div>
               <label class="block text-gray-700 font-semibold mb-1">Password {{ $isEditMode ? '(Kosongkan jika tidak ingin diubah)' : '' }}</label>
@@ -120,7 +120,7 @@
                 <td class="py-3 px-6 border text-center">{{ $user->username }}</td>
                 <td class="py-3 px-6 border text-center">{{ $user->no_hp }}</td>
                 <td class="py-3 px-6 border text-center">{{ $user->name }}</td>
-                <td class="py-3 px-6 border text-center">{{ $user->addres }}</td>
+                <td class="py-3 px-6 border text-center">{{ $user->alamat_user }}</td>
                 <td class="py-3 px-6 border text-center">
                     <div class="flex justify-center space-x-6">
                       <!-- Update Icon with Tooltip -->

@@ -114,8 +114,8 @@
         </div>
         @endif
         <div>
-            <a href="#" class="flex items-center justify-center px-4 py-2 rounded-lg text-lg font-medium gap-2 bg-indigo-600
-                {{ request()->routeIs('dashboard') ? : 'hover:bg-indigo-700' }}">
+            <a href="/view-profile" class="flex items-center justify-center px-4 py-2 rounded-lg text-lg font-medium gap-2 bg-indigo-600
+                {{ request()->routeIs('view-profile') ? : 'hover:bg-indigo-700' }}">
                 <i class="fas fa-user-gear text-lg"></i>
                 <span x-show="sidebarOpen" x-transition>Profile</span>
             </a>
