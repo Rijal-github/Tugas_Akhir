@@ -24,7 +24,7 @@ class KendaraanSeeder extends Seeder
             return;
         }
     
-        $drivers = User::where('id_role', $driverRole->id_role)->get();
+        $drivers = User::where('id_role', $driverRole->id)->get();
     
         if ($drivers->count() < 3) {
             $this->command->warn('Jumlah driver kurang dari 3, data kendaraan mungkin tidak lengkap.');
