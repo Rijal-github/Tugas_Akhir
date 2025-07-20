@@ -54,11 +54,9 @@
 
             {{-- Main Content --}}
             {{ $slot }}
-        </main>
-    {{-- </div> --}}
-    {{-- @stack('scripts') --}}
+            
     @livewireScripts
-    {{-- <script>
+    <script>
         document.addEventListener('livewire:load', function () {
             Livewire.hook('message.sent', () => {
                 // Mengganti title halaman (jika ingin)
@@ -71,6 +69,6 @@
             });
         });
     </script>
-    @yield('script-field') --}}
+    @yield('script-field')
     </body> 
 </html>

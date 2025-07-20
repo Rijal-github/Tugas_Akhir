@@ -4,6 +4,12 @@
           <div class="ctr-authLogin">
               <div class="cAuthLogin flex items-center justify-center">
                   <div class="ctr-formFieldlogin">
+
+                    @if (session()->has('error'))
+                        <div class="text-red-600 text-sm text-center mt-2">
+                            {{ session('error') }}
+                        </div>
+                    @endif
                       <form wire:submit.prevent='login' class="cformFieldlogin rounded-md flex items-center justify-center w-full p-5 bg-slate-200">
                           @csrf
                           <div class="Form-contenMain">
@@ -28,11 +34,9 @@
                                                   <p>Username</p>
                                               </div>   
                                           </label>
-                                          {{-- @error('email')
-                                          <div class="tx text-red-500 text-xs mt-1">
-                                              {{ $message }}
-                                          </div>            
-                                          @enderror --}}
+                                          @error('username')
+                                            <span class="text-sm text-red-600 absolute -bottom-5 left-0">{{ $message }}</span>
+                                          @enderror
                                       </div>
                                       <div class="form-input items-center gap-2 relative">
                                           {{-- <input type="password" id="password" name="password" wire:model.lazy="password" class="peer inptPassword text-sm w-full rounded-md bg-slate-100 border-1 border-gray-300 @error('password') is-invalid @enderror" placeholder=" "> --}}
@@ -41,12 +45,13 @@
                                               <div class="tx text-slate-400">
                                                   <p>Password</p>
                                               </div>  
-                                          </label>                                           
-                                          {{-- @error('password')
-                                          <div class="tx text-red-500 text-xs mt-1">
-                                              {{ $message }}
-                                          </div>                            
-                                          @enderror --}}
+                                          </label>
+                                          <div class="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer" id="togglePassword">
+                                            <i class="far fa-eye text-gray-500"></i>
+                                        </div>
+                                          @error('password')
+                                            <span class="text-sm text-red-600 absolute -bottom-5 left-0">{{ $message }}</span>
+                                          @enderror                  
                                       </div>
                                   </div>
                               </div>
@@ -61,28 +66,13 @@
                                           </div>
                                   </div>
                               </div>
-                              <div class="ctr-btnConfirSignIn mt-8 px-2">
+                              <div class="ctr-btnConfirSignIn mt-6 px-2 p-4">
                                   <div class="cBtnConfirSignIn">
                                       <button type="submit" class="block w-full py-2 bg-[#006dc1] hover:bg-[#002cc9] text-white rounded-xl">
                                           <div class="txBtn">
                                               <p>Continue</p>
                                           </div>
                                       </button>
-                                  </div>
-                                  <div class="text-sm flex items-center justify-center mt-3 text-white">
-                                      <p>Or</p>
-                                  </div>
-                              </div>
-                              <div class="ctr-gotoDonthaveAcount mt-3 flex items-center justify-center">
-                                  <div class="cgotoDonthaveAcount text-xs  flex items-center gap-1">
-                                      <div class="txHref text-white">
-                                          <p>Don't have account?</p>
-                                      </div>
-                                      {{-- <a href="{{ route('auth.register') }}" class="AHrefFgtPass block text-[#FFD700]" wire:navigate> 
-                                          <div class="txHref">
-                                              <p>Register</p>
-                                          </div>
-                                      </a> --}}
                                   </div>
                               </div>
                           </div>
@@ -113,5 +103,6 @@
 </div>
 
 @section('script-field')
-  <script src="{{ asset('assets/auth/input.js') }}"></script>
+  <script src="{{ asset('storage/assets/auth/input.js') }}"></script>
+  <script src="{{ asset('storage/assets/auth/showHidePassword.js') }}"></script>
 @endsection

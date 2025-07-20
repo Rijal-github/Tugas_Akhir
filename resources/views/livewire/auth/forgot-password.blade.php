@@ -1,19 +1,19 @@
 <div class="ctr-LupaPassword min-h-screen flex items-center justify-center bg-gradient-to-b from-blue-400 to-slate-200 p-4">
     <div class="cLupaPassword bg-white rounded-xl shadow-lg p-6 w-full max-w-md">
-        <div class="image-contain flex items-center justify-center">
-            <img src="{{ asset('storage/assets/img/logo.png') }}" alt="Logo" class="w-24 h-auto">
+        <div class="icon-contain flex items-center justify-center mb-3">
+            <i class="fas fa-user-lock rounded-full px-4 py-5 text-6xl bg-red-100 text-red-500"></i>
         </div>
-        <h1 class="text-2xl font-semibold text-gray-800 mb-4 text-center">Lupa Password?</h1>
-        <p class="text-sm text-gray-600 mb-6 text-center">Masukkan nomor handphone yang terdaftar untuk menerima link reset password.</p>
+        <h1 class="text-2xl font-bold text-gray-800 mb-4 text-center">Lupa Password?</h1>
+        <p class="text-sm text-gray-600 mb-6 text-center font-semibold">Masukkan nomor handphone yang terdaftar untuk menerima link reset password.</p>
 
         <form wire:submit.prevent="submit" class="space-y-4">
             <input
                 type="text"
                 wire:model="no_hp"
                 placeholder="Masukkan nomor handphone"
-                class="border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                class="border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring-1 focus:ring-blue-500"
             >
-            <div class="flex gap-2">
+            <div class="flex gap-2 mt-3">
                 <button
                         type="button"
                         wire:click="goBack"
@@ -31,7 +31,7 @@
         </form>
 
         @if (session()->has('message'))
-            <div class="mt-4 bg-green-100 text-green-700 p-3 rounded-lg text-center">
+            <div class="mt-4 bg-green-100 text-green-700 p-3 rounded-lg text-center break-words">
                 {{ session('message') }}
             </div>
         @endif

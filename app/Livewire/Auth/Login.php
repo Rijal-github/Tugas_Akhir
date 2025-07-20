@@ -12,6 +12,8 @@ class Login extends Component
     public $username;
     public $password;
 
+    public $showPassword = false;
+
     public function login()
     {
 

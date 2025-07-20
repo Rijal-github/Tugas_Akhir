@@ -14,6 +14,7 @@ use App\Livewire\Iot\DataIot;
 use App\Livewire\Jadwal\Pengangkutan;
 use App\Livewire\Report\Pelaporan;
 use App\Http\Middleware\CheckRole;
+use App\Livewire\Auth\ChangePassword;
 use App\Livewire\Auth\ForgotPassword;
 use App\Livewire\Driver\DataDriver;
 use App\Livewire\Profile\ViewProfile;
@@ -37,6 +38,9 @@ use App\Livewire\Uptd\AddDriver;
     //             ->name('login');
     Route::get('/', Login::class)->name('login');
     Route::get('/forgot-password', ForgotPassword::class)->name('forgot-password');
+
+    Route::get('/change-password', ChangePassword::class)->name('change-password');
+
     
     Route::get('/view-profile', ViewProfile::class)->name('view-profile');
 
