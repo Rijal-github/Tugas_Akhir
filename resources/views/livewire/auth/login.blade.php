@@ -5,11 +5,11 @@
               <div class="cAuthLogin flex items-center justify-center">
                   <div class="ctr-formFieldlogin">
 
-                    @if (session()->has('error'))
+                    {{-- @if (session()->has('error'))
                         <div class="text-red-600 text-sm text-center mt-2">
                             {{ session('error') }}
                         </div>
-                    @endif
+                    @endif --}}
                       <form wire:submit.prevent='login' class="cformFieldlogin rounded-md flex items-center justify-center w-full p-5 bg-slate-200">
                           @csrf
                           <div class="Form-contenMain">
@@ -26,9 +26,9 @@
                               </div>
                               <div class="ctr-formLoginInpt">
                                   <div class="cFormLoginInpt my-6 space-y-8 w-72">
-                                      <div class="form-input items-center gap-2 relative">
+                                      <div class="form-input items-center gap-2 relative wire:ignore">
                                           {{-- <input type="text" id="email" name="email" wire:model.lazy="email" class="peer inptEmail text-sm w-full rounded-md bg-slate-100 border-1 border-gray-300 @error('email') is-invalid @enderror" placeholder=" "> --}}
-                                          <input required wire:model="username" type="text" id="username" name="username" class="peer inptEmail text-sm w-full rounded-md bg-slate-100 border-1 border-gray-300">
+                                          <input required wire:model.defer="username" type="text" id="username" name="username" class="peer inptEmail text-sm w-full rounded-md bg-slate-100 border-1 border-gray-300">
                                           <label for="username" class="block text-sm cursor-text px-1.5 py-0.5 rounded-lg absolute transition-all -translate-y-1/2 top-1/2 peer-focus:-top-1/4 peer-focus:text-white">
                                               <div class="tx text-slate-400">
                                                   <p>Username</p>
@@ -38,9 +38,9 @@
                                             <span class="text-sm text-red-600 absolute -bottom-5 left-0">{{ $message }}</span>
                                           @enderror
                                       </div>
-                                      <div class="form-input items-center gap-2 relative">
+                                      <div class="form-input items-center gap-2 relative wire:ignore">
                                           {{-- <input type="password" id="password" name="password" wire:model.lazy="password" class="peer inptPassword text-sm w-full rounded-md bg-slate-100 border-1 border-gray-300 @error('password') is-invalid @enderror" placeholder=" "> --}}
-                                          <input required wire:model='password' type="password" id="password" name="password" class="peer inptPassword text-sm w-full rounded-md bg-slate-100 border-1 border-gray-300">
+                                          <input required wire:model.defer='password' type="password" id="password" name="password" class="peer inptPassword text-sm w-full rounded-md bg-slate-100 border-1 border-gray-300">
                                           <label for="password" class="block text-sm cursor-text px-1.5 py-0.5 rounded-lg absolute transition-all -translate-y-1/2 top-1/2 peer-focus:-top-1/4 peer-focus:text-white">
                                               <div class="tx text-slate-400">
                                                   <p>Password</p>
@@ -55,6 +55,13 @@
                                       </div>
                                   </div>
                               </div>
+                              <div class="mt-2">
+                                @if (session()->has('error'))
+                                    <div class="text-red-600 text-sm text-left">
+                                        {{ session('error') }}
+                                    </div>
+                                @endif
+                            </div>
                               <div class="gotoForgetPass mt-3 ml-2">
                                   <div class="cGTForgetPass text-xs flex items-center gap-1">
                                       <div class="txHref text-slate-700">

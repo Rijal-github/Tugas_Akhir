@@ -8,11 +8,14 @@
 
         <form wire:submit.prevent="submit" class="space-y-4">
             <input
-                type="text"
-                wire:model="no_hp"
-                placeholder="Masukkan nomor handphone"
+                type="email"
+                wire:model="email"
+                id="email"
+                required
+                placeholder="Masukkan email yang anda daftarkan"
                 class="border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring-1 focus:ring-blue-500"
             >
+            @error('email') <div class="text-red-600 text-sm">{{ $message }}</div> @enderror
             <div class="flex gap-2 mt-3">
                 <button
                         type="button"
