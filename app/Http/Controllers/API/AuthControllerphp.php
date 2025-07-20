@@ -34,6 +34,7 @@ class AuthControllerphp extends Controller
         $userData = [
             'id' => $user->id,
             'nama' => $user->name,
+            'avatar' => $user->avatar,
             'email' => $user->email,
             'username' => $user->username,
             'id_role' => $user->id_role,
