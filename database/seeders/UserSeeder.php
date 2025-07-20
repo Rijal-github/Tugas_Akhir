@@ -108,24 +108,24 @@ class UserSeeder extends Seeder
             'id_role' => $operator_spbu->id, // pastikan user punya kolom 'role_id'
         ]);  
 
-        $kepala_dlh = User::create([
-            'name' => 'karyanto',
-            'email' => 'karyanto@example.com',
-            'username' => '@kepaladlh',
-            'no_hp' => '123456789120',
-            'alamat_user' => 'Ds. Lohbener',
-            'password' => bcrypt('karyanto1236'), // password di-hash
-            'id_role' => $kepala_dlh->id, // pastikan user punya kolom 'role_id'
-        ]);  
+        // $kepala_dlh = User::create([
+        //     'name' => 'karyanto',
+        //     'email' => 'karyanto@example.com',
+        //     'username' => '@kepaladlh',
+        //     'no_hp' => '123456789120',
+        //     'alamat_user' => 'Ds. Lohbener',
+        //     'password' => bcrypt('karyanto1236'), // password di-hash
+        //     'id_role' => $kepala_dlh->id, // pastikan user punya kolom 'role_id'
+        // ]);  
 
-        $kepala_uptd = User::create([
-            'name' => 'yudistira',
-            'email' => 'yudi@example.com',
-            'username' => '@kepalauptd',
-            'no_hp' => '123456789121',
-            'alamat_user' => 'Ds. Bulak',
-            'password' => bcrypt('yudistira1236'), // password di-hash
-            'id_role' => $kepala_uptd->id, // pastikan user punya kolom 'role_id'
-        ]);
+        // $kepala_uptd = User::create([
+        //     'name' => 'yudistira',
+        //     'email' => 'yudi@example.com',
+        //     'username' => '@kepalauptd',
+        //     'no_hp' => '123456789121',
+        //     'alamat_user' => 'Ds. Bulak',
+        //     'password' => bcrypt('yudistira1236'), // password di-hash
+        //     'id_role' => $kepala_uptd->id, // pastikan user punya kolom 'role_id'
+        // ]);
     }
 }

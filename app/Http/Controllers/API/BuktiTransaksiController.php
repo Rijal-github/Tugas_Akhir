@@ -108,7 +108,7 @@ class BuktiTransaksiController extends Controller
 
             $column = 'id_vehicle';
             $userId = $vehicle->id;
-        } elseif ($user->id_role == 8) { // Operator SPBU
+        } elseif ($user->id_role == 6) { // Operator SPBU
             $column = 'id_operator';
         } else {
             return response()->json([

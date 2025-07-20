@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Role;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -120,6 +121,40 @@ public function update(Request $request, $id)
         'message' => 'User Updated Successfully',
         'data' => $user->load('role')
     ]);
+}
+
+public function updateAvatar(Request $request, $id)
+{
+    $request->validate([
+        'avatar' => 'required|image|mimes:jpg,jpeg,png',
+    ]);
+
+    $user = User::find($id);
+
+    if (!$user) {
+        return response()->json(['error' => 'User tidak ditemukan.'], 404);
+    }
+
+    if ($request->hasFile('avatar')) {
+        // Simpan file langsung ke disk 'public' ke folder 'avatar'
+        $path = $request->file('avatar')->store('avatar', 'public');
+
+        // Hapus avatar lama jika ada
+        if ($user->avatar && Storage::disk('public')->exists($user->avatar)) {
+            Storage::disk('public')->delete($user->avatar);
+        }
+
+        // Simpan path tanpa 'public/' karena kita pakai disk 'public'
+        $user->avatar = $path;
+        $user->save();
+
+        return response()->json([
+            'message' => 'Avatar berhasil diperbarui.',
+            'avatar_url' => asset('storage/' . $path),
+        ]);
+    }
+
+    return response()->json(['error' => 'File tidak ditemukan.'], 400);
 }
 
 public function delete($id)
