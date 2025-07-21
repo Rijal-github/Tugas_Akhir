@@ -4,164 +4,184 @@ namespace App\Livewire\Tps;
 
 use Livewire\Component;
 use Livewire\Attributes;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Tps;
-use App\Models\Lokasi;
+use App\Models\Uptd;
+use Livewire\WithFileUploads;
 
 class DataTps extends Component
 {
-    public $showEdit= false;
-    public $showForm= false;
+    use WithFileUploads;
 
-    public $dataTps;
-    public $nama_lokasi = '';
-    public $editTpsId;
-    public $jenis_tps;
-    public $tahun;
-    public $jumlah;
-    // public $lokasi_unit = [
-    //     ['nama_lokasi' => '', 'unit' => '', 'latitude' => '', 'longitude' => '']
-    // ];
+    public $id;
+    public $id_uptd;
+    public $uptds = [];
+    public $tpsList;
+    public $showForm = false;
+    public $showDetailPopup = false;
+    public $showConfirmDelete = false;
+    public $showNotification = false;
 
-    // public function addLocation()
-    // {
-    //     $this->lokasi_unit[] = ['nama_lokasi' => '', 'unit' => '', 'latitude' => '', 'longitude' => ''];
-    // }
+    public $notificationMessage = '';
+    public $formTitle = 'Tambah Data TPS';
 
-    // public function removeLocation($index)
-    // {
-    //     unset($this->lokasi_unit[$index]);
-    //     $this->lokasi_unit = array_values($this->lokasi_unit); // reset index
-    // }
+    public $selectedTps;
+    public $deleteId;
+
+    public $nama, $tahun, $jenis_tps, $lokasi, $latitude, $longitude, $keterangan, $fotoTPS;
+    public $old_foto; // for update
+
+    public function showSuccessMessage($message)
+    {
+        session()->flash('success', $message);
+    }
+    public function mount()
+    {
+        $this->loadData();
+    }
+
+    public function loadData()
+    {
+        $this->tpsList = Tps::orderBy('tahun', 'desc')->get();
+        $this->uptds = Uptd::all(); 
+    }
 
     public function openCreateForm()
     {
         $this->resetForm();
-        $this->showEdit = false;
+        $this->formTitle = 'Tambah Data TPS';
         $this->showForm = true;
     }
 
-    public function save()
+    public function showDetail($id)
     {
-        $this->validate([
-            'jenis_tps' => 'required|string',
-            'tahun' => 'required|numeric',
-            'jumlah' => 'required|numeric',
-            'lokasi_unit.*.nama_lokasi' => 'required|string',
-            'lokasi_unit.*.unit' => 'required|string',
-            'lokasi_unit.*.latitude' => 'required|numeric',
-            'lokasi_unit.*.longitude' => 'required|numeric',
-        ]);
-
-        $tps = Tps::create([
-            'jenis_tps' => $this->jenis_tps,
-            'tahun' => $this->tahun,
-            'jumlah' => $this->jumlah,
-        ]);
-
-            // foreach ($this->lokasi_unit as $lok) {
-            //     Lokasi::create([
-            //         'tps_id' => $tps->id,
-            //         'nama_lokasi' => $lok['nama_lokasi'],
-            //         'unit' => $lok['unit'],
-            //         'latitude' => $lok['latitude'],
-            //         'longitude' => $lok['longitude'],
-            //     ]);
-            // }
-
-        session()->flash('success', 'Data TPS berhasil disimpan.');
-        // $this->reset(['jenis_tps', 'tahun', 'jumlah', 'nama_lokasi']);
-        // $this->lokasi_unit = [['nama_lokasi' => '', 'unit' => '', 'latitude' => '', 'longitude' => '']];
-
-        $this->showForm = false;
+        $this->selectedTps = Tps::find($id);
+        $this->showDetailPopup = true;
     }
 
-    // public function edit($id)
-    // {
-    //     $this->resetForm();
-    //     $this->showEdit = true;
-    //     $this->showForm = true;
+    public function edit($id)
+{
+    $tps = Tps::find($id);
+    $this->fill([
+        $this->nama = $tps->nama,
+        $this->tahun = $tps->tahun,
+        $this ->jenis_tps = $tps->jenis_tps,
+        $this ->lokasi = $tps->lokasi,
+        $this ->latitude = $tps->latitude,
+        $this ->longitude = $tps->longitude,
+        $this ->keterangan = $tps->keterangan,
+        $this ->old_foto = $tps->old_foto,
+    ]);
+    $this->selectedTps = $tps;
+    $this->formTitle = 'Update Data TPS';
+    $this->showForm = true;
+}
 
-    //     $tps = Tps::with('lokasi')->findOrFail($id);
-    //     $this->editTpsId = $tps->id;
-    //     $this->jenis_tps = $tps->jenis_tps;
-    //     $this->tahun = $tps->tahun;
-    //     $this->jumlah = $tps->jumlah;
+    public function save()
+{
+    $this->validate([
+        'id_uptd' => 'required|exists:uptds,id',
+        'nama' => 'required|string|max:255',
+        'tahun' => 'required|integer',
+        'jenis_tps' => 'required|string|max:255',
+        'lokasi' => 'required|string|max:255',
+        'latitude' => 'required|numeric',
+        'longitude' => 'required|numeric',
+        'keterangan' => 'required|string|max:500',
+        'fotoTPS' => 'nullable|image|mimes:jpg,jpeg,png|max:5048',
+    ]);
 
-    //     $this->lokasi_unit = $tps->lokasi->map(function ($lok) {
-    //         return [
-    //             'nama_lokasi' => $lok->nama_lokasi,
-    //             'unit' => $lok->unit,
-    //             'latitude' => $lok->latitude,
-    //             'longitude' => $lok->longitude,
-    //         ];
-    //     })->toArray();
-    // }
+    $fotoPath = null;
+    if ($this->fotoTPS) {
+        $fotoPath = $this->fotoTPS->store('tps_images', 'public');
+    }
 
-    // public function update()
-    // {
-    //     $this->validate([
-    //         'jenis_tps' => 'required|string',
-    //         'tahun' => 'required|numeric',
-    //         'jumlah' => 'required|numeric',
-    //         'lokasi_unit.*.nama_lokasi' => 'required|string',
-    //         'lokasi_unit.*.unit' => 'required|string',
-    //         'lokasi_unit.*.latitude' => 'required|numeric',
-    //         'lokasi_unit.*.longitude' => 'required|numeric',
-    //     ]);
+    if ($this->id) {
+        $tps = Tps::findOrFail($this->id);
+        $tps->nama = $this->nama;
+        $tps->tahun = $this->tahun;
+        $tps->jenis_tps = $this->jenis_tps;
+        $tps->lokasi = $this->lokasi;
+        $tps->latitude = $this->latitude;
+        $tps->longitude = $this->longitude;
+        $tps->keterangan = $this->keterangan;
 
-    //     $tps = Tps::findOrFail($this->editTpsId);
-    //     $tps->update([
-    //         'jenis_tps' => $this->jenis_tps,
-    //         'tahun' => $this->tahun,
-    //         'jumlah' => $this->jumlah,
-    //     ]);
+        if ($fotoPath) {
+            $tps->fotoTPS = $fotoPath;
+        }
 
-    //     // Hapus lokasi lama
-    //     // $tps->lokasi()->delete();
+        $tps->save();
 
-    //     // // Tambah lokasi baru
-    //     // foreach ($this->lokasi_unit as $lok) {
-    //     //     Lokasi::create([
-    //     //         'tps_id' => $tps->id,
-    //     //         'nama_lokasi' => $lok['nama_lokasi'],
-    //     //         'unit' => $lok['unit'],
-    //     //         'latitude' => $lok['latitude'],
-    //     //         'longitude' => $lok['longitude'],
-    //     //     ]);
-    //     // }
+        $message = 'Data TPS berhasil diperbaharui.';
+    } else {
+        Tps::create([
+            'nama' => $this->nama,
+            'tahun' => $this->tahun,
+            'jenis_tps' => $this->jenis_tps,
+            'lokasi' => $this->lokasi,
+            'latitude' => $this->latitude,
+            'longitude' => $this->longitude,
+            'keterangan' => $this->keterangan,
+            'fotoTPS' => $fotoPath,
+            'created_by' => Auth::id(),
+            'id_uptd' => $this->id_uptd,
+        ]);
 
-    //     session()->flash('success', 'Data TPS berhasil diperbarui.');
-    //     $this->closeModal();
-    // }
+        $message = 'Data TPS berhasil ditambahkan.';
+    }
 
-    // public function delete($id)
-    // {
-    //     $tps = Tps::findOrFail($id);
-    //     $tps->lokasi()->delete(); // Hapus lokasi terlebih dahulu
-    //     $tps->delete();
+    $this->showSuccessMessage($message); // tampilkan notifikasi sukses
 
-    //     session()->flash('success', 'Data TPS berhasil dihapus.');
-    // }
+    $this->resetForm();
+    $this->loadData();
+    $this->showForm = false;
+    $this->showNotification = true;
+}
 
-    public function closeModal()
+
+
+    public function confirmDelete($id)
     {
-        $this->showForm = false;
-        $this->resetForm();
+        $this->deleteId = $id;
+        $this->showConfirmDelete = true;
+    }
+
+    public function delete()
+    {
+        Tps::find($this->deleteId)?->delete();
+        $this->loadData();
+        $this->showConfirmDelete = false;
+        $this->notificationMessage = 'Data TPS berhasil dihapus.';
+        $this->showNotification = true;
     }
 
     public function resetForm()
     {
-        $this->jenis_tps = null;
-        $this->tahun = null;
-        $this->jumlah = null;
-      
+        // $this->reset([
+        //     'nama', 'tahun', 'jenis_tps', 'lokasi', 'latitude', 'longitude', 'keterangan', 'fotoTps',
+        //     'selectedTps',
+        // ]);
+
+        // $this->id_tps = null;
+        $this->nama = '';
+        $this->tahun = '';
+        $this->jenis_tps = '';
+        $this->lokasi = '';
+        $this->latitude = '';
+        $this->longitude = '';
+        $this->keterangan = '';
+        $this->selectedTps = null;
     }
+
+    public function closeNotification()
+    {
+        $this->showNotification = false;
+    }
+
 
     #[Attributes\Layout('layouts.content.content')]
     public function render()
     {
-        // $this->dataTps = Tps::with('lokasi')->latest()->get();
-        // $dataTps = \App\Models\Tps::all();
         return view('livewire.tps.data-tps');
 
     }

@@ -1,8 +1,4 @@
-{{-- @extends('layouts.app') --}}
-
 @section('breadcrumb', 'Data TPS')
-
-{{-- @section('content') --}}
 
 <div x-data="{ showForm: @entangle('showForm'), showDetailPopup: @entangle('showDetailPopup'), showDetailPopup: false }" 
       x-effect="document.body.classList.toggle('overflow-hidden', showDetailPopup)"
@@ -13,7 +9,6 @@
     <!-- Card Container -->
     <div class="bg-white rounded-xl p-4 shadow-md">
       
-      <!-- Filter Button -->
       <div class="flex justify-between items-center mb-4">
         <button wire:click="openCreateForm" class="bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium px-4 py-2 rounded-md flex items-center gap-2">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -31,184 +26,154 @@
               <th class="py-2 px-3">Tahun</th>
               <th class="py-2 px-3">Lokasi</th>
               <th class="py-2 px-3">Keterangan</th>
-              <th class="py-2 px-3">Unit</th>
               <th class="py-2 px-3 text-center">Action</th>
             </tr>
           </thead>
           <tbody class="border-b text-slate-700">
-
-            {{-- @foreach ($dataTps as $tps) --}}
-              <tr>
-                  {{-- <td>{{ $tps->id }}</td> --}}
-                  <td>Landasan Kontainer</td>
-                  <td>2024</td>
-                  <td>Pekandangan Jaya</td>
-                  {{-- <td>{{ $tps->latitude }}</td>
-                  <td>{{ $tps->longitude }}</td> --}}
-                  {{-- <td>{{ $tps->tahun }}</td> --}}
-                  <td>TPS Beroperasi</td>
-                  <td>1</td>
-              </tr>
-            {{-- @endforeach --}}
-            <!-- Row 1 -->
-            {{-- @foreach ($lokasi_unit as $lokasi) --}}
-            {{-- Baris pertama --}}
-            {{-- @foreach ($dataTps as $tps)
-              @foreach ($tps->lokasi as $lokasi)
-                <tr class="border-t border-slate-200">
-                  <td class="py-2 px-3">{{ $tps->jenis_tps }}</td>
-                  <td class="py-2 px-3 text-blue-500">{{ $tps->tahun }}</td>
-                  <td class="py-2 px-3">
-                    <span class="bg-green-100 text-green-600 text-xs px-2 py-1 rounded">{{ $tps->jumlah }}</span>
-                  </td>
-                  <td class="py-2 px-3">{{ $lokasi->nama_lokasi }}</td>
-                  <td class="py-2 px-3">
-                    <span class="bg-green-100 text-green-600 text-xs px-2 py-1 rounded">{{ $lokasi->unit }}</span>
-                  </td>
-                  <td class="py-3 px-6 text-center">
-                    <div class="flex justify-center space-x-6">
-                       <!-- view Icon with Tooltip -->
-                       <div class="relative group">
-                          <button @click="showDetailPopup = true" class="text-blue-500 hover:text-blue-600 transition-transform transform hover:scale-110">
-                          <i class="fas fa-eye fa-lg"></i>
-                          </button>
-                          <div class="absolute bottom-full left-1/2 -translate-x-1/2 bg-gray-900 text-white text-xs rounded-md py-1 px-3 opacity-0 group-hover:opacity-100 group-hover:translate-y-[-6px] transition-all duration-300">
-                          View
-                          </div>
-                      </div>
-                      <!-- Update Icon with Tooltip -->
-                      <div class="relative group">
-                          <button wire:click="edit({{ $tps->id }})" class="text-green-500 hover:text-green-600 transition-transform transform hover:scale-110">
-                          <i class="fas fa-pen-to-square fa-lg"></i>
-                          </button>
-                          <div class="absolute bottom-full left-1/2 -translate-x-1/2 bg-gray-900 text-white text-xs rounded-md py-1 px-3 opacity-0 group-hover:opacity-100 group-hover:translate-y-[-6px] transition-all duration-300">
-                          Update
-                          </div>
-                      </div>
-                      <!-- Delete Icon with Tooltip -->
-                      <div class="relative group">
-                          <button wire:click="delete({{ $tps->id }})" class="text-red-500 hover:text-red-600 transition-transform transform hover:scale-110">
-                          <i class="fas fa-trash fa-lg"></i>
-                          </button>
-                            <div class="absolute bottom-full left-1/2 -translate-x-1/2 bg-gray-900 text-white text-xs rounded-md py-1 px-3 opacity-0 group-hover:opacity-100 group-hover:translate-y-[-6px] transition-all duration-300">
-                              Delete
-                            </div>
-                            <!-- Modal Popup -->
-                            {{-- @if ($confirmDeleteOpen)
-                              <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20">
-                                  <div class="bg-white rounded-lg shadow-lg p-6 w-1/3">
-                                      <h3 class="text-lg font-semibold mb-4">Konfirmasi Hapus</h3>
-                                      <p>Apakah Anda yakin ingin menghapus profil ini?</p>
-                                      <div class="flex justify-end mt-6">
-                                          <button wire:click="cancelDelete" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded mr-2">
-                                              Batal
-                                          </button>
-                                          <button wire:click="delete('{{ $user->id  }}')" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
-                                              Hapus
-                                          </button>
-                                      </div>
-                                  </div>
+            @forelse ($tpsList as $tps)
+                <tr>
+                    <td class="py-2 px-3">{{ $tps->jenis_tps }}</td>
+                    <td class="py-2 px-3">{{ $tps->tahun }}</td>
+                    <td class="py-2 px-3">{{ $tps->lokasi }}</td>
+                    <td class="py-2 px-3">{{ $tps->keterangan }}</td>
+                    <td class="py-3 text-center">
+                      <div class="flex justify-center space-x-6">
+                          <!-- View -->
+                          <div class="relative group">
+                              <a href="#" wire:click.prevent="showDetail({{ $tps->id }})" class="text-blue-500 hover:text-blue-600 transition-transform transform hover:scale-110">
+                                  <i class="fas fa-eye fa-lg"></i>
+                              </a>
+                              <div class="absolute bottom-full left-1/2 -translate-x-1/2 bg-gray-900 text-white text-xs rounded-md py-1 px-3 opacity-0 group-hover:opacity-100 group-hover:translate-y-[-6px] transition-all duration-300">
+                                  View
                               </div>
-                            @endif --}}
-                        <!-- Popup Pesan -->
-                        {{-- @if ($statusMessage)
-                            <div class="fixed top-10 right-10 bg-blue-500 text-white px-4 py-2 rounded shadow-lg z-40">
-                                {{ $statusMessage }}
-                                <button wire:click="$set('statusMessage', null)" class="ml-2 text-sm text-gray-200 hover:text-gray-100">
-                                    &times;
-                                </button>
-                            </div>
-                        @endif --}}
+                          </div>
+                  
+                          <!-- Update -->
+                          <div class="relative group">
+                              <button wire:click="edit({{ $tps->id }})" class="text-green-500 hover:text-green-600 transition-transform transform hover:scale-110">
+                                  <i class="fas fa-pen-to-square fa-lg"></i>
+                              </button>
+                              <div class="absolute bottom-full left-1/2 -translate-x-1/2 bg-gray-900 text-white text-xs rounded-md py-1 px-3 opacity-0 group-hover:opacity-100 group-hover:translate-y-[-6px] transition-all duration-300">
+                                  Update
+                              </div>
+                          </div>
+                  
+                          <!-- Delete -->
+                          <div class="relative group">
+                              <button wire:click="confirmDelete({{ $tps->id }})" class="text-red-500 hover:text-red-600 transition-transform transform hover:scale-110">
+                                  <i class="fas fa-trash fa-lg"></i>
+                              </button>
+                              <div class="absolute bottom-full left-1/2 -translate-x-1/2 bg-gray-900 text-white text-xs rounded-md py-1 px-3 opacity-0 group-hover:opacity-100 group-hover:translate-y-[-6px] transition-all duration-300">
+                                  Delete
+                              </div>
+                          </div>
                       </div>
-                      </div>
-                  </td>
+                  </td>                  
                 </tr>
-                {{-- <tr class="border-t border-slate-200">
-                    <td class="py-2 px-3"></td>
-                    <td class="py-2 px-3 text-blue-500"></td>
-                    <td class="py-2 px-3">
-                    <span class="bg-green-100 text-green-600 text-xs px-2 py-1 rounded"></span>
-                    </td>
-                    <td class="py-2 px-3"></td>
-                    <td class="py-2 px-3">
-                    <span class="bg-green-100 text-green-600 text-xs px-2 py-1 rounded">
-                        
-                    </span>
-                    </td>
+                @empty
+                <tr>
+                    <td colspan="5" class="text-center text-gray-500 py-4">Belum ada data TPS.</td>
                 </tr>
-
-                {{-- Baris berikutnya --}}
-{{--                 
-                    <tr class="border-slate-200">
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td class="py-2 px-3"></td>
-                        <td class="py-2 px-3">
-                            <span class="bg-green-100 text-green-600 text-xs px-2 py-1 rounded">
-                            
-                            </span>
-                        </td>
-                    </tr>      --}}
-               {{-- @endforeach
-            @endforeach --}}
-          </tbody>
+            @endforelse
+        </tbody>
         </table> 
       </div>
-      <div x-show="showForm"
-          class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          {{-- x-transition:enter="transition ease-out duration-100"
-          x-transition:enter-start="opacity-0"
-          x-transition:enter-end="opacity-100"
-          x-transition:leave="transition ease-in duration-100"
-          x-transition:leave-start="opacity-100"
-          x-transition:leave-end="opacity-0"> --}}
-        <div class="bg-white p-4 rounded-lg shadow mb-6">
-          <button @click="showForm = false; $wire.resetForm()" class="absolute top-3 right-3 text-gray-600 hover:text-gray-800 text-xl">&times;</button>
-    
-          <form wire:submit.prevent="save">
-            @csrf
-              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div>
-                      <label class="block text-sm font-semibold text-slate-600 mb-1">Jenis TPS</label>
-                      <select wire:model="jenis_tps" class="w-full px-3 py-2 border rounded-md" required>
-                        <option value="" disabled selected>Pilih Jenis TPS</option>
-                        <option value="Landasan Kontainer">Landasan Kontainer</option>
-                        <option value="Landasan Beratap">Landasan Beratap</option>
-                        <option value="TPS Kecil">TPS Kecil</option>
-                      </select>
-                  </div>
-                  <div>
-                      <label class="block text-sm font-semibold text-slate-600 mb-1">Tahun</label>
-                      <input type="number" wire:model="tahun" class="w-full px-3 py-2 border rounded-md" required>
-                  </div>
-                  <div>
-                      <label class="block text-sm font-semibold text-slate-600 mb-1">Jumlah</label>
-                      <input type="number" wire:model="jumlah" class="w-full px-3 py-2 border rounded-md" required>
-                  </div>
-              </div>
-      
-              <div class="mt-4">
-                  <label class="block text-sm font-semibold text-slate-600 mb-2">Lokasi & Unit</label>
-                  {{-- @foreach ($lokasi_unit as $index => $lokasi)
-                  <div  wire:key="lokasi-{{ $index }}" class="grid grid-cols-1 md:grid-cols-4 gap-2 mb-2">
-                      <input type="text" wire:model="lokasi_unit.{{ $index }}.nama_lokasi" placeholder="Lokasi" class="px-2 py-1 border rounded-md">
-                      <input type="text" wire:model="lokasi_unit.{{ $index }}.unit" placeholder="Unit" class="px-2 py-1 border rounded-md">
-                      <input type="text" wire:model="lokasi_unit.{{ $index }}.latitude" placeholder="Latitude" class="px-2 py-1 border rounded-md">
-                      <input type="text" wire:model="lokasi_unit.{{ $index }}.longitude" placeholder="Longitude" class="px-2 py-1 border rounded-md">
-                      <button type="button" wire:click="removeLocation({{ $index }})" class="text-red-600">Hapus</button>
-                  </div>
-                  @endforeach --}}
-                  {{-- <button type="button" wire:click="addLocation" class="text-blue-600 text-sm mt-1">+ Tambah Lokasi</button> --}}
-              </div>
-      
-              <div class="mt-6 flex justify-end gap-3">
-                <button type="button" @click="showForm = false; $wire.resetForm()" class="bg-gray-300 text-gray-800 px-4 py-2 rounded-md">Batal</button>
-                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md">Simpan</button>
-              </div>
-          </form>
+      {{-- FORM ADD / EDIT --}}
+@if ($showForm)
+<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-xl p-6 w-full max-w-lg relative">
+        <h2 class="text-xl font-semibold mb-4">{{ $formTitle }}</h2>
+        
+        <div class="space-y-3">
+          <div>
+            <label class="block text-sm text-gray-600">Upload Foto</label>
+            <input type="file" wire:model="fotoTPS" class="w-full border p-2 rounded" accept="image/*">
+        
+            @if ($old_foto && !$fotoTPS)
+                <p class="text-sm mt-1">Foto saat ini: <span class="text-blue-600">{{ $old_foto }}</span></p>
+            @endif
+        
+            @if ($fotoTPS)
+                <p class="text-sm mt-1 text-green-600">Foto baru: {{ $fotoTPS->getClientOriginalName() }}</p>
+            @endif
         </div>
-      </div>
+        <label for="id_uptd">Pilih UPTD</label>
+        <select wire:model="id_uptd" class="w-full border p-2 rounded">
+            <option value="">-- Pilih UPTD --</option>
+            @foreach ($uptds as $uptd)
+                <option value="{{ $uptd->id }}">{{ $uptd->nama_uptd }}</option>
+            @endforeach
+        </select>
+        @error('id_uptd') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+
+            <input type="text" wire:model="nama" class="w-full border p-2 rounded" placeholder="Nama TPS">
+            <input type="number" wire:model="tahun" class="w-full border p-2 rounded" placeholder="Tahun">
+            <input type="text" wire:model="jenis_tps" class="w-full border p-2 rounded" placeholder="Jenis TPS">
+            <input type="text" wire:model="lokasi" class="w-full border p-2 rounded" placeholder="Lokasi">
+            <input type="text" wire:model="latitude" class="w-full border p-2 rounded" placeholder="Latitude">
+            <input type="text" wire:model="longitude" class="w-full border p-2 rounded" placeholder="Longitude">
+            <input type="text" wire:model="keterangan" class="w-full border p-2 rounded" placeholder="Keterangan">
+        </div>
+
+        <div class="mt-4 flex justify-end space-x-2">
+            <button wire:click="save" class="bg-blue-500 text-white px-4 py-2 rounded">Simpan</button>
+            <button wire:click="$set('showForm', false)" class="text-gray-500 px-4 py-2">Batal</button>
+        </div>
+    </div>
+</div>
+@endif
+
+{{-- DETAIL POPUP --}}
+@if ($showDetailPopup)
+<div class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+    <div class="bg-white rounded-xl p-6 w-full max-w-md">
+        <h3 class="text-lg font-semibold mb-4">Detail TPS</h3>
+        @if ($selectedTps)
+            <ul class="text-sm text-gray-700 space-y-1">
+                <li><strong>Nama:</strong> {{ $selectedTps->nama }}</li>
+                <li><strong>Tahun:</strong> {{ $selectedTps->tahun }}</li>
+                <li><strong>Jenis TPS:</strong> {{ $selectedTps->jenis_tps }}</li>
+                <li><strong>Lokasi:</strong> {{ $selectedTps->lokasi }}</li>
+                <li><strong>Latitude:</strong> {{ $selectedTps->latitude }}</li>
+                <li><strong>Longitude:</strong> {{ $selectedTps->longitude }}</li>
+                <li><strong>Keterangan:</strong> {{ $selectedTps->keterangan }}</li>
+                @if ($selectedTps && $selectedTps->fotoTps)
+                  <img src="{{ asset('storage/tps/' . $selectedTps->fotoTps) }}" class="w-full rounded mt-3" alt="Foto TPS">
+                @endif
+            </ul>
+        @endif
+        <div class="mt-4 text-right">
+            <button wire:click="$set('showDetailPopup', false)" class="text-gray-600">Tutup</button>
+        </div>
+    </div>
+</div>
+@endif
+
+{{-- KONFIRMASI HAPUS --}}
+@if ($showConfirmDelete)
+<div class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+    <div class="bg-white p-6 rounded-lg max-w-sm w-full">
+        <h3 class="text-lg font-semibold text-center mb-4">Yakin ingin menghapus data ini?</h3>
+        <div class="flex justify-center gap-4">
+            <button wire:click="delete" class="bg-red-600 text-white px-4 py-2 rounded">Ya, Hapus</button>
+            <button wire:click="$set('showConfirmDelete', false)" class="text-gray-600 px-4 py-2">Batal</button>
+        </div>
+    </div>
+</div>
+@endif
+
+{{-- NOTIFIKASI --}}
+{{-- @if ($showNotification)
+<div class="fixed top-6 right-6 bg-green-500 text-white px-4 py-2 rounded shadow z-50">
+    {{ $notificationMessage }}
+    <button wire:click="closeNotification" class="ml-2 text-white font-bold">×</button>
+</div>
+@endif --}}
+@if (session()->has('success'))
+    <div class="fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded shadow-md z-50">
+        {{ session('success') }}
+    </div>
+@endif
 
       <!-- Include Popup Detail -->
       @include('livewire.tps.popup-detail-tps')
@@ -228,5 +193,3 @@
     </div>
     
   </div>
-
-{{-- @endsection --}}
