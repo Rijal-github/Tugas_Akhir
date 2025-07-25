@@ -28,8 +28,8 @@ class DataTps extends Component
     public $selectedTps;
     public $deleteId;
 
-    public $nama, $tahun, $jenis_tps, $lokasi, $latitude, $longitude, $keterangan, $fotoTPS;
-    public $old_foto; // for update
+    public $nama, $tahun, $jenis_tps, $lokasi, $latitude, $longitude, $keterangan, $foto_tps;
+    public $old_foto;
 
     public function showSuccessMessage($message)
     {
@@ -63,14 +63,16 @@ class DataTps extends Component
 {
     $tps = Tps::find($id);
     $this->fill([
-        $this->nama = $tps->nama,
-        $this->tahun = $tps->tahun,
-        $this ->jenis_tps = $tps->jenis_tps,
-        $this ->lokasi = $tps->lokasi,
-        $this ->latitude = $tps->latitude,
-        $this ->longitude = $tps->longitude,
-        $this ->keterangan = $tps->keterangan,
-        $this ->old_foto = $tps->old_foto,
+        'id' => $tps->id,
+        'id_uptd' => $tps->id_uptd,
+        'nama' => $tps->nama,
+        'tahun' => $tps->tahun,
+        'jenis_tps' => $tps->jenis_tps,
+        'lokasi' => $tps->lokasi,
+        'latitude' => $tps->latitude,
+        'longitude' => $tps->longitude,
+        'keterangan' => $tps->keterangan,
+        'old_foto' => $tps->foto_tps,
     ]);
     $this->selectedTps = $tps;
     $this->formTitle = 'Update Data TPS';
@@ -80,7 +82,7 @@ class DataTps extends Component
     public function save()
 {
     $this->validate([
-        'id_uptd' => 'required|exists:uptds,id',
+        'id_uptd' => 'required|exists:uptd,id_uptd',
         'nama' => 'required|string|max:255',
         'tahun' => 'required|integer',
         'jenis_tps' => 'required|string|max:255',
@@ -88,49 +90,68 @@ class DataTps extends Component
         'latitude' => 'required|numeric',
         'longitude' => 'required|numeric',
         'keterangan' => 'required|string|max:500',
-        'fotoTPS' => 'nullable|image|mimes:jpg,jpeg,png|max:5048',
+        'foto_tps' => 'nullable|image|mimes:jpg,jpeg,png|max:5048',
     ]);
 
     $fotoPath = null;
-    if ($this->fotoTPS) {
-        $fotoPath = $this->fotoTPS->store('tps_images', 'public');
+    if ($this->foto_tps) {
+        $fotoPath = $this->foto_tps->store('tps_images', 'public');
     }
 
-    if ($this->id) {
-        $tps = Tps::findOrFail($this->id);
-        $tps->nama = $this->nama;
-        $tps->tahun = $this->tahun;
-        $tps->jenis_tps = $this->jenis_tps;
-        $tps->lokasi = $this->lokasi;
-        $tps->latitude = $this->latitude;
-        $tps->longitude = $this->longitude;
-        $tps->keterangan = $this->keterangan;
+    $tps = Tps::findOrFail($this->id);
+    $tps->id_uptd = $this->id_uptd;
+    $tps->nama = $this->nama;
+    $tps->tahun = $this->tahun;
+    $tps->jenis_tps = $this->jenis_tps;
+    $tps->lokasi = $this->lokasi;
+    $tps->latitude = $this->latitude;
+    $tps->longitude = $this->longitude;
+    $tps->keterangan = $this->keterangan;
 
-        if ($fotoPath) {
-            $tps->fotoTPS = $fotoPath;
-        }
-
-        $tps->save();
-
-        $message = 'Data TPS berhasil diperbaharui.';
-    } else {
-        Tps::create([
-            'nama' => $this->nama,
-            'tahun' => $this->tahun,
-            'jenis_tps' => $this->jenis_tps,
-            'lokasi' => $this->lokasi,
-            'latitude' => $this->latitude,
-            'longitude' => $this->longitude,
-            'keterangan' => $this->keterangan,
-            'fotoTPS' => $fotoPath,
-            'created_by' => Auth::id(),
-            'id_uptd' => $this->id_uptd,
-        ]);
-
-        $message = 'Data TPS berhasil ditambahkan.';
+    if ($fotoPath) {
+        $tps->foto_tps = $fotoPath;
     }
 
-    $this->showSuccessMessage($message); // tampilkan notifikasi sukses
+    $tps->save();
+
+    $message = 'Data TPS berhasil diperbaharui.';
+
+    // if ($this->id) {
+    //     $tps = Tps::findOrFail($this->id);
+    //     $tps->id_uptd = $this->id_uptd;
+    //     $tps->nama = $this->nama;
+    //     $tps->tahun = $this->tahun;
+    //     $tps->jenis_tps = $this->jenis_tps;
+    //     $tps->lokasi = $this->lokasi;
+    //     $tps->latitude = $this->latitude;
+    //     $tps->longitude = $this->longitude;
+    //     $tps->keterangan = $this->keterangan;
+
+    //     if ($fotoPath) {
+    //         $tps->foto_tps = $fotoPath;
+    //     }
+
+    //     $tps->save();
+
+    //     $message = 'Data TPS berhasil diperbaharui.';
+    // } else {
+    //     Tps::create([
+    //         'id_uptd' => $this->id_uptd,
+    //         'nama' => $this->nama,
+    //         'tahun' => $this->tahun,
+    //         'jenis_tps' => $this->jenis_tps,
+    //         'lokasi' => $this->lokasi,
+    //         'latitude' => $this->latitude,
+    //         'longitude' => $this->longitude,
+    //         'keterangan' => $this->keterangan,
+    //         'foto_tps' => $fotoPath,
+    //         'created_by' => Auth::id(),
+    //     ]);
+
+    //     $message = 'Data TPS berhasil ditambahkan.';
+    // }
+
+    $this->showSuccessMessage($message); 
 
     $this->resetForm();
     $this->loadData();
@@ -157,12 +178,7 @@ class DataTps extends Component
 
     public function resetForm()
     {
-        // $this->reset([
-        //     'nama', 'tahun', 'jenis_tps', 'lokasi', 'latitude', 'longitude', 'keterangan', 'fotoTps',
-        //     'selectedTps',
-        // ]);
-
-        // $this->id_tps = null;
+        $this->id = null;
         $this->nama = '';
         $this->tahun = '';
         $this->jenis_tps = '';
@@ -170,14 +186,16 @@ class DataTps extends Component
         $this->latitude = '';
         $this->longitude = '';
         $this->keterangan = '';
+        $this->foto_tps = null;
+        $this->id_uptd = '';
         $this->selectedTps = null;
+        $this->old_foto = null;
     }
 
     public function closeNotification()
     {
         $this->showNotification = false;
     }
-
 
     #[Attributes\Layout('layouts.content.content')]
     public function render()

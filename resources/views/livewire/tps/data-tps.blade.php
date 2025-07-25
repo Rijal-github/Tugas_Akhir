@@ -1,6 +1,6 @@
 @section('breadcrumb', 'Data TPS')
 
-<div x-data="{ showForm: @entangle('showForm'), showDetailPopup: @entangle('showDetailPopup'), showDetailPopup: false }" 
+<div x-data="{ showForm: @entangle('showForm'), showDetailPopup: @entangle('showDetailPopup'), showDetailPopup: false, show: true, 'overflow-hidden' : '' }" 
       x-effect="document.body.classList.toggle('overflow-hidden', showDetailPopup)"
       class="flex flex-col w-full p-6 bg-[#e8f0fe] min-h-screen">
     <!-- Header -->
@@ -9,16 +9,16 @@
     <!-- Card Container -->
     <div class="bg-white rounded-xl p-4 shadow-md">
       
-      <div class="flex justify-between items-center mb-4">
+      {{-- <div class="flex justify-between items-center mb-4">
         <button wire:click="openCreateForm" class="bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium px-4 py-2 rounded-md flex items-center gap-2">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01-.293.707L14 13.414V20a1 1 0 01-1.447.894l-4-2A1 1 0 018 18v-4.586L3.293 6.707A1 1 0 013 6V4z" />
           </svg>
           Tambah
         </button>
-      </div>
+      </div> --}}
       <!-- Table -->
-      <div class="overflow-x-auto">
+      <div class="">
         <table class="w-full text-sm text-left border-collapse">
           <thead>
             <tr class="border-b border-slate-200 text-slate-500 font-semibold">
@@ -40,9 +40,9 @@
                       <div class="flex justify-center space-x-6">
                           <!-- View -->
                           <div class="relative group">
-                              <a href="#" wire:click.prevent="showDetail({{ $tps->id }})" class="text-blue-500 hover:text-blue-600 transition-transform transform hover:scale-110">
+                              <button wire:click.prevent="showDetail({{ $tps->id }})" class="text-blue-500 hover:text-blue-600 transition-transform transform hover:scale-110">
                                   <i class="fas fa-eye fa-lg"></i>
-                              </a>
+                              </button>
                               <div class="absolute bottom-full left-1/2 -translate-x-1/2 bg-gray-900 text-white text-xs rounded-md py-1 px-3 opacity-0 group-hover:opacity-100 group-hover:translate-y-[-6px] transition-all duration-300">
                                   View
                               </div>
@@ -79,101 +79,81 @@
         </table> 
       </div>
       {{-- FORM ADD / EDIT --}}
-@if ($showForm)
-<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-    <div class="bg-white rounded-xl p-6 w-full max-w-lg relative">
-        <h2 class="text-xl font-semibold mb-4">{{ $formTitle }}</h2>
-        
-        <div class="space-y-3">
-          <div>
-            <label class="block text-sm text-gray-600">Upload Foto</label>
-            <input type="file" wire:model="fotoTPS" class="w-full border p-2 rounded" accept="image/*">
-        
-            @if ($old_foto && !$fotoTPS)
-                <p class="text-sm mt-1">Foto saat ini: <span class="text-blue-600">{{ $old_foto }}</span></p>
-            @endif
-        
-            @if ($fotoTPS)
-                <p class="text-sm mt-1 text-green-600">Foto baru: {{ $fotoTPS->getClientOriginalName() }}</p>
-            @endif
-        </div>
-        <label for="id_uptd">Pilih UPTD</label>
-        <select wire:model="id_uptd" class="w-full border p-2 rounded">
-            <option value="">-- Pilih UPTD --</option>
-            @foreach ($uptds as $uptd)
-                <option value="{{ $uptd->id }}">{{ $uptd->nama_uptd }}</option>
-            @endforeach
-        </select>
-        @error('id_uptd') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+        @if ($showForm)
+        <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div class="bg-white rounded-xl p-6 w-full max-w-lg relative">
+                <h2 class="text-xl font-semibold mb-4">{{ $formTitle }}</h2>
+                
+                <form wire:submit.prevent="save">
+                    <div class="space-y-3">
+                        <!-- Upload Foto -->
+                        <div>
+                            <label class="block text-sm text-gray-600">Upload Foto</label>
+                            <input type="file" wire:model="foto_tps" class="w-full border p-2 rounded" accept="image/*">
 
-            <input type="text" wire:model="nama" class="w-full border p-2 rounded" placeholder="Nama TPS">
-            <input type="number" wire:model="tahun" class="w-full border p-2 rounded" placeholder="Tahun">
-            <input type="text" wire:model="jenis_tps" class="w-full border p-2 rounded" placeholder="Jenis TPS">
-            <input type="text" wire:model="lokasi" class="w-full border p-2 rounded" placeholder="Lokasi">
-            <input type="text" wire:model="latitude" class="w-full border p-2 rounded" placeholder="Latitude">
-            <input type="text" wire:model="longitude" class="w-full border p-2 rounded" placeholder="Longitude">
-            <input type="text" wire:model="keterangan" class="w-full border p-2 rounded" placeholder="Keterangan">
-        </div>
+                            @if ($old_foto && !$foto_tps)
+                                <p class="text-sm mt-1">Foto saat ini: <span class="text-blue-600">{{ $old_foto }}</span></p>
+                            @endif
 
-        <div class="mt-4 flex justify-end space-x-2">
-            <button wire:click="save" class="bg-blue-500 text-white px-4 py-2 rounded">Simpan</button>
-            <button wire:click="$set('showForm', false)" class="text-gray-500 px-4 py-2">Batal</button>
-        </div>
-    </div>
-</div>
-@endif
+                            @if ($foto_tps)
+                                <p class="text-sm mt-1 text-green-600">Foto baru: {{ $foto_tps->getClientOriginalName() }}</p>
+                            @endif
+                        </div>
 
-{{-- DETAIL POPUP --}}
-@if ($showDetailPopup)
-<div class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-    <div class="bg-white rounded-xl p-6 w-full max-w-md">
-        <h3 class="text-lg font-semibold mb-4">Detail TPS</h3>
-        @if ($selectedTps)
-            <ul class="text-sm text-gray-700 space-y-1">
-                <li><strong>Nama:</strong> {{ $selectedTps->nama }}</li>
-                <li><strong>Tahun:</strong> {{ $selectedTps->tahun }}</li>
-                <li><strong>Jenis TPS:</strong> {{ $selectedTps->jenis_tps }}</li>
-                <li><strong>Lokasi:</strong> {{ $selectedTps->lokasi }}</li>
-                <li><strong>Latitude:</strong> {{ $selectedTps->latitude }}</li>
-                <li><strong>Longitude:</strong> {{ $selectedTps->longitude }}</li>
-                <li><strong>Keterangan:</strong> {{ $selectedTps->keterangan }}</li>
-                @if ($selectedTps && $selectedTps->fotoTps)
-                  <img src="{{ asset('storage/tps/' . $selectedTps->fotoTps) }}" class="w-full rounded mt-3" alt="Foto TPS">
-                @endif
-            </ul>
+                        <!-- Dropdown UPTD -->
+                        <label>Pilih UPTD</label>
+                            <select wire:model="id_uptd" class="w-full border p-2 rounded">
+                                <option value="">-- Pilih UPTD --</option>
+                                @foreach ($uptds as $uptd)
+                                    <option value="{{ $uptd->id_uptd }}">{{ $uptd->nama_uptd }}</option>
+                                @endforeach
+                            </select>
+                        @error('id_uptd') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+
+                        <!-- Input lainnya -->
+                        <input type="text" wire:model="nama" class="w-full border p-2 rounded" placeholder="Nama TPS">
+                        <input type="number" wire:model="tahun" class="w-full border p-2 rounded" placeholder="Tahun">
+                        <input type="text" wire:model="jenis_tps" class="w-full border p-2 rounded" placeholder="Jenis TPS">
+                        <input type="text" wire:model="lokasi" class="w-full border p-2 rounded" placeholder="Lokasi">
+                        <input type="text" wire:model="latitude" class="w-full border p-2 rounded" placeholder="Latitude">
+                        <input type="text" wire:model="longitude" class="w-full border p-2 rounded" placeholder="Longitude">
+                        <input type="text" wire:model="keterangan" class="w-full border p-2 rounded" placeholder="Keterangan">
+                    </div>
+
+                    <!-- Tombol -->
+                    <div class="mt-4 flex justify-end space-x-2">
+                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Simpan</button>
+                        <button type="button" wire:click="$set('showForm', false)" class="text-gray-500 px-4 py-2">Batal</button>
+                    </div>
+                </form>
+            </div>
+        </div>
         @endif
-        <div class="mt-4 text-right">
-            <button wire:click="$set('showDetailPopup', false)" class="text-gray-600">Tutup</button>
-        </div>
-    </div>
-</div>
-@endif
 
-{{-- KONFIRMASI HAPUS --}}
-@if ($showConfirmDelete)
-<div class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-    <div class="bg-white p-6 rounded-lg max-w-sm w-full">
-        <h3 class="text-lg font-semibold text-center mb-4">Yakin ingin menghapus data ini?</h3>
-        <div class="flex justify-center gap-4">
-            <button wire:click="delete" class="bg-red-600 text-white px-4 py-2 rounded">Ya, Hapus</button>
-            <button wire:click="$set('showConfirmDelete', false)" class="text-gray-600 px-4 py-2">Batal</button>
+        @if ($showConfirmDelete)
+        <div class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+            <div class="bg-white p-6 rounded-lg max-w-sm w-full">
+                <h3 class="text-lg font-semibold text-center mb-4">Yakin ingin menghapus data ini?</h3>
+                <div class="flex justify-center gap-4">
+                    <button wire:click="delete" class="bg-red-600 text-white px-4 py-2 rounded">Ya, Hapus</button>
+                    <button wire:click="$set('showConfirmDelete', false)" class="text-gray-600 px-4 py-2">Batal</button>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
-@endif
+        @endif
 
-{{-- NOTIFIKASI --}}
-{{-- @if ($showNotification)
-<div class="fixed top-6 right-6 bg-green-500 text-white px-4 py-2 rounded shadow z-50">
-    {{ $notificationMessage }}
-    <button wire:click="closeNotification" class="ml-2 text-white font-bold">×</button>
-</div>
-@endif --}}
-@if (session()->has('success'))
-    <div class="fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded shadow-md z-50">
-        {{ session('success') }}
-    </div>
-@endif
+        {{-- NOTIFIKASI --}}
+        @if (session()->has('success'))
+            <div 
+            x-data="{ show: true }"
+                x-init="setTimeout(() => show = false, 3000)"
+                x-show="show"
+                x-transition
+            class="fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded shadow-md z-50">
+                {{ session('success') }}
+                <button wire:click="closeNotification" class="ml-2 text-white font-bold">×</button>
+            </div>
+        @endif
 
       <!-- Include Popup Detail -->
       @include('livewire.tps.popup-detail-tps')

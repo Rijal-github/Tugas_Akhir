@@ -17,11 +17,10 @@ class LaporanPembersihan extends Model
     ];
 
 
-    public function user()
+    public function driver()
     {
         return $this->belongsTo(User::class, 'id_driver');
     }
-
     // Relasi ke model Tps (setiap laporan terkait 1 TPS)
     public function tps()
     {
