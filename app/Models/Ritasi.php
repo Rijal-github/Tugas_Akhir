@@ -15,8 +15,8 @@ class Ritasi extends Model
         'id_driver',
         'id_vehicle',
         'banyak_ritasi',
-        'netto_pre',
-        'netto_post',
+        'bruto',
+        'netto',
         'keterangan',
     ];
 

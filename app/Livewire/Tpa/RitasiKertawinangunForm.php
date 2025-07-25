@@ -9,58 +9,80 @@ use App\Models\RitasiKertawinangun;
 
 class RitasiKertawinangunForm extends Component
 {
-    public $id_driver, $vehicle_id;
-    public $netto_pre, $netto_post, $banyak_ritasi, $keterangan;
+    public $vehicle;
+    public $id_driver = '';
+    public $bruto, $netto, $banyak_ritasi;
+    
+    public $selectedVehicleNoPolisi = null;
+    public $selectedVehicleJenis = null;
+    public $id_vehicle = null;
+    public $keterangan = '';
 
-    public $vehicles;
-
-    public function updatedDriverId($value)
+    public function updatedIdDriver($value)
     {
-        $this->vehicles = Vehicle::where('id_driver', $value)->get();
-        $this->vehicle_id = $this->vehicles->first()->id ?? null;
-    }
+        logger('Supir dipilih: ' . $value);
+        if (!$value) {
+            $this->selectedVehicleNoPolisi = '';
+            $this->selectedVehicleJenis = '';
+            $this->id_vehicle = null;
+            return;
+        }
+    
+        $vehicle = Vehicle::where('id_driver', $value)->first();
+    
+        if ($vehicle) {
+            $this->selectedVehicleNoPolisi = $vehicle->no_polisi;
+            $this->selectedVehicleJenis = $vehicle->jenis_kendaraan;
+            $this->id_vehicle = $vehicle->id;
+        } else {
+            $this->selectedVehicleNoPolisi = '—';
+            $this->selectedVehicleJenis = '—';
+            $this->id_vehicle = null;
+        }
+    }   
 
     public function save()
     {
         $this->validate([
             'id_driver' => 'required',
-            'vehicle_id' => 'required',
-            'netto_pre' => 'required|numeric',
-            'netto_post' => 'required|numeric',
+            'id_vehicle' => 'required',
+            'bruto' => 'required|numeric',
+            'netto' => 'required|numeric',
             'banyak_ritasi' => 'required|integer|min:1',
+            'keterangan' => 'required|string',
         ]);
 
         RitasiKertawinangun::create([
             'id_driver' => $this->id_driver,
-            'netto_pre' => $this->netto_pre,
-            'netto_post' => $this->netto_post,
+            'id_vehicle' => $this->id_vehicle,
+            'bruto' => $this->bruto,
+            'netto' => $this->netto,
             'banyak_ritasi' => $this->banyak_ritasi,
             'keterangan' => $this->keterangan,
+            'ritasi' => 1,
         ]);
 
         session()->flash('message', 'Data berhasil disimpan.');
-        $this->reset(); // reset form
+        $this->reset();
     }
 
-    public function batal()
+   public function updatedKeteranganSelect($value)
     {
-        $this->dispatch('batalInputRitasi'); // kirim ke komponen induk
+        if ($value !== 'Lainnya') {
+            $this->keterangan = $value;
+        } else {
+            $this->keterangan = '';
+        }
     }
 
     public function render()
     {
-        $drivers = User::whereHas('vehicles')
-            ->where('id_role', 5) // asumsi 2 = driver
-            ->get();
+       $drivers = User::whereHas('vehicles')
+        ->where('id_role', 5)
+        ->get();
 
         return view('livewire.tpa.ritasi-kertawinangun-form', [
             'drivers' => $drivers,
-            'vehicles' => $this->vehicles,
         ]);
     }
-
-    // public function render()
-    // {
-    //     return view('livewire.tpa.ritasi-kertawinangun-form');
-    // }
 }

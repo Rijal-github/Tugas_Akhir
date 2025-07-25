@@ -31,12 +31,12 @@
 
     <div class="mb-3">
         <label>Netto Pre</label>
-        <input type="number" wire:model="netto_pre" class="w-full border p-2 rounded">
+        <input type="number" wire:model="bruto" class="w-full border p-2 rounded">
     </div>
 
     <div class="mb-3">
         <label>Netto Post</label>
-        <input type="number" wire:model="netto_post" class="w-full border p-2 rounded">
+        <input type="number" wire:model="netto" class="w-full border p-2 rounded">
     </div>
 
     <div class="mb-3">
@@ -55,8 +55,6 @@
             class="w-full border p-2 rounded"
             placeholder="Ketik atau pilih keterangan..."
         >
-    
-        <!-- Suggestion dropdown -->
         <ul x-show="open" class="absolute z-50 bg-white border w-full mt-1 rounded shadow text-sm">
             <li class="px-3 py-2 hover:bg-gray-100 cursor-pointer" @click="$wire.keterangan = 'Sampah Rutin'; open = false">
                 Sampah Rutin
@@ -71,7 +69,6 @@
     </div>    
 
     <button wire:click="save" class="bg-blue-500 text-white px-4 py-2 rounded">Simpan</button>
-    <button wire:click="batal" class="bg-red-500 text-white px-4 py-2 rounded">Batal</button>
 </div>
 
 

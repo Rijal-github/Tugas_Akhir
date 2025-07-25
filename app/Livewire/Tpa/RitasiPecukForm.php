@@ -10,8 +10,6 @@ use App\Models\Ritasi;
 
 class RitasiPecukForm extends Component
 {
-
-    // public array $vehicles = [];
     public $vehicle;
     public $id_driver = '';
     public $bruto, $netto, $banyak_ritasi;
@@ -19,8 +17,6 @@ class RitasiPecukForm extends Component
     public $selectedVehicleNoPolisi = null;
     public $selectedVehicleJenis = null;
     public $id_vehicle = null;
-
-    // public $keteranganSelect = '';
     public $keterangan = '';
 
 
@@ -53,7 +49,6 @@ class RitasiPecukForm extends Component
         $this->validate([
             'id_driver' => 'required',
             'id_vehicle' => 'required',
-            // 'tanggal_ritasi' => 'required|date',
             'bruto' => 'required|numeric',
             'netto' => 'required|numeric',
             'banyak_ritasi' => 'required|integer|min:1',
@@ -63,7 +58,6 @@ class RitasiPecukForm extends Component
         Ritasi::create([
             'id_driver' => $this->id_driver,
             'id_vehicle' => $this->id_vehicle,
-            // 'tanggal_ritasi' => $this->tanggal_ritasi,
             'bruto' => $this->bruto,
             'netto' => $this->netto,
             'banyak_ritasi' => $this->banyak_ritasi,
@@ -72,7 +66,7 @@ class RitasiPecukForm extends Component
         ]);
 
         session()->flash('message', 'Data berhasil disimpan.');
-        $this->reset(); // reset form
+        $this->reset();
     }
 
     public function updatedKeteranganSelect($value)
@@ -84,27 +78,15 @@ class RitasiPecukForm extends Component
         }
     }
 
-    // public function batal()
-    // {
-    //     $this->dispatch('batalInputRitasi'); // kirim ke komponen induk
-    // }
-
     public function render()
     {
         $drivers = User::whereHas('vehicles')
-            ->where('id_role', 5) // asumsi 5 = driver
+            ->where('id_role', 5)
             ->get();
-
-        // $drivers = User::where('id_role', 5)->get(); // tampilkan semua supir
 
         return view('livewire.tpa.ritasi-pecuk-form', [
             'drivers' => $drivers,
-            // 'vehicles' => $this->vehicles,
         ]);
     }
 
 }
-    // public function render()
-    // {
-    //     return view('livewire.tpa.ritasi-pecuk-form');
-    // }

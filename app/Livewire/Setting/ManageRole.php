@@ -24,8 +24,8 @@ class ManageRole extends Component
     public $name;
     public $alamat_user;
     public $password;
-    public $roles;  // untuk simpan data role dari DB
-    public $role;   // untuk menyimpan role yang dipilih di form
+    public $roles;  
+    public $role;   
 
     public $confirmDeleteId = null;
 
@@ -34,7 +34,6 @@ class ManageRole extends Component
     public $showSuccess = false;
     public $successMessage = '';
     public $isEditMode = false;
-    // public $statusMessage;
 
     
     protected function rules()
@@ -58,8 +57,6 @@ class ManageRole extends Component
     {
         $this->showSuccess = true;
         $this->successMessage = $message;
-        // Tambahkan logika untuk menyembunyikan popup setelah beberapa detik, jika diperlukan.
-        // Misalnya, menggunakan JavaScript atau metode Livewire.
     }
 
     public function openCreateModal()
@@ -143,18 +140,14 @@ class ManageRole extends Component
 
     public function mount()
     {
-        $this->users = User::all(); // ambil semua user
-        $this->roles = Role::all(); // ambil semua role dari DB
-
-        // logger($this->roles); // log isi roles ke laravel.log
+        $this->users = User::all(); 
+        $this->roles = Role::all(); 
     }
 
     public function confirmDeleted($id)
     {
         $this->confirmDelete = true;
         $this->confirmDeleteId = $id;
-        // $this->confirmDelete = true;
-        // $this->dispatch('confirmDelete', $id);
     }
     
     public function deleted()
@@ -165,14 +158,10 @@ class ManageRole extends Component
             $this->confirmDeleteId = null;
             $this->showSuccessMessages('Data berhasil dihapus.');
         }
-        // User::findOrFail($id)->delete();
-        // $this->confirmDelete = false;
-        // $this->mount();
     }
 
     public function cancelDelete()
     {
-        // $this->statusMessage = 'Profile cancel to deleted!';
         $this->closeModal();
     }
 
@@ -180,7 +169,6 @@ class ManageRole extends Component
     {
         $this->showModal = false;
         $this->confirmDelete = false;
-        // $this->showSuccess = false;
         $this->resetForm();
     }
 

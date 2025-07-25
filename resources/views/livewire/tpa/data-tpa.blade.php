@@ -40,44 +40,41 @@
     @endphp
 
     @if(in_array($role, ['admin', 'dlh']))
-    <div class="flex gap-4">
-        <a href="{{ route('input-ritasi', ['tpa' => 'pecuk']) }}" class="bg-blue-500 text-white px-4 py-2 rounded">Input Ritasi Pecuk</a>
-        <a href="{{ route('input-ritasi', ['tpa' => 'kertawinangun']) }}" class="bg-green-500 text-white px-4 py-2 rounded">Input Ritasi Kertawinangun</a>
-    </div>
-    @elseif($role === 'operator_pecuk')
+        {{-- <div class="flex gap-4">
+            <a href="{{ route('input-ritasi', ['tpa' => 'pecuk']) }}" class="bg-blue-500 text-white px-4 py-2 rounded">Input Ritasi Pecuk</a>
+            <a href="{{ route('input-ritasi', ['tpa' => 'kertawinangun']) }}" class="bg-green-500 text-white px-4 py-2 rounded">Input Ritasi Kertawinangun</a>
+        </div> --}}
+        <div class="flex gap-4 mb-4">
+            <button wire:click="$set('selectedTPA', 'pecuk')"
+                class="px-4 py-2 rounded {{ $selectedTPA === 'pecuk' ? 'bg-blue-600 text-white' : 'bg-gray-200' }}">
+                Lihat Ritasi Pecuk
+            </button>
+
+            <button wire:click="$set('selectedTPA', 'kertawinangun')"
+                class="px-4 py-2 rounded {{ $selectedTPA === 'kertawinangun' ? 'bg-green-600 text-white' : 'bg-gray-200' }}">
+                Lihat Ritasi Kertawinangun
+            </button>
+        </div>
+        <div class="flex justify-end mb-2">
+            @if($selectedTPA === 'pecuk')
+            <a href="{{ route('input-ritasi', ['tpa' => 'pecuk']) }}" class="bg-blue-500 text-white px-4 py-2 rounded">Input Ritasi</a>
+            @elseif($selectedTPA === 'kertawinangun')
+            <a href="{{ route('input-ritasi', ['tpa' => 'kertawinangun']) }}" class="bg-green-500 text-white px-4 py-2 rounded">Input Ritasi</a>
+            @endif
+        </div>
+        {{-- @include('livewire.tpa.tabel-hasil-ritasi', ['ritasiList' => $ritasiList]) --}}
+        @include('livewire.tpa.tabel-hasil-ritasi', [
+            'ritasiList' => $ritasiList,
+            'selectedTPA' => $selectedTPA,
+        ])
+    @endif 
+</div>
+
+
+
+
+    {{-- @elseif($role === 'operator_pecuk')
     <a href="{{ route('input-ritasi', ['tpa' => 'pecuk']) }}" class="bg-blue-500 text-white px-4 py-2 rounded">Input Ritasi Pecuk</a>
     @elseif($role === 'operator_kertawinangun')
     <a href="{{ route('input-ritasi', ['tpa' => 'kertawinangun']) }}" class="bg-green-500 text-white px-4 py-2 rounded">Input Ritasi Kertawinangun</a>
-    @endif
-
-    <div class="TabelData mt-4 overflow-x-auto">
-        <table class="w-full text-sm text-left">
-            <thead class="bg-slate-200 rounded-lg">
-                <tr class="">
-                    <th class="p-3">Nama Supir</th>
-                    <th class="p-3">No Polisi</th>
-                    <th class="p-3">Netto In</th>
-                    <th class="p-3">Netto Out</th>
-                    <th class="p-3">Netto</th>
-                    <th class="p-3">Tanggal</th>
-                    <th class="p-3">UPTD</th>
-                    <th class="p-3">Keterangan</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($ritasiList as $ritasi)
-                <tr class="border-b">
-                    <td>{{ $ritasi->driver->name }}</td>
-                    <td>{{ $ritasi->vehicle->no_polisi }}</td>
-                    <td>{{ $ritasi->bruto }}</td>
-                    <td>{{ $ritasi->netto }}</td>
-                    <td class="font-bold text-red-600">{{ $ritasi->bruto - $ritasi->netto }}</td>
-                    <td>{{ \Carbon\Carbon::parse($ritasi->created_at)->format('d-m-Y') }}</td>
-                    <td>{{ $ritasi->vehicle->uptd->nama_uptd ?? '-' }}</td>
-                    <td>{{ $ritasi->keterangan }}</td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>    
-    </div>
-</div>
+    @endif --}}

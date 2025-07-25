@@ -55,11 +55,9 @@ class Roles extends Component
 
     public function openEditModal($id)
     {
-        // Karena kolom ID-nya adalah 'id_role'
-        // $role = Role::where('id_role', $id)->firstOrFail();
         $role = Role::findOrFail($id);
     
-        $this->roleId = $role->id_role; // ❗ pakai id_role, bukan id
+        $this->roleId = $role->id_role;
         $this->name = $role->name;
         $this->isEdit = true;
         $this->showModal = true;
@@ -73,7 +71,6 @@ class Roles extends Component
 
     public function Delete()
     {
-        // Vehicle::find($id)->delete();
         if ($this->konfirmDeleteId) {
             Role::find($this->konfirmDeleteId)?->delete();
             $this->konfirmDelete = false;

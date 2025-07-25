@@ -6,14 +6,17 @@ use Livewire\Component;
 use Livewire\Attributes;
 use App\Exports\RitasiExport;
 use App\Models\Ritasi;
+use App\Models\RitasiKertawinangun;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 
 class DataTpa extends Component
 {
-
-    public $selectedForm = null;
+    public string $selectedTPA = 'pecuk';
+    public $ritasiPecuk;
+    public $ritasiKertawinangun;
 
     public $ritasiList = [];
 
@@ -21,19 +24,20 @@ class DataTpa extends Component
     public $tanggal;
     public $bulan;
     public $tahun;
-    // public $selectedDate;
 
     public function mount()
     {
         $this->tanggal = now()->format('Y-m-d');
         $this->bulan = now()->format('m');
         $this->tahun = now()->format('Y');
-        // $this->selectedDate = $this->tanggal;
 
-        $this->ritasiList = Ritasi::with(['vehicle.uptd', 'driver'])
-        // ->where('id', 'pecuk') // Asumsikan Anda menyimpan lokasi TPA
-        ->orderBy('created_at', 'desc')
-        ->get();
+        // $this->ritasiList = Ritasi::with(['vehicle.uptd', 'driver'])
+        // ->orderBy('created_at', 'desc')
+        // ->get();
+
+        // $this->ritasiKertawinangun = RitasiKertawinangun::with(['vehicle.uptd', 'driver'])
+        // ->orderBy('created_at', 'desc')
+        // ->get();
     }
 
     public function export()
@@ -76,7 +80,7 @@ class DataTpa extends Component
             $driver = $items->first()->driver;
             $vehicle = $items->first()->vehicle;
             $totalNetto = $items->sum(function ($item) {
-                return $item->netto_post - $item->netto_pre;
+                return $item->bruto - $item->netto;
             });
             $totalRitasi = $items->sum('banyak_ritasi');
 
@@ -93,21 +97,24 @@ class DataTpa extends Component
         })->values();
     }
 
-    protected $listeners = ['batalInputRitasi' => 'resetForm'];
-
-    #[\Livewire\Attributes\On('batalInputRitasi')]
-    public function resetForm()
-    {
-        $this->selectedForm = null;
-    }
-
     #[Attributes\Layout('layouts.content.content')]
     public function render()
     {
-        // return view('livewire.tpa.data-tpa', [
-        //     'ritasiList' => $this->getFilteredData(),
-        // ]);
+        Log::info('Selected TPA: ' . $this->selectedTPA);
 
-        return view('livewire.tpa.data-tpa', );
+        // Ambil data sesuai TPA yang dipilih
+    if ($this->selectedTPA === 'pecuk') {
+        $this->ritasiList = Ritasi::with(['driver', 'vehicle.uptd'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+    } elseif ($this->selectedTPA === 'kertawinangun') {
+        $this->ritasiList = RitasiKertawinangun::with(['driver', 'vehicle.uptd'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+    } else {
+        $this->ritasiList = collect();
+    }
+
+      return view('livewire.tpa.data-tpa');
     }
 }

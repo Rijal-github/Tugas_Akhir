@@ -23,10 +23,8 @@ class ForgotPassword extends Component
 
         $token = Str::random(64);
 
-        // Hapus token lama
         DB::table('password_reset_tokens')->where('email', $this->email)->delete();
 
-        // Simpan token
         DB::table('password_reset_tokens')->insert([
             'email' => $this->email,
             'token' => $token,
