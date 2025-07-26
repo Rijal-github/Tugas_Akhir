@@ -3,7 +3,7 @@
 namespace App\Livewire\Dashboard;
 
 use Livewire\Component;
-use App\Models\Lokasi;
+use App\Models\Tps;
 
 class Maps extends Component
 {
@@ -11,7 +11,7 @@ class Maps extends Component
 
     public function mount()
     {
-        // $this->lokasiList = Lokasi::select('latitude', 'longitude', 'nama_lokasi')->get();
+        $this->lokasiList = Tps::select('latitude', 'longitude', 'lokasi')->get();
     }
     public function render()
     {

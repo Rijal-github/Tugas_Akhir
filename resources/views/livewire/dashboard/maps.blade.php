@@ -31,8 +31,8 @@
         
                 lokasiList.forEach(loc => {
                     const marker = L.marker([loc.latitude, loc.longitude]).addTo(map);
-                    marker.bindPopup(loc.nama_lokasi);
-                    // routePoints.push([loc.latitude, loc.longitude]);
+                    marker.bindPopup(loc.lokasi);
+                    routePoints.push([loc.latitude, loc.longitude]);
                 });
         
                 // if (routePoints.length > 1) {
