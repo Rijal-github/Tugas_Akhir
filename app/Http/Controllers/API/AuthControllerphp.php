@@ -37,6 +37,7 @@ class AuthControllerphp extends Controller
             'avatar' => $user->avatar,
             'email' => $user->email,
             'username' => $user->username,
+            'no_hp' => $user->no_hp,
             'id_role' => $user->id_role,
             'role' => $user->role->name ?? 'Unknown', // pastikan relasi role tersedia
             'alamat_user' => $user->alamat_user ?? '-',

@@ -5,6 +5,7 @@ namespace App\Livewire\Setting;
 use Livewire\Component;
 use Livewire\Attributes;
 use App\Models\Role;
+use App\Models\Permission;
 
 class Roles extends Component
 {
@@ -13,13 +14,13 @@ class Roles extends Component
     public $roleId;
     public $isEdit = false;
     public $showModal = false;
-
     public $konfirmDelete = false;
     public bool $showSuccess = false;
     public string $successMessage = '';
-
     public $konfirmDeleteId = null;
     public $isUpdate = false;
+    public $selectedPermissions = [];
+    public $allPermissions = [];
 
     protected $rules = [
         'name' => 'required|string|max:255'
@@ -33,34 +34,69 @@ class Roles extends Component
 
     public function save()
     {
-        $this->validate([
-            'name' => 'required|string|max:255',
-            'ranah' => 'required|string',
+         $this->validate([
+        'name' => 'required|string|max:255',
+        'ranah' => 'required|string',
         ]);
 
-        Role::updateOrCreate(
+        $role = Role::updateOrCreate(
             ['id' => $this->roleId],
-            ['name' => $this->name,
-                     'ranah' =>$this->ranah,               
-                    ]
+            ['name' => $this->name, 'ranah' => $this->ranah]
         );
 
-        $message = $this->roleId ? 'Data role berhasil diperbarui.' : 'Data role berhasil disimpan.';
+        // Sinkronisasi permission
+        $role->permissions()->delete();
 
+        // Simpan permission baru
+        if ($this->ranah === 'Website') {
+            foreach ($this->selectedPermissions as $permissionName) {
+                Permission::create([
+                    'akses' => $permissionName,
+                    'id_role' => $role->id,
+                ]);
+            }
+        }
+
+        $message = $this->roleId ? 'Data role berhasil diperbarui.' : 'Data role berhasil disimpan.';
         $this->resetForms();
         $this->showModal = false;
         $this->showSuccessMessage($message);
+        // $this->validate([
+        //     'name' => 'required|string|max:255',
+        //     'ranah' => 'required|string',
+        // ]);
+
+        // Role::updateOrCreate(
+        //     ['id' => $this->roleId],
+        //     ['name' => $this->name,
+        //              'ranah' =>$this->ranah,               
+        //             ]
+        // );
+
+        // $message = $this->roleId ? 'Data role berhasil diperbarui.' : 'Data role berhasil disimpan.';
+
+        // $this->resetForms();
+        // $this->showModal = false;
+        // $this->showSuccessMessage($message);
     }
 
 
     public function openEditModal($id)
     {
-        $role = Role::findOrFail($id);
-    
-        $this->roleId = $role->id_role;
+        $role = Role::with('permissions')->findOrFail($id);
+
+        $this->roleId = $role->id;
         $this->name = $role->name;
+        $this->ranah = $role->ranah;
+        $this->selectedPermissions = $role->permissions->pluck('akses')->toArray();
         $this->isEdit = true;
         $this->showModal = true;
+        // $role = Role::findOrFail($id);
+    
+        // $this->roleId = $role->id_role;
+        // $this->name = $role->name;
+        // $this->isEdit = true;
+        // $this->showModal = true;
     }
 
     public function openDelete($id)
@@ -79,10 +115,18 @@ class Roles extends Component
         }
     }
 
+    public function updatedRanah($value)
+    {
+        if ($value === 'Mobile') {
+            $this->selectedPermissions = []; // clear checkbox
+        }
+    }
+
     public function resetForms()
     {
         $this->name = '';
         $this->ranah = '';
+        $this->selectedPermissions = [];
         $this->showModal = false;
         $this->isEdit = false;
     }
@@ -91,65 +135,20 @@ class Roles extends Component
     public function render()
     {
         $roles = Role::latest()->get();
+
+        // Ambil default permission dari config, lalu bentuk sebagai object manual (karena kita tidak ambil dari DB)
+        $this->allPermissions = collect(config('default_permissions'))->map(function ($item, $index) {
+            return (object) [
+                'id' => $item, // langsung pakai nama sebagai ID
+                'akses' => ucfirst(str_replace('_', ' ', $item))
+            ];
+        });
+
         return view('livewire.setting.roles', compact('roles'));
+        // $roles = Role::latest()->get();
+        // $this->allPermissions = Permission::all();
+        // return view('livewire.setting.roles', compact('roles'));
+        // $roles = Role::latest()->get();
+        // return view('livewire.setting.roles', compact('roles'));
     }
 }
-
-    // public function openCreateModal()
-    // {
-    //     $this->reset(['name', 'roleId']);
-    //     $this->isEdit = false;
-    //     $this->showModal = true;
-    // }
-
-    // public function save()
-    // {
-    //     $this->validate([
-    //         'name' => 'required|unique:roles,name|max:50'
-    //     ]);
-
-    //     Role::create(['name' => $this->name]);
-    //     $this->reset('name');
-    //     $this->loadRoles();
-    //     session()->flash('success', 'Role berhasil ditambahkan.');
-    // }
-
-    // public function save()
-    // {
-    //     $this->validate();
-
-    //     Role::updateOrCreate(
-    //         ['id_role' => $this->roleId],
-    //         ['name' => $this->name]
-    //     );
-
-    //     $this->showModal = false;
-    //     $this->reset(['name', 'roleId']);
-    // }
-
-    
-    // public function update()
-    // {
-    //     $this->validate([
-    //         'editName' => 'required|max:50|unique:roles,name,' . $this->editId,
-    //     ]);
-
-    //     $role = Role::findOrFail($this->editId);
-    //     $role->update(['name' => $this->editName]);
-
-    //     $this->reset('editId', 'editName');
-    //     $this->loadRoles();
-    //     session()->flash('success', 'Role berhasil diperbarui.');
-    // }
-
-    // public function prepareDelete($id)
-    // {
-    //     $this->deleteId = $id;
-    // }
-
-    // public function delete($id)
-    // {
-    //     Role::findOrFail($id)->delete();
-    // }
-
-

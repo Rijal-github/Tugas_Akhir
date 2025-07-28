@@ -16,11 +16,45 @@ class TpsController extends Controller
     public function index()
     {
         // return response()->json(Tps::all(), 200);
+        // return response()->json([
+        //     'code' => 200,
+        //     'status' => true,
+        //     'message' => 'Get All TPS',
+        //     'data' => Tps::all()
+        // ]);
+        $grouped = Tps::selectRaw('MIN(id) as id, jenis_tps, COUNT(*) as total')
+            ->groupBy('jenis_tps')
+            ->get();
+
+        // Tambahkan ID urut manual
+        $data = $grouped->map(function ($item, $index) {
+            return [
+                'id' => $item->id,
+                'jenis_tps' => $item->jenis_tps,
+                'total' => $item->total
+            ];
+        });
+
         return response()->json([
             'code' => 200,
             'status' => true,
-            'message' => 'Get All TPS',
-            'data' => Tps::all()
+            'message' => 'TPS summary retrieved successfully',
+            'data' => $data
+        ]);
+    }
+
+    public function getByUptd($id_uptd)
+    {
+        $grouped = Tps::selectRaw('MIN(id) as id, jenis_tps, COUNT(*) as total')
+            ->where('id_uptd', $id_uptd)
+            ->groupBy('jenis_tps')
+            ->get();
+
+        return response()->json([
+            'code' => 200,
+            'status' => true,
+            'message' => 'TPS summary retrieved successfully',
+            'data' => $grouped
         ]);
     }
 

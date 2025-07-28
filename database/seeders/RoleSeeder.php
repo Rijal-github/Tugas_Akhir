@@ -16,41 +16,35 @@ class RoleSeeder extends Seeder
     {
         DB::table('roles')->insert([
             [
-                'name' => 'admin',
-                'ranah' => 'Website',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
                 'name' => 'dlh',
                 'ranah' => 'Website',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
-            [
-                'name' => 'uptd',
-                'ranah' => 'Website',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'name' => 'operator tpa',
-                'ranah' => 'Website',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'name' => 'driver',
-                'ranah' => 'Mobile',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'name' => 'operator_spbu',
-                'ranah' => 'Mobile',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
+            // [
+            //     'name' => 'uptd',
+            //     'ranah' => 'Website',
+            //     'created_at' => Carbon::now(),
+            //     'updated_at' => Carbon::now(),
+            // ],
+            // [
+            //     'name' => 'operator tpa',
+            //     'ranah' => 'Website',
+            //     'created_at' => Carbon::now(),
+            //     'updated_at' => Carbon::now(),
+            // ],
+            // [
+            //     'name' => 'driver',
+            //     'ranah' => 'Mobile',
+            //     'created_at' => Carbon::now(),
+            //     'updated_at' => Carbon::now(),
+            // ],
+            // [
+            //     'name' => 'operator_spbu',
+            //     'ranah' => 'Mobile',
+            //     'created_at' => Carbon::now(),
+            //     'updated_at' => Carbon::now(),
+            // ],
             // [
             //     'name' => 'kepala dlh',
             //     'created_at' => Carbon::now(),

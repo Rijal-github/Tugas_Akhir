@@ -28,7 +28,8 @@ class Login extends Component
         ];
 
         if (Auth::attempt($credentials)) {
-            $user = User::with('role')->find(Auth::id());
+            // $user = User::with('role')->find(Auth::id());
+            $user = User::with('role.permissions')->find(Auth::id());
     
            return redirect()->route($this->redirectTo($user));
         }

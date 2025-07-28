@@ -46,102 +46,100 @@ use App\Livewire\Uptd\AddDriver;
     
     Route::get('/view-profile', ViewProfile::class)->name('view-profile');
 
-    Route::middleware(['auth', CheckRole::class . ':admin,dlh,uptd,operator tpa'])->group(function () {
+    // Route::middleware(['auth', CheckRole::class . ':admin,dlh,uptd,operator tpa'])->group(function () {
+    //     Route::get('/dashboard', Main::class)->name('dashboard');
+    // });
+     Route::middleware(['auth', 'checkRole:dashboard'])->group(function () {
         Route::get('/dashboard', Main::class)->name('dashboard');
     });
+    // Route::middleware(['auth', 'check.permission:view_dashboard'])->group(function () {
+    //     Route::get('/dashboard', [DashboardController::class, 'index']);
+    // });
 
-    // Data TPS dan TPA (admin, dlh, operator_tpa)
-    Route::middleware(['auth', CheckRole::class . ':admin,dlh,operator tpa'])->group(function () {
+    // TPS, TPA
+    Route::middleware(['auth', 'checkRole:data_tps,data_tpa'])->group(function () {
         Route::get('/data-tps', DataTPS::class)->name('data-tps');
         Route::get('/data-tpa', DataTpa::class)->name('data-tpa');
 
         Route::get('/input-ritasi/{tpa}', InputRitasi::class)->name('input-ritasi');
     });
 
-    // Data UPTD (Super Admin, dlh, uptd)
-    Route::middleware(['auth', CheckRole::class . ':admin,dlh,uptd'])->group(function () {
+    // UPTD
+    Route::middleware(['auth', 'checkRole:data_uptd'])->group(function () {
         Route::get('/data-uptd', DataUptd::class)->name('data-uptd');
-
         Route::get('/add-driver/{driver}', AddDriver::class)->name('add-driver');
     });
 
-    // Pendataan Sampah, Driver, IoT (Super Admin, operator_tpa)
-    Route::middleware(['auth', CheckRole::class . ':admin,operator tpa'])->group(function () {
-        Route::get('/data-sampah', DataSampah::class)->name('data-sampah');
+    // Sampah, Driver, IoT
+    Route::middleware(['auth', 'checkRole:data_driver'])->group(function () {
+        // Route::get('/data-sampah', DataSampah::class)->name('data-sampah');
         Route::get('/data-driver', DataDriver::class)->name('data-driver');
-        Route::get('/data-iot', DataIot::class)->name('data-iot');
+        // Route::get('/data-iot', DataIot::class)->name('data-iot');
     });
 
-    // Pengangkutan (Super Admin, dlh, uptd, operator_tpa)
-    Route::middleware(['auth', CheckRole::class . ':Super Admin,dlh,uptd,operator_tpa'])->group(function () {
-        Route::get('/pengangkutan', Pengangkutan::class)->name('pengangkutan');
-    });
+    // Pengangkutan
+    // Route::middleware(['auth', 'checkRole:view pengangkutan'])->group(function () {
+    //     Route::get('/pengangkutan', Pengangkutan::class)->name('pengangkutan');
+    // });
 
-    // Pelaporan (Super Admin, dlh, uptd, operator_tpa)
-    Route::middleware(['auth', CheckRole::class . ':admin,dlh,uptd,operator tpa'])->group(function () {
-        Route::get('/pelaporan', Pelaporan::class)->name('pelaporan');
-        Route::get('/laporan-mingguan', LaporanMingguan::class)->name('laporan-mingguan');
-        Route::get('/laporan-bulanan', LaporanBulanan::class)->name('laporan-bulanan');
-        Route::get('/laporan-tahunan', LaporanTahunan::class)->name('laporan-tahunan');
-    });
+    // Pelaporan
+    // Route::middleware(['auth', 'checkRole:view pelaporan'])->group(function () {
+    //     Route::get('/pelaporan', Pelaporan::class)->name('pelaporan');
+    //     Route::get('/laporan-mingguan', LaporanMingguan::class)->name('laporan-mingguan');
+    //     Route::get('/laporan-bulanan', LaporanBulanan::class)->name('laporan-bulanan');
+    //     Route::get('/laporan-tahunan', LaporanTahunan::class)->name('laporan-tahunan');
+    // });
 
-    // Manage Role (hanya Super Admin)
-    Route::middleware(['auth', CheckRole::class . ':admin'])->group(function () {
+    // Role
+    Route::middleware(['auth', 'checkRole:setting_user'])->group(function () {
         Route::get('/manage-role', ManageRole::class)->name('manage-role');
-    });
-
-     // Manage Role (hanya Super Admin)
-     Route::middleware(['auth', CheckRole::class . ':admin'])->group(function () {
         Route::get('/roles', Roles::class)->name('roles');
     });
 
-    // ===================== ADMIN =====================
-// Route::middleware(['auth', CheckRole::class . ':admin'])->group(function () {
-//     // Route::get('/dashboard', Main::class)->name('dashboard');
-//     Route::get('/data-tps', DataTPS::class)->name('data-tps');
-//     Route::get('/data-tpa', DataTpa::class)->name('data-tpa');
-//     Route::get('/data-uptd', DataUptd::class)->name('data-uptd');
-//     Route::get('/pengangkutan', Pengangkutan::class)->name('pengangkutan');
-//     Route::get('/data-sampah', DataSampah::class)->name('data-sampah');
-//     Route::get('/data-driver', DataDriver::class)->name('data-driver');
-//     Route::get('/data-iot', DataIot::class)->name('data-iot');
-//     Route::get('/pelaporan', Pelaporan::class)->name('pelaporan');
-//     Route::get('/laporan-mingguan', LaporanMingguan::class)->name('laporan-mingguan');
-//     Route::get('/laporan-bulanan', LaporanBulanan::class)->name('laporan-bulanan');
-//     Route::get('/laporan-tahunan', LaporanTahunan::class)->name('laporan-tahunan');
-//     // tambah route untuk setting user di sini jika kamu punya:
-//     Route::get('/manage-role', ManageRole::class)->name('manage-role');
-// });
+    // // Data TPS dan TPA (admin, dlh, operator_tpa)
+    // Route::middleware(['auth', CheckRole::class . ':admin,dlh,operator tpa'])->group(function () {
+    //     Route::get('/data-tps', DataTPS::class)->name('data-tps');
+    //     Route::get('/data-tpa', DataTpa::class)->name('data-tpa');
 
-// // ===================== DLH =====================
-// Route::middleware(['auth', CheckRole::class . ':dlh'])->group(function () {
-//     // Route::get('/dashboard', Main::class)->name('dashboard');
-//     Route::get('/data-tps', DataTPS::class)->name('data-tps');
-//     Route::get('/data-tpa', DataTpa::class)->name('data-tpa');
-//     Route::get('/data-uptd', DataUptd::class)->name('data-uptd');
-//     Route::get('/pengangkutan', Pengangkutan::class)->name('pengangkutan');
-//     Route::get('/pelaporan', Pelaporan::class)->name('pelaporan');
-// });
+    //     Route::get('/input-ritasi/{tpa}', InputRitasi::class)->name('input-ritasi');
+    // });
 
-// // ===================== UPTD =====================
-// Route::middleware(['auth', CheckRole::class . ':uptd'])->group(function () {
-//     // Route::get('/dashboard', Main::class)->name('dashboard');
-//     Route::get('/data-uptd', DataUptd::class)->name('data-uptd');
-//     Route::get('/pengangkutan', Pengangkutan::class)->name('pengangkutan');
-//     Route::get('/pelaporan', Pelaporan::class)->name('pelaporan');
-// });
+    // // Data UPTD (Super Admin, dlh, uptd)
+    // Route::middleware(['auth', CheckRole::class . ':admin,dlh,uptd'])->group(function () {
+    //     Route::get('/data-uptd', DataUptd::class)->name('data-uptd');
 
-// // ===================== OPERATOR TPA =====================
-// Route::middleware(['auth', CheckRole::class . ':operator_tpa'])->group(function () {
-//     // Route::get('/dashboard', Main::class)->name('dashboard');
-//     Route::get('/data-tpa', DataTpa::class)->name('data-tpa');
-//     Route::get('/data-tps', DataTPS::class)->name('data-tps');
-//     Route::get('/data-sampah', DataSampah::class)->name('data-sampah');
-//     Route::get('/data-driver', DataDriver::class)->name('data-driver');
-//     Route::get('/data-iot', DataIot::class)->name('data-iot');
-//     Route::get('/pengangkutan', Pengangkutan::class)->name('pengangkutan');
-//     Route::get('/pelaporan', Pelaporan::class)->name('pelaporan');
-// });
+    //     Route::get('/add-driver/{driver}', AddDriver::class)->name('add-driver');
+    // });
+
+    // // Pendataan Sampah, Driver, IoT (Super Admin, operator_tpa)
+    // Route::middleware(['auth', CheckRole::class . ':admin,operator tpa'])->group(function () {
+    //     Route::get('/data-sampah', DataSampah::class)->name('data-sampah');
+    //     Route::get('/data-driver', DataDriver::class)->name('data-driver');
+    //     Route::get('/data-iot', DataIot::class)->name('data-iot');
+    // });
+
+    // // Pengangkutan (Super Admin, dlh, uptd, operator_tpa)
+    // Route::middleware(['auth', CheckRole::class . ':Super Admin,dlh,uptd,operator_tpa'])->group(function () {
+    //     Route::get('/pengangkutan', Pengangkutan::class)->name('pengangkutan');
+    // });
+
+    // // Pelaporan (Super Admin, dlh, uptd, operator_tpa)
+    // Route::middleware(['auth', CheckRole::class . ':admin,dlh,uptd,operator tpa'])->group(function () {
+    //     Route::get('/pelaporan', Pelaporan::class)->name('pelaporan');
+    //     Route::get('/laporan-mingguan', LaporanMingguan::class)->name('laporan-mingguan');
+    //     Route::get('/laporan-bulanan', LaporanBulanan::class)->name('laporan-bulanan');
+    //     Route::get('/laporan-tahunan', LaporanTahunan::class)->name('laporan-tahunan');
+    // });
+
+    // // Manage Role (hanya Super Admin)
+    // Route::middleware(['auth', CheckRole::class . ':admin'])->group(function () {
+    //     Route::get('/manage-role', ManageRole::class)->name('manage-role');
+    // });
+
+    //  // Manage Role (hanya Super Admin)
+    //  Route::middleware(['auth', CheckRole::class . ':admin'])->group(function () {
+    //     Route::get('/roles', Roles::class)->name('roles');
+    // });
 
 
 

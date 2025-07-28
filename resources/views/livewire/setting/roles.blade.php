@@ -24,8 +24,8 @@
                         <td class="border px-4 py-2">{{ $role->name }}</td>
                         <td class="border px-4 py-2">{{ $role->ranah }}</td>
                         <td class="border px-4 py-2 text-center space-x-3">
-                            <button wire:click="openEditModal({{ $role->id_role }})" class="text-green-500 hover:text-green-600"><i class="fas fa-edit"></i></button>
-                            <button wire:click="openDelete({{ $role->id_role }})" class="text-red-500 hover:text-red-600"><i class="fas fa-trash"></i></button>
+                            <button wire:click="openEditModal({{ $role->id }})" class="text-green-500 hover:text-green-600"><i class="fas fa-edit"></i></button>
+                            <button wire:click="openDelete({{ $role->id }})" class="text-red-500 hover:text-red-600"><i class="fas fa-trash"></i></button>
                         </td>
                     </tr>
                 @endforeach
@@ -55,19 +55,52 @@
                 <div class="bg-white p-6 rounded-lg w-full max-w-md shadow-lg">
                     <h3 class="text-lg font-bold mb-4">{{ $isEdit ? 'Edit Role' : 'Create Role' }}</h3>
                     <form wire:submit.prevent="save">
+                        {{-- Role Name --}}
                         <div class="mb-4">
                             <label class="block text-sm font-medium text-gray-700 mb-1">Role Name</label>
                             <input type="text" wire:model.defer="name" class="w-full border px-3 py-2 rounded" placeholder="Enter Role Name">
                             @error('name') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                         </div>
+
+                        {{-- Ranah Select --}}
                         <div class="mb-4">
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Role Name</label>
-                            <input type="text" wire:model.defer="ranah" class="w-full border px-3 py-2 rounded" placeholder="Enter Ranah Role">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Ranah</label>
+                            <select wire:model="ranah" class="w-full border px-3 py-2 rounded">
+                                <option value="">-- Select Ranah --</option>
+                                <option value="Website">Website</option>
+                                <option value="Mobile">Mobile</option>
+                            </select>
                             @error('ranah') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                         </div>
+
+                        {{-- Permission List --}}
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Permissions</label>
+                            <div class="grid grid-cols-2 gap-2">
+                                @foreach($allPermissions as $permission)
+                                    <label class="flex items-center space-x-2">
+                                        <input 
+                                            type="checkbox" 
+                                            wire:model="selectedPermissions" 
+                                            value="{{ $permission->id }}" 
+                                            class="rounded border-gray-300 text-blue-600"
+                                            @if($ranah === 'Mobile') disabled @endif
+                                        >
+                                        <span class="{{ $ranah === 'Mobile' ? 'text-gray-400' : 'text-black' }}">
+                                            {{ $permission->akses }}
+                                        </span>
+                                    </label>
+                                @endforeach
+                            </div>
+                            @error('selectedPermissions') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                        </div>
+
+                        {{-- Action Buttons --}}
                         <div class="flex justify-end gap-2">
                             <button type="button" wire:click="$set('showModal', false)" class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400">Cancel</button>
-                            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">{{ $isEdit ? 'Update' : 'Create' }}</button>
+                            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                                {{ $isEdit ? 'Update' : 'Create' }}
+                            </button>
                         </div>
                     </form>
                 </div>

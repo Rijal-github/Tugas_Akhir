@@ -14,10 +14,10 @@ class RolePermissionSeeder extends Seeder
      */
     public function run(): void
     {
-        $admin = Role::firstOrCreate(['name' => 'admin']);
+        // $admin = Role::firstOrCreate(['name' => 'admin']);
         $dlh = Role::firstOrCreate(['name' => 'dlh']);
-        $uptd = Role::firstOrCreate(['name' => 'uptd']);
-        $operator = Role::firstOrCreate(['name' => 'operator tpa']);
+        // $uptd = Role::firstOrCreate(['name' => 'uptd']);
+        // $operator = Role::firstOrCreate(['name' => 'operator tpa']);
 
         // $permissions = [
         //     'dashboard',
@@ -31,43 +31,43 @@ class RolePermissionSeeder extends Seeder
         //     'setting_user',
         // ];
 
-        $this->createPermissions($admin, [
-            'dashboard',
-            'data_tps',
-            'data_tpa',
-            'data_uptd',
-            'pendataan_sampah',
-            'jadwal_pengangkutan',
-            'data_iot',
-            'pelaporan',
-            'setting_user',
-        ]);
-
         $this->createPermissions($dlh, [
             'dashboard',
             'data_tps',
             'data_tpa',
             'data_uptd',
-            'jadwal_pengangkutan',
-            'pelaporan',
+            'data_driver',
+            // 'jadwal_pengangkutan',
+            // 'data_iot',
+            // 'pelaporan',
+            'setting_user',
         ]);
 
-        $this->createPermissions($uptd, [
-            'dashboard',
-            'data_uptd',
-            'jadwal_pengangkutan',
-            'pelaporan',
-        ]);
+        // $this->createPermissions($dlh, [
+        //     'dashboard',
+        //     'data_tps',
+        //     'data_tpa',
+        //     'data_uptd',
+        //     'jadwal_pengangkutan',
+        //     'pelaporan',
+        // ]);
 
-        $this->createPermissions($operator, [
-            'dashboard',
-            'data_tpa',
-            'data_tps',
-            'pendataan_sampah',
-            'data_iot',
-            'jadwal_pengangkutan',
-            'pelaporan',
-        ]);
+        // $this->createPermissions($uptd, [
+        //     'dashboard',
+        //     'data_uptd',
+        //     'jadwal_pengangkutan',
+        //     'pelaporan',
+        // ]);
+
+        // $this->createPermissions($operator, [
+        //     'dashboard',
+        //     'data_tpa',
+        //     'data_tps',
+        //     'pendataan_sampah',
+        //     'data_iot',
+        //     'jadwal_pengangkutan',
+        //     'pelaporan',
+        // ]);
 
     }
 

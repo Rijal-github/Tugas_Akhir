@@ -23,7 +23,8 @@
     {{-- Navigation --}}
     <nav class="flex-1 space-y-2 px-4 mt-4">
         @php
-            $role = strtolower(auth()->user()->role->name ?? '');
+            $permissions = auth()->user()->role->permissions->pluck('akses')->toArray();
+            // $role = strtolower(auth()->user()->role->name ?? '');
             // dd(auth()->user()->role);
         @endphp
         {{-- Repeat this block as needed for each menu item --}}
@@ -35,7 +36,8 @@
             </a>
         </div>
 
-        @if(in_array($role, ['admin', 'dlh', 'operator tpa']))
+        {{-- @if(in_array($role, ['admin', 'dlh', 'operator tpa'])) --}}
+        @if(in_array('data_tps', $permissions))
         <div>
             <a href="/data-tps" class="flex items-center px-4 py-2 rounded-lg text-sm font-medium transition gap-3
             {{ request()->routeIs('data-tps') ? 'bg-white text-indigo-700' : 'text-white hover:bg-white hover:text-indigo-700' }}">
@@ -45,7 +47,8 @@
         </div>
         @endif
 
-        @if(in_array($role, ['admin', 'dlh', 'operator tpa']))
+        {{-- @if(in_array($role, ['admin', 'dlh', 'operator tpa'])) --}}
+        @if(in_array('data_tpa', $permissions))
         <div>
             <a href="/data-tpa" class="flex items-center px-4 py-2 rounded-lg text-sm font-medium transition gap-3
             {{ request()->routeIs('data-tpa') ? 'bg-white text-indigo-700' : 'text-white hover:bg-white hover:text-indigo-700' }}">
@@ -55,7 +58,8 @@
         </div>
         @endif
 
-        @if(in_array($role, ['admin', 'dlh', 'uptd']))
+        {{-- @if(in_array($role, ['admin', 'dlh', 'uptd'])) --}}
+        @if(in_array('data_uptd', $permissions))
         <div>
             <a href="/data-uptd" class="flex items-center px-4 py-2 rounded-lg text-sm font-medium transition gap-3
             {{ request()->routeIs('data-uptd') ? 'bg-white text-indigo-700' : 'text-white hover:bg-white hover:text-indigo-700' }}">
@@ -65,7 +69,8 @@
         </div>
         @endif
 
-        @if(in_array($role, ['admin', 'operator tpa']))
+        {{-- @if(in_array($role, ['admin', 'operator tpa'])) --}}
+        @if(in_array('data_driver', $permissions))
         <div>
             <a href="data-driver" class="flex items-center px-4 py-2 rounded-lg text-sm font-medium transition gap-3
             {{ request()->routeIs('data-driver') ? 'bg-white text-indigo-700' : 'text-white hover:bg-white hover:text-indigo-700' }}">
@@ -75,7 +80,7 @@
         </div>
         @endif
 
-        @if(in_array($role, ['admin', 'operator tpa']))
+        {{-- @if(in_array($role, ['admin', 'operator tpa']))
         <div>
             <a href="/data-iot" class="flex items-center px-4 py-2 rounded-lg text-sm font-medium transition gap-3
             {{ request()->routeIs('data-iot') ? 'bg-white text-indigo-700' : 'text-white hover:bg-white hover:text-indigo-700' }}">
@@ -83,9 +88,10 @@
                 <span x-show="sidebarOpen" x-transition>Data IoT</span>
             </a>
         </div>
-        @endif
+        @endif --}}
 
-        @if($role === 'admin')
+        {{-- @if($role === 'admin') --}}
+        @if(in_array('setting_user', $permissions))
         <div>
             <div class="flex flex-col">
                 <button type="button" onclick="toggleSubSidebar()" 
