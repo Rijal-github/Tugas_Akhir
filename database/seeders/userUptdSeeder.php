@@ -16,7 +16,7 @@ class userUptdSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        $uptdUser2 = User::where('email', 'sutrisno@example.com')->first();
+        $uptdUser2 = User::where('email', 'ogog123@example.com')->first();
         $uptdUser3 = User::where('email', 'sudrajat@example.com')->first();
 
         DB::table('users_uptd')->insert([

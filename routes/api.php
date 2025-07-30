@@ -9,6 +9,7 @@ use App\Http\Controllers\API\TpsController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\LaporanPembersihanController;
 use App\Http\Controllers\API\BuktiTransaksiController;
+use App\Http\Controllers\API\DriverController;
 use App\Http\Controllers\API\RitasiController;
 use App\Http\Controllers\API\RitasiKertawinangunController;
 use App\Http\Controllers\API\UserUptdController;
@@ -61,9 +62,12 @@ Route::middleware('auth:api')->group(function () {
 
 Route::middleware('auth:api')->group(function () {
     Route::get('/users_uptd/{id}', [UserUptdController::class, 'show']);
-    Route::get('/driver/{id}', [UserUptdController::class, 'driversByUptd']);
     
     Route::post('/users_uptd', [UserUptdController::class, 'store']);
+});
+
+Route::middleware('auth:api')->group(function () {
+    Route::get('/driver/{id_uptd}', [DriverController::class, 'driversByUptd']);
 });
 
 Route::middleware('auth:api')->group(function () {

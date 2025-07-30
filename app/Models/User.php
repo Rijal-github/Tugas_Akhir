@@ -74,6 +74,11 @@ class User extends Authenticatable implements JWTSubject
         // return $this->belongsTo(Uptd::class, 'id_uptd', 'id_uptd');
     }
 
+    public function uptd()
+    {
+        return $this->belongsTo(Uptd::class, 'id_uptd');
+    }
+
     public function vehicles()
     {
         return $this->hasMany(Vehicle::class, 'id_driver');

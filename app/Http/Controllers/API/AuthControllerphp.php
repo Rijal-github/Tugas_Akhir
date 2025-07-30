@@ -46,7 +46,7 @@ class AuthControllerphp extends Controller
         ];
 
         // Jika user adalah UPTD (misal role_id = 2), tambahkan info uptd
-        if ($user->role_id == 3 || $user->id_role == 7) { // jika peran uptd / kepala uptd
+        if ($user->id_role == 2 || $user->id_role == 6) { // jika peran uptd / kepala uptd
             $uptd = $user->uptds()->first(); // ambil satu saja
         
             if ($uptd) {
@@ -70,25 +70,3 @@ class AuthControllerphp extends Controller
         ]);
     }
 }
-
-// $credentials = $request->only('name', 'password');
-
-// if (!$token = JWTAuth::attempt($credentials)) {
-//     return response()->json([
-//         'code' => 401,
-//         'status' => false,
-//         'message' => 'Login failed, invalid credentials',
-//     ], 401);
-// }
-
-// // $token = JWTAuth::fromUser($user);
-
-// return response()->json([
-//     'code' => 200,
-//     'status' => true,
-//     'message' => 'Login successful',
-//     'data' => [
-//         'token' => $token,
-//         'user' => Auth::user(),
-//     ]
-// ]);

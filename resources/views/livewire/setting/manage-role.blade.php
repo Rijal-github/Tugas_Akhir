@@ -1,6 +1,6 @@
 @section('breadcrumb', 'Manage Setting / Setting User')
 
-<div x-data="{showModal: @entangle('showModal'), showSuccess: @entangle('showSuccess'), confirmDelete: @entangle('confirmDelete')}" class="container mx-auto p-6">
+<div class="container mx-auto p-6">
     <div class="bg-white rounded-xl p-6">
       <!-- Header -->
       <div class="flex justify-between items-center mb-6">
@@ -10,87 +10,102 @@
         </button>
       </div>
 
-      <div  
-          x-show="showModal" 
-          x-cloak
-          wire:ignore.self
-          x-transition:enter="transition ease-out duration-200"
-          x-transition:enter-start="opacity-0 scale-95"
-          x-transition:leave="transition ease-in duration-150"
-          x-transition:leave-start="opacity-100 scale-100"
-          x-transition:leave-end="opacity-0 scale-95"
-
-        class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-10">
+      @if($showModal)
+      <div class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-10">
       <div class="bg-white p-5 rounded-xl shadow-xl w-full max-w-lg relative animate-fade-in-down">
         <!-- Close Button -->
-        <button @click="showModal = false; $wire.resetForm()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
+        <button wire:click="closeModal"
+                    class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
           
         <!-- Form -->
         <form wire:submit.prevent="save" class="space-y-2">
-          <h2 class="text-xl font-bold mb-6">{{ $isEditMode ? 'Edit User' : 'Create New User' }}</h2>
+            <h2 class="text-xl font-bold mb-6">{{ $isEditMode ? 'Edit User' : 'Create New User' }}</h2>
             <div>
-              <label class="block text-gray-700 font-semibold mb-1">Avatar</label>
-              <input type="file" wire:model="avatar" class="w-full border rounded-lg px-3 py-1">
+                <label class="block text-gray-700 font-semibold mb-1">Avatar</label>
+                <input type="file" wire:model="avatar" class="w-full border rounded-lg px-3 py-1">
             </div>
             <div>
-              <label class="block text-gray-700 font-semibold mb-1">Role</label>
-              <select wire:model="role" class="form-select border border-gray-300 rounded px-1 py-2 w-full">
-                  <option>-- Pilih Role --</option>
-                  @foreach ($roles as $r)
-                      <option value="{{ $r->id }}">{{ $r->name }}</option>
+                <label for="role" class="block text-gray-700 font-semibold mb-1">Role</label>
+                <select wire:model="role" id="role"
+                    class="form-select border border-gray-300 rounded px-1 py-2 w-full">
+                    <option value="">-- Pilih Role --</option>
+                    @foreach ($roles as $r)
+                    <option value="{{ (int) $r->id }}">{{ $r->name }}</option>
+                    @endforeach
+                </select>
+                @error('id_role') <span class="text-red-500">{{ $message }}</span> @enderror
+            </div>
+            @if($isEditMode && $uptdEnabled)
+              <label for="id_uptd" class="block text-sm font-medium text-gray-700 mt-2">UPTD</label>
+              <select wire:model="id_uptd" class="form-select w-full mt-1">
+                  <option value="">-- Pilih UPTD --</option>
+                  @foreach ($uptdList as $u)
+                      <option value="{{ $u->id_uptd }}">{{ $u->nama_uptd }}</option>
                   @endforeach
               </select>
-              @error('role') <span class="text-red-500">{{ $message }}</span> @enderror
-          </div>
+            @endif
             <div>
-              <label class="block text-gray-700 font-semibold mb-1">Email</label>
-              <input type="email" wire:model="email" class="w-full border rounded-lg px-3 py-2" placeholder="Enter Email">
-              @error('email') <span class="text-red-500">{{ $message }}</span> @enderror
+                <label class="block text-gray-700 font-semibold mb-1">Email</label>
+                <input type="email" wire:model="email" class="w-full border rounded-lg px-3 py-2"
+                    placeholder="Enter Email">
+                @error('email') <span class="text-red-500">{{ $message }}</span> @enderror
             </div>
             <div>
-              <label class="block text-gray-700 font-semibold mb-1">Username</label>
-              <input type="text" wire:model="username" class="w-full border rounded-lg px-3 py-2" placeholder="Enter Username">
-              @error('username') <span class="text-red-500">{{ $message }}</span> @enderror
+                <label class="block text-gray-700 font-semibold mb-1">Username</label>
+                <input type="text" wire:model="username" class="w-full border rounded-lg px-3 py-2"
+                    placeholder="Enter Username">
+                @error('username') <span class="text-red-500">{{ $message }}</span> @enderror
             </div>
             <div>
-              <label class="block text-gray-700 font-semibold mb-1">No. Handphone</label>
-              <input type="text" wire:model="no_hp" class="w-full border rounded-lg px-3 py-2" placeholder="Enter No. Handphone">
+                <label class="block text-gray-700 font-semibold mb-1">No. Handphone</label>
+                <input type="text" wire:model="no_hp" class="w-full border rounded-lg px-3 py-2"
+                    placeholder="Enter No. Handphone">
             </div>
             <div>
-              <label class="block text-gray-700 font-semibold mb-1">Nama</label>
-              <input type="text" wire:model="name" class="w-full border rounded-lg px-3 py-2" placeholder="Enter Name">
-              @error('name') <span class="text-red-500">{{ $message }}</span> @enderror
+                <label class="block text-gray-700 font-semibold mb-1">Nama</label>
+                <input type="text" wire:model="name" class="w-full border rounded-lg px-3 py-2"
+                    placeholder="Enter Name">
+                @error('name') <span class="text-red-500">{{ $message }}</span> @enderror
             </div>
             <div>
-              <label class="block text-gray-700 font-semibold mb-1">Alamat</label>
-              <input type="text" wire:model="alamat_user" class="w-full border rounded-lg px-3 py-2" placeholder="Enter Alamat">
-              @error('alamat_user') <span class="text-red-500">{{ $message }}</span> @enderror
+                <label class="block text-gray-700 font-semibold mb-1">Alamat</label>
+                <input type="text" wire:model="alamat_user" class="w-full border rounded-lg px-3 py-2"
+                    placeholder="Enter Alamat">
+                @error('alamat_user') <span class="text-red-500">{{ $message }}</span> @enderror
             </div>
             <div>
-              <label class="block text-gray-700 font-semibold mb-1">Password {{ $isEditMode ? '(Kosongkan jika tidak ingin diubah)' : '' }}</label>
-              <input type="password" wire:model="password" class="w-full border rounded-lg px13 py-2" placeholder="Enter Password">
-              @error('password') <span class="text-red-500">{{ $message }}</span> @enderror
+                <label class="block text-gray-700 font-semibold mb-1">Password {{ $isEditMode ? '(Kosongkan jika tidak ingin diubah)' : '' }}</label>
+                <input type="password" wire:model="password" class="w-full border rounded-lg px-3 py-2"
+                    placeholder="Enter Password">
+                @error('password') <span class="text-red-500">{{ $message }}</span> @enderror
             </div>
             <div class="flex justify-end pt-2">
-              <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-lg font-bold transition-transform transform hover:scale-105">
-                {{ $isEditMode ? 'Update' : 'Create' }}
-              </button>
+                <button type="submit"
+                    class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-lg font-bold transition-transform transform hover:scale-105">
+                    {{ $isEditMode ? 'Update' : 'Create' }}
+                </button>
             </div>
         </form>
       </div>
     </div>
+    @endif
     {{-- popup Success --}}
-    <div x-show="showSuccess" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-90" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div class="bg-white rounded-lg shadow-lg p-6 max-w-sm mx-auto">
-          <div class="text-center">
-              <svg class="w-12 h-12 mx-auto text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-              </svg>
-              <p class="mt-4 text-lg font-semibold text-gray-700">{{ $successMessage }}</p>
-              <button @click="showSuccess = false" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-300">Tutup</button>
+    @if($showSuccess)
+      <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div class="bg-white rounded-lg shadow-lg p-6 max-w-sm mx-auto">
+              <div class="text-center">
+                  <svg class="w-12 h-12 mx-auto text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
+                  <p class="mt-4 text-lg font-semibold text-gray-700">{{ $successMessage }}</p>
+                  <button wire:click="$set('showSuccess', false)"
+                      class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">Tutup</button>
+              </div>
           </div>
       </div>
-    </div>
+    @endif
   
       <!-- Table -->
       <div class="overflow-x-auto">
@@ -168,22 +183,27 @@
       </div>
     </div>
     <!-- Modal Background -->
-    <div x-show="confirmDelete" class="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center">
-      <div class="bg-white p-6 rounded shadow-md max-w-sm w-full text-center">
-          <span class="text-red-600 text-5xl block mb-4 animate-bounce drop-shadow-lg">
-              <i class="fa-solid fa-circle-exclamation"></i>
-          </span>
-          <p class="text-lg font-semibold mb-4 text-center">Apakah anda yakin ingin menghapus data USER ini?</p>
-          <div class="flex justify-center gap-4">
-              <button wire:click="deleted" class="bg-gradient-to-r from-red-500 to-red-700 hover:from-red-600 hover:to-red-800 text-white font-semibold px-5 py-2 rounded-lg shadow-md transition duration-200 ease-in-out">
-                  <i class="fa-solid fa-trash mr-2"></i> Hapus
-              </button>
-              <button @click="confirmDelete = false" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold px-5 py-2 rounded-lg shadow-sm transition duration-200 ease-in-out">
-                  <i class="fa-solid fa-xmark mr-2"></i> Batal
-              </button>
+    @if ($confirmDelete)
+      <div class="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center">
+          <div class="bg-white p-6 rounded-lg shadow-xl max-w-sm w-full text-center animate-fade-in">
+              <span class="text-red-600 text-5xl block mb-4 animate-bounce drop-shadow-lg">
+                  <i class="fa-solid fa-circle-exclamation"></i>
+              </span>
+              <p class="text-lg font-semibold mb-4">Apakah anda yakin ingin menghapus data USER ini?</p>
+              <div class="flex justify-center gap-4">
+                  <button wire:click="deleted"
+                          class="bg-gradient-to-r from-red-500 to-red-700 hover:from-red-600 hover:to-red-800 text-white font-semibold px-5 py-2 rounded-lg shadow-md">
+                      <i class="fa-solid fa-trash mr-2"></i> Hapus
+                  </button>
+                  <button wire:click="cancelDelete"
+                          class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold px-5 py-2 rounded-lg">
+                      <i class="fa-solid fa-xmark mr-2"></i> Batal
+                  </button>
+              </div>
           </div>
       </div>
-  </div>
+    @endif
+
 
     <style>
       @keyframes fade-in-down {

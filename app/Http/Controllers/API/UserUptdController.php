@@ -32,33 +32,6 @@ class UserUptdController extends Controller
         ]);
     }
 
-    public function driversByUptd($id)
-    {
-        $drivers = \App\Models\UserUptd::with(['user.role', 'uptd'])
-            ->where('id_uptd', $id)
-            ->whereHas('user.role', function ($query) {
-                $query->where('name', 'driver'); // 'driver' berdasarkan isi kolom role.name
-            })
-            ->get()
-            ->map(function ($item) {
-                return [
-                    'id' => $item->user->id,
-                    'name' => $item->user->name,
-                    'email' => $item->user->email,
-                    'addres' => $item->user->addres,
-                    'role' => $item->user->role->name ?? '-',
-                    'nama_uptd' => $item->uptd->nama_uptd ?? '-',
-                ];
-            });
-
-        return response()->json([
-            'code' => 200,
-            'status' => true,
-            'message' => 'Driver by UPTD',
-            'data' => $drivers
-        ]);
-    }
-
     public function store(Request $request)
     {
         $validated = $request->validate([
