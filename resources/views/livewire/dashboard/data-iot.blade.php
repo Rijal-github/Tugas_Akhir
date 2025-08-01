@@ -1,6 +1,6 @@
 <div>
     <div class="bg-white rounded-2xl shadow-md p-6 w-full">
-        <h2 class="text-lg font-bold text-gray-800 mb-4">Data IoT</h2>
+        <h2 class="text-lg font-bold text-gray-800 mb-4">Data UPTD</h2>
         <div class="space-y-4">
             {{-- @foreach ([
                 ['label' => 'Sample', 'time' => '01:00 PM – 02:00 PM'],

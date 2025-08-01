@@ -29,7 +29,8 @@ Route::middleware('auth:api')->group(function () {
 
 // Protected routes (akses pakai token)
 Route::middleware(['auth:api'])->group(function () {
-    Route::get('/tps', [TpsController::class, 'index']); 
+    Route::get('/tps/jenis_tps', [TpsController::class, 'index']);
+    Route::get('/tps', [TpsController::class, 'getAllTps']);
     // Route::get('/tps/{id}', [TpsController::class, 'show']);
     Route::get('/tps/{id_uptd}', [TpsController::class, 'getByUptd']);
   

@@ -8,15 +8,15 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Tps;
 use App\Models\Uptd;
 use Livewire\WithFileUploads;
+use Livewire\WithPagination;
 
 class DataTps extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads, WithPagination;
 
     public $id;
     public $id_uptd;
     public $uptds = [];
-    public $tpsList;
     public $showForm = false;
     public $showDetailPopup = false;
     public $showConfirmDelete = false;
@@ -42,7 +42,7 @@ class DataTps extends Component
 
     public function loadData()
     {
-        $this->tpsList = Tps::orderBy('tahun', 'desc')->get();
+        // $this->tpsList = Tps::orderBy('tahun', 'desc')->get();
         $this->uptds = Uptd::all(); 
     }
 
@@ -159,8 +159,6 @@ class DataTps extends Component
     $this->showNotification = true;
 }
 
-
-
     public function confirmDelete($id)
     {
         $this->deleteId = $id;
@@ -200,7 +198,9 @@ class DataTps extends Component
     #[Attributes\Layout('layouts.content.content')]
     public function render()
     {
-        return view('livewire.tps.data-tps');
+        $tpsList = Tps::latest()->paginate(10);
+        return view('livewire.tps.data-tps', compact('tpsList'));
+        // return view('livewire.tps.data-tps');
 
     }
 }

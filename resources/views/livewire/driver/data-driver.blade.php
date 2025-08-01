@@ -97,10 +97,6 @@
                             </div>
                             
                         </div>
-                        <a href="#" class="flex items-center gap-2 rounded-lg px-2 py-2 bg-gray-600 hover:bg-gray-500">
-                            <i class="fas fa-gear text-sm text-white"></i>
-                            <p class="flex items-center text-md-center text-white">Edit Profile</p>
-                        </a>
                     </div>
                     <div class="ctr-userBadgesProfileUser mt-4">
                         <div class="cUserBadgesProfileUser">
@@ -201,44 +197,44 @@
                             <div class="ctr-headMainItemProduct">
                                 <div class="cHeadMainItemProduct flex items-center border-b p-4">
                                     <div class="mainHeadItemProduct flex-grow w-1/2 ml-20">
-                                        <h2 class="text-lg font-semibold text-slate-500">Jenis TPS</h2>
+                                        <h2 class="text-lg font-semibold text-slate-500">Operator SPBU</h2>
                                     </div>
                                     <div class="priceDateHeadItemProduct w-1/2 shrink-0 flex">
                                         <div class="priceHeadItemProduct flex-grow w-1/2 text-balance">
-                                            <h2 class="text-lg font-semibold text-slate-500">Alamat</h2>
+                                            <h2 class="text-lg font-semibold text-slate-500">Jenis Kendaraan</h2>
                                         </div>
                                         <div class="dateHeadItemProduct flex-grow w-1/2 text-center">
-                                            <h2 class="text-lg font-semibold text-slate-500">Tanggal</h2>                                  
+                                            <h2 class="text-lg font-semibold text-slate-500">Produk</h2>                                  
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="ctr-listItemProduct p-2">
                                 <div class="cListItemProduct space-y-2">
-                                    @for ($i = 0; $i < 5; $i++)
+                                    @foreach ($transaksis as $item)
                                         <div class="itmProduct flex items-center border mt-4 p-2 bg-slate-100 rounded-md dark:bg-darker transition duration-50 focus:outline-none hover:bg-slate-200">
                                             <div class="mainProduct flex-grow w-1/2 flex items-center gap-5">
                                                 <img src="{{ asset('storage/assets/img/github.jpg') }}"
                                                     fill="black" alt=""class="w-10 aspect-square rounded-[100%] object-cover object-center border">
                                                 <div class="nmeProduct mt-4">
-                                                    <p class="block text-sm font-semibold">Jenis tps</p>
-                                                    <span class="block text-sm text-slate-400">Unit : 1</span>
+                                                    <p class="block text-sm font-semibold">{{ $item->operator->name ?? 'Tidak diketahui' }}</p>
+                                                    <span class="block text-sm text-slate-400">{{ $item->operator->phone ?? '-' }}</span>
                                                 </div>
                                             </div>
                                             <div class="priceDateProduct w-1/2 shrink-0 flex items-center justify-start">
                                                 <div class="ctr-priceProduct flex-grow w-1/2 flex justify-start">
                                                     <div class="cPriceProduct mt-4">
-                                                        <p class="text-sm font-semibold text-slate-400">Ds. Lohbener</p>
+                                                        <p class="text-sm font-semibold text-slate-400">{{ $item->vehicle->jenis_kendaraan ?? '-' }}</p>
                                                     </div>
                                                 </div>
                                                 <div class="ctr-dateProduct flex-grow w-1/2 flex justify-center">
                                                     <div class="cDateProduct  bg-green-500 mt-4 w-fit px-2 py-1 rounded-md">
-                                                        <p class="text-sm font-semibold text-white">{{ date('d/m/Y', time()) }}</p>
+                                                        <p class="text-sm font-semibold text-white">{{ $item->nama_produk }}</p>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    @endfor
+                                     @endforeach
                                 </div>
                             </div>
                         </div>

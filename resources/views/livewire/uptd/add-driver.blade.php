@@ -137,5 +137,26 @@
                 </div>
             </div>
         @endif
+
+        @if ($confirmingDeleteDriverId)
+        <div class="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center">
+            <div class="bg-white p-6 rounded-lg shadow-xl max-w-sm w-full text-center animate-fade-in">
+                <span class="text-red-600 text-5xl block mb-4 animate-bounce drop-shadow-lg">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                </span>
+                <p class="text-lg font-semibold mb-4">Apakah anda yakin ingin menghapus data USER ini?</p>
+                <div class="flex justify-center gap-4">
+                    <button wire:click="deleteDriver"
+                            class="bg-gradient-to-r from-red-500 to-red-700 hover:from-red-600 hover:to-red-800 text-white font-semibold px-5 py-2 rounded-lg shadow-md">
+                        <i class="fa-solid fa-trash mr-2"></i> Hapus
+                    </button>
+                    <button wire:click="$set('confirmingDeleteDriverId', null)"
+                            class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold px-5 py-2 rounded-lg">
+                        <i class="fa-solid fa-xmark mr-2"></i> Batal
+                    </button>
+                </div>
+            </div>
+        </div>
+        @endif
     </div>
 </div>

@@ -5,7 +5,7 @@ namespace App\Models;
 // use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class userUPTD extends Pivot
+class userUptd extends Pivot
 {
     protected $table = 'users_uptd';
 

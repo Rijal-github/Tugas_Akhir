@@ -159,17 +159,35 @@
       @include('livewire.tps.popup-detail-tps')
 
       <!-- Pagination -->
-      <div class="flex justify-end mt-4">
-        <nav class="inline-flex rounded-md shadow-sm overflow-hidden" aria-label="Pagination">
-          <button class="px-3 py-1 text-sm bg-white border border-gray-300 hover:bg-gray-100">&lt;</button>
-          <button class="px-3 py-1 text-sm bg-indigo-600 text-white font-semibold">1</button>
-          <button class="px-3 py-1 text-sm bg-white border border-gray-300 hover:bg-gray-100">2</button>
-          <button class="px-3 py-1 text-sm bg-white border border-gray-300 hover:bg-gray-100">3</button>
-          <span class="px-3 py-1 text-sm bg-white border border-gray-300">...</span>
-          <button class="px-3 py-1 text-sm bg-white border border-gray-300 hover:bg-gray-100">40</button>
-          <button class="px-3 py-1 text-sm bg-white border border-gray-300 hover:bg-gray-100">&gt;</button>
-        </nav>
-      </div>
+        <div class="flex justify-end mt-4">
+            <nav class="inline-flex rounded-md shadow-sm overflow-hidden" aria-label="Pagination">
+
+                {{-- Previous Page Link --}}
+                @if ($tpsList->onFirstPage())
+                    <button class="px-3 py-1 text-sm bg-gray-200 text-gray-500 cursor-not-allowed" disabled>&lt;</button>
+                @else
+                    <button wire:click="previousPage" class="px-3 py-1 text-sm bg-white border border-gray-300 hover:bg-gray-100">&lt;</button>
+                @endif
+
+                {{-- Pagination Elements --}}
+                @foreach ($tpsList->getUrlRange(1, $tpsList->lastPage()) as $page => $url)
+                    @if ($page == $tpsList->currentPage())
+                        <button class="px-3 py-1 text-sm bg-indigo-600 text-white font-semibold">{{ $page }}</button>
+                    @elseif ($page == 1 || $page == $tpsList->lastPage() || abs($page - $tpsList->currentPage()) <= 1)
+                        <button wire:click="gotoPage({{ $page }})" class="px-3 py-1 text-sm bg-white border border-gray-300 hover:bg-gray-100">{{ $page }}</button>
+                    @elseif ($page == $tpsList->currentPage() - 2 || $page == $tpsList->currentPage() + 2)
+                        <span class="px-3 py-1 text-sm bg-white border border-gray-300">...</span>
+                    @endif
+                @endforeach
+
+                {{-- Next Page Link --}}
+                @if ($tpsList->hasMorePages())
+                    <button wire:click="nextPage" class="px-3 py-1 text-sm bg-white border border-gray-300 hover:bg-gray-100">&gt;</button>
+                @else
+                    <button class="px-3 py-1 text-sm bg-gray-200 text-gray-500 cursor-not-allowed" disabled>&gt;</button>
+                @endif
+
+            </nav>
+        </div>
     </div>
-    
   </div>

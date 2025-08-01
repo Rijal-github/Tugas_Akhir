@@ -14,7 +14,7 @@
                           @csrf
                           <div class="Form-contenMain">
                               <div class="image-contain flex items-center justify-center">
-                                  <img src="{{ asset('storage/assets/img/logo.png') }}" alt="Logo" class="w-24 h-auto">
+                                  <img src="{{ asset('storage/assets/img/Logo.png') }}" alt="Logo" class="w-24 h-auto">
                               </div>
                               <div class="headSignIn flex justify-center text-2xl md:text-[2.5rem] font-bold mt-5">
                                   <div class="tx text-slate-600 flex items-center">

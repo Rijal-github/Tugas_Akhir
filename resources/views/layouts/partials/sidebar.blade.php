@@ -4,12 +4,20 @@
     <div class="flex items-center justify-between p-4">
         <div class="flex items-center space-x-3" x-show="sidebarOpen" x-transition>
             <div class="flex items-center justify-center py-6">
-                <div class="bg-white w-10 h-10 rounded-full"></div>
+                <div class="bg-white w-10 h-10 rounded-full">
+                  {{-- <img 
+                    src="{{ Auth::user()->avatar ? asset('storage/avatars/' . Auth::user()->avatar) : asset('storage/assets/img/Logo.png') }}" 
+                    alt="Avatar" 
+                    class="w-full h-full object-cover"
+                > --}}
+                </div>
             </div>
+       @auth
             <div>
-                <h1 class="font-bold text-md text-indigo-700">DLH</h1>
+                <h1 class="font-bold text-md text-indigo-700">{{ Auth::user()->role->name }}</h1>
                 <p class="text-sm text-gray-500">DASHBOARD</p>
             </div>
+        @endauth
         </div>
         <!-- Toggle Button -->
         <button @click="sidebarOpen = !sidebarOpen" class="focus:outline-none">
