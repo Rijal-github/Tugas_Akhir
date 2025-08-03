@@ -6,6 +6,7 @@ use Livewire\Component;
 use Livewire\Attributes;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\DB;
 use App\Models\Uptd;
 use App\Models\Vehicle;
 use App\Models\User;
@@ -52,9 +53,20 @@ class AddDriver extends Component
             ]
         );
 
-        $this->resetDriverForm();
-        $this->showDriverModal = false;
-    }
+        DB::table('users_uptd')->updateOrInsert(
+            [
+                'user_id' => $this->selected_user_id,
+                'id_uptd' => $this->uptd_id
+            ],
+            [
+                'user_id' => $this->selected_user_id,
+                'id_uptd' => $this->uptd_id
+            ]
+        );
+
+            $this->resetDriverForm();
+            $this->showDriverModal = false;
+        }
 
     public function editDriver($id)
     {
