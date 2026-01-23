@@ -21,6 +21,12 @@ class Vehicle extends Model
     public function driver()
     {
         return $this->belongsTo(User::class, 'id_driver')->where('id_role', 5);
+        // return $this->belongsTo(User::class, 'vehicle_id');
+    }
+
+    public function transaksis()
+    {
+        return $this->hasMany(BuktiTransaksi::class, 'id_vehicle');
     }
 
     public function uptd()

@@ -42,7 +42,7 @@
                     </ul>
                 </div> --}}
             </div>
-            <button wire:click="$set('showModal', true)" class="flex items-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-1 px-3 rounded-lg">
+            <button wire:click="$set('showModal', true)" class="flex items-center bg-orange-600 hover:bg-orange-700 text-white font-semibold py-1 px-3 rounded-lg">
                 <i class="fas fa-user-plus mr-2"></i> 
                 Tambah 
             </button>
@@ -104,8 +104,7 @@
                         <div class="mb-4">
                             <label class="block text-sm font-medium">Kapasitas Angkutan</label>
                             <input type="number" wire:model="kapasitas_angkutan" class="w-full border rounded px-3 py-2 mt-1" required>
-                        </div> --}}
-                     
+                        </div> --}}  
                     
                 </div>
             </div>

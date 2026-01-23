@@ -8,7 +8,7 @@
         <title>{{ $title ?? 'Page Title' }}</title>
 
         @yield('head-meta-field')
-        <title>@yield('titlePage', 'AGT')</title>
+        <title>@yield('titlePage', 'DLH')</title>
         <script src="https://cdn.tailwindcss.com"></script>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -55,7 +55,7 @@
                 {{ $slot }}
             </main>
         </div>
-            {{-- @stack('scripts') --}}
+            @stack('scripts')
             @livewireScripts
         <script>
             document.addEventListener('livewire:load', function () {

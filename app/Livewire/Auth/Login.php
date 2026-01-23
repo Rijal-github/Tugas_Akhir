@@ -48,7 +48,7 @@ class Login extends Component
                     return 'dashboard';
                     case 'uptd':
                         return 'dashboard';
-                        case 'operator_tpa':
+                        case 'operatorTPA':
                 return 'dashboard';
             default:
                 return 'login';

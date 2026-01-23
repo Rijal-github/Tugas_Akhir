@@ -48,9 +48,9 @@ class TpsController extends Controller
 
     public function getByUptd($id_uptd)
     {
-        $grouped = Tps::selectRaw('MIN(id) as id, jenis_tps, COUNT(*) as total')
+        $grouped = Tps::selectRaw('MIN(id) as id, nama')
             ->where('id_uptd', $id_uptd)
-            ->groupBy('jenis_tps')
+            ->groupBy('nama')
             ->get();
 
         return response()->json([

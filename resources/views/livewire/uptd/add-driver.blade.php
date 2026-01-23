@@ -17,7 +17,7 @@
         </div>
         <!-- Button Tambah Driver -->
         <div class="flex justify-end mb-4">
-            <button wire:click="$set('showDriverModal', true)" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+            <button wire:click="$set('showDriverModal', true)" class="bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
                 Tambah Driver
             </button>
         </div>

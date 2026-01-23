@@ -7,11 +7,88 @@
             </div>
         </div>
         <canvas id="ritasiChart" class="w-full h-full"></canvas>
-        {{-- <div class="mt-2 text-xs text-gray-500 -mt-3 pl-2">Bulan</div> --}}
     </div>
 
 </div>
-    <script>
+
+@push('scripts')
+<script>
+        const ctx = document.getElementById('ritasiChart').getContext('2d');
+        const pecukData = @json($pecuk);
+        const kertawinangunData = @json($kertawinangun);
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                datasets: [
+                    {
+                        label: 'TPA Pecuk',
+                        data: pecukData,
+                        backgroundColor: '#FB9C04',
+                        borderRadius: 6,
+                        // categoryPercentage: 0.7
+                    },
+                    {
+                        label: 'TPA Kertawinangun',
+                        data: kertawinangunData,
+                        backgroundColor: '#0058FF',
+                        borderRadius: 6,
+                        // categoryPercentage: 0.7
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                layout: {
+                padding: { bottom: 20 }
+            },
+                scales: {
+                    y: {
+                        // beginAtZero: true,
+                        // suggestedMin: 10,
+                        // suggestedMax: 100,
+                        // ticks: {
+                        //     stepSize: 20,
+                        //     callback: value => value + ' %'
+                        // },
+                        title: {
+                            display: true,
+                            text: 'Jumlah Sampah (kg)',
+                            font: {
+                                size: 12
+                            }
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: '',
+                            font: {
+                                size: 12
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' + context.parsed.y + ' kg ';
+                            }
+                        }
+                    },
+                    legend: {
+                        position: 'top'
+                    }
+                }
+            }
+        });
+    </script>
+@endpush
+
+    {{-- <script>
         const ctx = document.getElementById('ritasiChart').getContext('2d');
 
         const dataPecuk = [50, 60, 75, 40, 55, 80, 65, 70, 60, 13, 75, 85];
@@ -42,7 +119,7 @@
                 responsive: true,
                 maintainAspectRatio: false,
                 layout: {
-                padding: { bottom: 20 } // biar tidak terlalu menempel ke bawah
+                padding: { bottom: 20 }
             },
                 scales: {
                     y: {
@@ -85,7 +162,7 @@
                 }
             }
         });
-    </script>
+    </script> --}}
 
 {{-- <div>
     <div class="bg-white rounded-2xl shadow-md p-6 w-full">

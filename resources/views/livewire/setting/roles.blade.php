@@ -4,7 +4,7 @@
     <div x-data="{ showModal: @entangle('showModal'), showConfirm: @entangle('konfirmDelete'), show: @entangle('showSuccess'), open: @entangle('konfirmDelete') }" class="mx-auto p-6 bg-white rounded-xl">
         <div class="flex justify-between items-center">
             <h2 class="text-xl font-bold">Manage Roles</h2>
-            <button wire:click="$set('showModal', true)" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Create Role</button>
+            <button wire:click="$set('showModal', true)" class="bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700">Create Role</button>
         </div>
     
         <!-- Tabel Role -->

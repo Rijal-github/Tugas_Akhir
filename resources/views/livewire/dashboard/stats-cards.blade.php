@@ -9,7 +9,7 @@
             </div>
         </div>
     
-        <div class="bg-gradient-to-r from-purple-100 to-purple-300 p-4 rounded-2xl shadow flex justify-between items-center transform transition duration-300 hover:scale-105">
+        <div class="bg-gradient-to-r from-orange-100 to-orange-300 p-4 rounded-2xl shadow flex justify-between items-center transform transition duration-300 hover:scale-105">
             <div class="font-semibold text-sm text-gray-500">
                 <p>Landasan Beratap</p>
                 <p class="text-2xl font-bold text-purple-600">{{ $beratap }}</p>

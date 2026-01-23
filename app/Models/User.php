@@ -81,7 +81,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function vehicles()
     {
-        return $this->hasMany(Vehicle::class, 'id_driver');
+        return $this->hasOne(Vehicle::class, 'id_driver',  'id');
     }
 
     public function ritasiTpaPecuk()

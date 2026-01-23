@@ -39,6 +39,7 @@
                                 @if ($vehicle->driver && $vehicle->uptd)
 
                                 @php
+                                 $today = \Carbon\Carbon::today();
                                     $driverData = [
                                         'name' => $vehicle->driver->name,
                                         'email' => $vehicle->driver->email,
@@ -50,6 +51,23 @@
                                         'join_date' => \Carbon\Carbon::parse($vehicle->driver->created_at)->format('d/m/Y'),
                                         'addres' => $vehicle->driver->alamat_user ?? '-', // kalau kolom address tidak nullable
                                         "role" => $vehicle->driver->role->name ?? '-',
+                                        'transaksis' => $vehicle->transaksis()
+                                            ->with(['operator','vehicle'])
+                                            ->get()
+                                            ->map(fn($trx) => [
+                                                'operator' => $trx->operator->name ?? 'Tidak diketahui',
+                                                'jenis_kendaraan' => $trx->vehicle->jenis_kendaraan ?? '-',
+                                                'nama_produk' => $trx->nama_produk,
+                                            ]),
+                                         // Laporan Pembersihan
+                                        'pembersihans' => \App\Models\LaporanPembersihan::where('id_driver', $vehicle->driver->id)
+                                            ->get()
+                                            ->map(fn($lap) => [
+                                                'driver' => $vehicle->driver->name,
+                                                'foto_sebelum' => asset('storage/'.$lap->foto_sebelum),
+                                                'foto_sesudah' => asset('storage/'.$lap->foto_sesudah),
+                                                'tanggal' => \Carbon\Carbon::parse($lap->created_at)->format('Y-m-d'),
+                                            ]),
                                     ];
                                 @endphp
                                     <div class="ctr-itmContentMainUser wrapper-item mt-4 p-3 bg-slate-100 rounded-md dark:bg-darker transition duration-50 hover:bg-slate-200">
@@ -192,9 +210,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="ctr-mainItemProduct bg-white">
+                    <div class="ctr-mainItemProduct bg-white mt-4">
                          <div class="cMainItemProduct">
                             <div class="ctr-headMainItemProduct">
+                                <h2 class="text-lg font-semibold text-slate-500 ml-5">Riwayat Transaksi</h2>
                                 <div class="cHeadMainItemProduct flex items-center border-b p-4">
                                     <div class="mainHeadItemProduct flex-grow w-1/2 ml-20">
                                         <h2 class="text-lg font-semibold text-slate-500">Operator SPBU</h2>
@@ -218,7 +237,7 @@
                                                     fill="black" alt=""class="w-10 aspect-square rounded-[100%] object-cover object-center border">
                                                 <div class="nmeProduct mt-4">
                                                     <p class="block text-sm font-semibold">{{ $item->operator->name ?? 'Tidak diketahui' }}</p>
-                                                    <span class="block text-sm text-slate-400">{{ $item->operator->phone ?? '-' }}</span>
+                                                    {{-- <span class="block text-sm text-slate-400">{{ $item->operator->phone ?? '-' }}</span> --}}
                                                 </div>
                                             </div>
                                             <div class="priceDateProduct w-1/2 shrink-0 flex items-center justify-start">
@@ -236,6 +255,33 @@
                                         </div>
                                      @endforeach
                                 </div>
+                            </div>
+                            <div class="ctr-headMainItemProduct">
+                                <div class="cHeadMainItemProduct flex items-center justify-between border-b p-4">
+                                    <div class="mainHeadItemProduct flex-grow w-1/2">
+                                        <h2 class="text-lg font-semibold text-slate-500">Riwayat Pengangkutan</h2>
+                                    </div>
+                                    <div class="flex items-center gap-3 p-4">
+                                        <label for="filterDate" class="text-sm text-slate-600">Filter Tanggal:</label>
+                                        <input type="date" id="filterDate" class="border rounded p-1 text-sm">
+                                        <button id="applyFilter" class="bg-orange-500 hover:bg-orange-600 text-white px-3 py-1 rounded text-sm">Terapkan</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ctr-listItemProduct p-2">
+                                <table class="w-full text-sm text-left border">
+                                    <thead class="bg-slate-100 text-slate-600">
+                                        <tr>
+                                            <th class="px-4 py-2 border">No</th>
+                                            <th class="px-4 py-2 border">Nama Driver</th>
+                                            <th class="px-4 py-2 border">Foto Sebelum</th>
+                                            <th class="px-4 py-2 border">Foto Sesudah</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="cListPembersihan">
+                                        {{-- isi via jQuery --}}
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>

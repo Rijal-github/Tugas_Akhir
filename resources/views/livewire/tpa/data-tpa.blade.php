@@ -13,7 +13,32 @@
                 <option value="tahunan">Tahunan</option>
             </select>
             
-            <div class="border border-slate-200 p-2 rounded">
+            <div class="border border-slate-200 p-2 rounded flex items-center gap-2">
+                @if($filterType === 'harian')
+                    <input type="date" wire:model="tanggal" class="p-2  rounded">
+                @endif
+
+                @if($filterType === 'mingguan')
+                    <input type="week" wire:model="minggu" class="p-2  rounded">
+                @endif
+
+                @if($filterType === 'bulanan')
+                    <select wire:model="bulan" class="p-2  rounded">
+                        <option value="">-- Pilih Bulan --</option>
+                        @for($m=1; $m<=12; $m++)
+                            <option value="{{ str_pad($m, 2, '0', STR_PAD_LEFT) }}">
+                                {{ DateTime::createFromFormat('!m', $m)->format('F') }}
+                            </option>
+                        @endfor
+                    </select>
+                    <input type="number" wire:model="tahun" placeholder="Tahun" min="2000" class="p-2  rounded w-24">
+                @endif
+
+                @if($filterType === 'tahunan')
+                    <input type="number" wire:model="tahun" placeholder="Tahun" min="2000" class="p-2 border rounded w-24">
+                @endif
+            </div>
+            {{-- <div class="border border-slate-200 p-2 rounded">
                 @if(in_array($filterType, ['harian', 'mingguan']))
                     <input type="date" wire:model="tanggal">
                 @endif
@@ -24,14 +49,15 @@
                             <option value="{{ str_pad($m, 2, '0', STR_PAD_LEFT) }}">{{ DateTime::createFromFormat('!m', $m)->format('F') }}</option>
                         @endfor
                     </select>
-                    <input type="number" wire:model="bulan" placeholder="Bulan">
+                    <input type="number" wire:model="tahun" placeholder="Tahun">
                 @endif
                 
                 @if($filterType === 'tahunan')
                     <input type="number" wire:model="tahun" placeholder="Tahun">
                 @endif
-            </div>
-            
+            </div> --}}
+            <button wire:click="applyFilter" class="bg-blue-500 text-white px-4 py-2 rounded">Filter</button>
+
             <button wire:click="export" class="bg-green-500 text-white px-4 py-2 rounded">Export</button>
         </div>
     </div>
@@ -48,7 +74,7 @@
             </button>
 
             <button wire:click="$set('selectedTPA', 'kertawinangun')"
-                class="px-4 py-2 rounded {{ $selectedTPA === 'kertawinangun' ? 'bg-green-600 text-white' : 'bg-gray-200' }}">
+                class="px-4 py-2 rounded {{ $selectedTPA === 'kertawinangun' ? 'bg-orange-600 text-white' : 'bg-gray-200' }}">
                 Lihat Ritasi Kertawinangun
             </button>
         </div>
@@ -56,7 +82,7 @@
             @if($selectedTPA === 'pecuk')
             <a href="{{ route('input-ritasi', ['tpa' => 'pecuk']) }}" class="bg-blue-500 text-white px-4 py-2 rounded">Input Ritasi</a>
             @elseif($selectedTPA === 'kertawinangun')
-            <a href="{{ route('input-ritasi', ['tpa' => 'kertawinangun']) }}" class="bg-green-500 text-white px-4 py-2 rounded">Input Ritasi</a>
+            <a href="{{ route('input-ritasi', ['tpa' => 'kertawinangun']) }}" class="bg-orange-500 text-white px-4 py-2 rounded">Input Ritasi</a>
             @endif
         </div>
         {{-- @include('livewire.tpa.tabel-hasil-ritasi', ['ritasiList' => $ritasiList]) --}}

@@ -5,7 +5,7 @@
       <!-- Header -->
       <div class="flex justify-between items-center mb-6">
         <h2 class="text-2xl font-bold">Setting User</h2>
-        <button  wire:click="openCreateModal"  class="flex items-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-transform transform hover:scale-105">
+        <button  wire:click="openCreateModal"  class="flex items-center bg-orange-600 hover:bg-orange-700 text-white font-semibold py-2 px-4 rounded-lg transition-transform transform hover:scale-105">
           <i class="fas fa-user-plus mr-2"></i> Create User
         </button>
       </div>

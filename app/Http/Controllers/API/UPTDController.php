@@ -11,7 +11,7 @@ class UPTDController extends Controller
 {
     public function getAllUptd()
     {
-        $data = Uptd::select('id_uptd', 'nama_uptd')->get();
+        $data = Uptd::select('id_uptd', 'nama_uptd', 'alamat_uptd','foto_uptd')->get();
 
         return response()->json([
             'code' => 200,

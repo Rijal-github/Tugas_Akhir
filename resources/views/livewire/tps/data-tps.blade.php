@@ -9,14 +9,10 @@
     <!-- Card Container -->
     <div class="bg-white rounded-xl p-4 shadow-md">
       
-      {{-- <div class="flex justify-between items-center mb-4">
-        <button wire:click="openCreateForm" class="bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium px-4 py-2 rounded-md flex items-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01-.293.707L14 13.414V20a1 1 0 01-1.447.894l-4-2A1 1 0 018 18v-4.586L3.293 6.707A1 1 0 013 6V4z" />
-          </svg>
-          Tambah
-        </button>
-      </div> --}}
+      <div class="flex items-center mb-4">
+        {{-- @livewire('tps.data-tps-export') --}}
+        <livewire:tps.data-tps-export />
+      </div>
       <!-- Table -->
       <div class="">
         <table class="w-full text-sm text-left border-collapse">
@@ -172,7 +168,7 @@
                 {{-- Pagination Elements --}}
                 @foreach ($tpsList->getUrlRange(1, $tpsList->lastPage()) as $page => $url)
                     @if ($page == $tpsList->currentPage())
-                        <button class="px-3 py-1 text-sm bg-indigo-600 text-white font-semibold">{{ $page }}</button>
+                        <button class="px-3 py-1 text-sm bg-orange-600 text-white font-semibold">{{ $page }}</button>
                     @elseif ($page == 1 || $page == $tpsList->lastPage() || abs($page - $tpsList->currentPage()) <= 1)
                         <button wire:click="gotoPage({{ $page }})" class="px-3 py-1 text-sm bg-white border border-gray-300 hover:bg-gray-100">{{ $page }}</button>
                     @elseif ($page == $tpsList->currentPage() - 2 || $page == $tpsList->currentPage() + 2)
